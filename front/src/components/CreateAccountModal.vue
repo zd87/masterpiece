@@ -11,35 +11,47 @@
                     Create Account
                 </v-card-title>
                 <v-card-text>
-                    <p class="pTitle">SESAME id</p>
-                    <v-text-field
-                        v-model="nameInput" 
-                        outlined
-                        dense
-                    />
-                    <p class="pTitle">Password</p>
-                    <v-text-field
-                        v-model="pswInput" 
-                        outlined
-                        dense
-                    />
-                    <p class="pTitle">Confirm password</p>
-                    <v-text-field
-                        v-model="pswConfirmInput" 
-                        outlined
-                        dense
-                    />
+                    <v-form
+                        ref="form"
+                        
+                    >
+                        <p class="pTitle">SESAME id</p>
+                        <v-text-field
+                            v-model="nameInput"
+                            :rules="nameRules" 
+                            outlined
+                            dense
+                            required
+                        />
+                        <p class="pTitle">Password</p>
+                        <v-text-field
+                            v-model="pswInput" 
+                            :rules="pswRules"
+                            outlined
+                            dense
+                            required
+                        />
+                        <p class="pTitle">Confirm password</p>
+                        <v-text-field
+                            v-model="pswConfirmInput"
+                            :rules="pswConfirmRules" 
+                            outlined
+                            dense
+                            required
+                        />
+                    </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn
+                        rounded
                         @click="isActive = false"
                     > 
                         Cancel 
                     </v-btn>
                     <v-btn
                         class="redBtn"
-                        :light="false"
-                        @click="isActive = false"
+                        rounded
+                        @submit="submit"
                     > 
                         Create account 
                     </v-btn>
@@ -64,7 +76,12 @@ export default {
             isActive: this.createAccountModal,
             nameInput:"",
             pswInput:"",
-            pswConfirmInput:""
+            pswConfirmInput:"",
+            nameRules: [
+                v => v.length = 9 || "Invalid format. Ex.: a000000"
+            ],
+            pswRules: [],
+            pswConfirmRules: []
         }
     },
     watch: {
@@ -73,6 +90,16 @@ export default {
         },
         createAccountModal(){
             this.isActive = this.createAccountModal;
+        }
+    },
+    methods: {
+        submit(){
+            const formData = {
+                id: this.nameInput,
+                psw: this.pswInput
+            }
+            console.log("form object",formData);
+            
         }
     }
 }
@@ -91,12 +118,13 @@ export default {
             }
         }
     }
-    .v-btn {
-        &.redBtn{
-            background-color: #d11d53;
-            color: white;
-        }
+    
+    .redBtn{
+        background-color: #d11d53;
+        color: white;
+        padding: 10px;
     }
+    
     .closeBtn {
         position: absolute;
         top:0;
