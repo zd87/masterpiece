@@ -8,7 +8,7 @@ vue --version
 ```
 npm install -g @vue/cli
 ```
-- To launch the app from a console, go inside the "front" folder and run: 
+- To launch the app from a console, go inside the "front" directory and run: 
 ```
 npm run serve
 ```
