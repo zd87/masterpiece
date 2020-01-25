@@ -21,8 +21,6 @@ export default {
 	methods: {
 		closeModal(boolean) {
 			this.createAccountModal = boolean;
-			console.log("from closeModal parent", this.createAccountModal);
-			
 		}
 	}
 }

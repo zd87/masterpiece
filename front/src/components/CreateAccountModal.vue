@@ -2,12 +2,12 @@
     <div>
         <v-dialog
             v-model="createAccountModal"
-            width="500px"
+            width="400px"
         >
             <v-card
                 id="modal"
             >
-                <v-card-title>
+                <v-card-title class="d-flex justify-center">
                     Create Account
                 </v-card-title>
                 <v-card-text>
@@ -15,39 +15,42 @@
                         ref="form"
                         
                     >
-                        <p class="pTitle">SESAME id</p>
                         <v-text-field
                             v-model="nameInput"
-                            :rules="nameRules" 
+                            :rules="nameRules"
+                            prepend-inner-icon="mdi-account"
+                            label="SESAME id" 
+                            outlined
+                            dense
+                            required
+                            @blur="checkUnicity"
+                        />
+                        <v-text-field
+                            v-model="pwdInput" 
+                            :rules="pwdRules"
+                            prepend-inner-icon="mdi-lock"
+                            label="Password" 
                             outlined
                             dense
                             required
                         />
-                        <p class="pTitle">Password</p>
                         <v-text-field
-                            v-model="pswInput" 
-                            :rules="pswRules"
-                            outlined
-                            dense
-                            required
-                        />
-                        <p class="pTitle">Confirm password</p>
-                        <v-text-field
-                            v-model="pswConfirmInput"
-                            :rules="pswConfirmRules" 
+                            v-model="pwdConfirmInput"
+                            :rules="pwdConfirmRules"
+                            label="Confirm password" 
                             outlined
                             dense
                             required
                         />
                     </v-form>
                 </v-card-text>
-                <v-card-actions>
-                    <v-btn
+                <v-card-actions class="d-flex flex-column justify-center">
+                    <!-- <v-btn
                         rounded
                         @click="isActive = false"
                     > 
                         Cancel 
-                    </v-btn>
+                    </v-btn> -->
                     <v-btn
                         class="redBtn"
                         rounded
@@ -58,12 +61,19 @@
                     <v-btn icon class="closeBtn" @click="isActive = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
+                    <div>
+                        <span class="smallText">
+                            Already have an account?
+                            <a>Sign in</a>
+                        </span>
+                    </div>
                 </v-card-actions>
             </v-card>
         </v-dialog>
     </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
     props: {
         createAccountModal: {
@@ -74,14 +84,15 @@ export default {
     data(){
         return {
             isActive: this.createAccountModal,
+            userExists: true,
             nameInput:"",
-            pswInput:"",
-            pswConfirmInput:"",
+            pwdInput:"",
+            pwdConfirmInput:"",
             nameRules: [
-                v => v.length = 9 || "Invalid format. Ex.: a000000"
+                // v => v.length = 9 || "Invalid format. Ex.: a000000"
             ],
-            pswRules: [],
-            pswConfirmRules: []
+            pwdRules: [],
+            pwdConfirmRules: []
         }
     },
     watch: {
@@ -95,11 +106,22 @@ export default {
     methods: {
         submit(){
             const formData = {
-                id: this.nameInput,
-                psw: this.pswInput
+                sesameId: this.nameInput,
+                pwd: this.pwdInput
             }
             console.log("form object",formData);
             
+        },
+        checkUnicity(){
+            console.log("hello from blur");
+            
+            axios.get(`http://localhost:8085/create_account/check_unicity/${this.nameInput}`)
+                .then(response => { 
+                    this.userExists = response.data;
+                })
+                .catch(error => {
+                    console.log("ERROR", error);
+                })
         }
     }
 }
@@ -111,23 +133,33 @@ export default {
         .v-card {
             &__title {
                 font-size: 1.5rem;
-                margin: 0 auto;
+                padding:24px;
+            }
+            &__actions{
+                padding: 0 24px 24px;
             }
             .pTitle {
                 font-size: 1rem;
             }
         }
     }
-    
-    .redBtn{
-        background-color: #d11d53;
+    button {
+	&.v-btn {
+		padding: 0 20px !important;
+	}
+	&.redBtn{
+		background-color: #e3345a !important;
         color: white;
-        padding: 10px;
-    }
-    
-    .closeBtn {
-        position: absolute;
-        top:0;
-        right:0;
-    }
+        width: 100%;
+        margin-bottom: 24px; 
+	}
+}
+.closeBtn {
+	position: absolute;
+	top:0;
+	right:0;
+}
+.smallText {
+    font-size: 0.9rem;
+}
 </style>
