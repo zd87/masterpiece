@@ -13,7 +13,7 @@
                 <v-card-text>
                     <v-form
                         ref="form"
-                        
+                        v-model="valid"
                     >
                         <v-text-field
                             v-model="nameInput"
@@ -23,10 +23,10 @@
                             outlined
                             dense
                             required
-                            @blur="checkUnicity"
                         />
                         <v-text-field
-                            v-model="pwdInput" 
+                            v-model="pwdInput"
+                            type="password" 
                             :rules="pwdRules"
                             prepend-inner-icon="mdi-lock"
                             label="Password" 
@@ -36,6 +36,7 @@
                         />
                         <v-text-field
                             v-model="pwdConfirmInput"
+                            type="password"
                             :rules="pwdConfirmRules"
                             label="Confirm password" 
                             outlined
@@ -45,16 +46,10 @@
                     </v-form>
                 </v-card-text>
                 <v-card-actions class="d-flex flex-column justify-center">
-                    <!-- <v-btn
-                        rounded
-                        @click="isActive = false"
-                    > 
-                        Cancel 
-                    </v-btn> -->
                     <v-btn
                         class="redBtn"
                         rounded
-                        @submit="submit"
+                        @click="submit"
                     > 
                         Create account 
                     </v-btn>
@@ -84,15 +79,21 @@ export default {
     data(){
         return {
             isActive: this.createAccountModal,
-            userExists: true,
+            valid:false,
+            userExists: false,
             nameInput:"",
             pwdInput:"",
             pwdConfirmInput:"",
             nameRules: [
-                // v => v.length = 9 || "Invalid format. Ex.: a000000"
+                !this.userExists || "Account with this id already exists",
+                v=> v.length === 7 || "Please enter valid SESAME id. Ex.:a001122"
             ],
-            pwdRules: [],
-            pwdConfirmRules: []
+            pwdRules: [
+                v=> v.length >= 5 || "Password must be at least 5 caracters"
+            ],
+            pwdConfirmRules: [
+                v=> v === this.pwdInput || "Passwords are not matching"
+            ]
         }
     },
     watch: {
@@ -101,6 +102,11 @@ export default {
         },
         createAccountModal(){
             this.isActive = this.createAccountModal;
+        },
+        nameInput(){
+            console.log("from inout watch", this.userExists);
+            
+            this.userExists = false;
         }
     },
     methods: {
@@ -109,7 +115,19 @@ export default {
                 sesameId: this.nameInput,
                 pwd: this.pwdInput
             }
-            console.log("form object",formData);
+            this.checkUnicity; //TODO
+            if(this.valid){
+                console.log("form object",formData);
+                axios.post(`http://localhost:8085/create_account`, formData)
+                    .then(response => { 
+                        this.userExists = response.data;
+                    })
+                    .catch(error => {
+                        console.log("ERROR", error);
+                    })
+            }
+            console.log("valid", this.valid);
+            
             
         },
         checkUnicity(){
