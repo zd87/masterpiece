@@ -41,7 +41,10 @@
             "eslint:recommended"
         ],
         "rules": {
-            "indent": ["warn", 2],
+            "indent": [
+                "warn",
+                4
+            ],
             "no-tabs": 0,
             "no-console": "off",
             "no-empty-pattern": "off"
