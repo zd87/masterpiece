@@ -10,18 +10,18 @@
 import CreateAccountModal from '@/components/CreateAccountModal.vue'
 
 export default {
-	components: {
-		CreateAccountModal
-	},
-	data (){
-		return {
-			createAccountModal:false,
-		}
-	},
-	methods: {
-		closeModal(boolean) {
-			this.createAccountModal = boolean;
-		}
-	}
+    components: {
+        CreateAccountModal
+    },
+    data (){
+        return {
+            createAccountModal:false,
+        }
+    },
+    methods: {
+        closeModal(boolean) {
+            this.createAccountModal = boolean;
+        }
+    }
 }
 </script>
