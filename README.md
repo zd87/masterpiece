@@ -1,6 +1,10 @@
 # masterpiece
  **To launch front**
-- To launch the app from a console, go inside the "front" directory and run: 
+ - To build the modules, go inside the "front" directory on your console and run: 
+```
+npm install
+```
+- To launch the app run: 
 ```
 npm run serve
 ```
