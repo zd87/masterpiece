@@ -1,13 +1,5 @@
 # masterpiece
  **To launch front**
-- Verify if vue cli is installed globally on your computer by running the command: 
-```
-vue --version
-```
-- If it is not installed, run the following command to install vue cli globally: 
-```
-npm install -g @vue/cli
-```
 - To launch the app from a console, go inside the "front" directory and run: 
 ```
 npm run serve
