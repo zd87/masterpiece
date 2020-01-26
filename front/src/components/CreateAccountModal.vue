@@ -3,6 +3,7 @@
         <v-dialog
             v-model="createAccountModal"
             width="400px"
+            persistent
         >
             <v-card
                 id="modal"
