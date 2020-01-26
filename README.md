@@ -1,10 +1,10 @@
 # masterpiece
  **To launch front**
-- Verify if vue cli is installed on your computer by running the command: 
+- Verify if vue cli is installed globally on your computer by running the command: 
 ```
 vue --version
 ```
-- If it is not installed, run the following command to install vue cli: 
+- If it is not installed, run the following command to install vue cli globally: 
 ```
 npm install -g @vue/cli
 ```
