@@ -16,7 +16,6 @@ public class User extends AbstractId{
 	}
 
 	public User(String sesameId, String pwd) {
-		super();
 		this.sesameId = sesameId;
 		this.pwd = pwd;
 	}
