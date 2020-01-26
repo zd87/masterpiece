@@ -1,4 +1,4 @@
-    {
+{
     "name": "front",
     "version": "0.1.0",
     "private": true,
@@ -34,24 +34,24 @@
     "eslintConfig": {
         "root": true,
         "env": {
-        "node": true
+            "node": true
         },
         "extends": [
-        "plugin:vue/essential",
-        "eslint:recommended"
+            "plugin:vue/essential",
+            "eslint:recommended"
         ],
         "rules": {
-        "indent": 2,
-        "no-tabs": 0,
-        "no-console": "off",
-        "no-empty-pattern": "off"
+            "indent": 2,
+            "no-tabs": 0,
+            "no-console": "off",
+            "no-empty-pattern": "off"
         },
         "parserOptions": {
-        "parser": "babel-eslint"
+            "parser": "babel-eslint"
         }
     },
     "browserslist": [
         "> 1%",
         "last 2 versions"
     ]
-    }
+}
