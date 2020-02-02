@@ -4,7 +4,7 @@
 ```
 npm install
 ```
-- To launch the app run: 
+- To launch the app run from the same directory: 
 ```
 npm run serve
 ```
