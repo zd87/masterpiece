@@ -1,0 +1,43 @@
+{
+    "greeting": "Hello",
+    "header": {
+        "loginBtn":"Login"
+    },
+    "user": {
+        
+    },
+    "account": {
+        "labels":{
+            "name":"SESAME id",
+            "pwd":"Password",
+            "confirmPwd":"Confirm password"
+        },
+        "placeholders":{
+            "name":"A123456",
+            "pwd":"myPassword1",
+            "confirmPwd":"myPassword1"
+        },
+        "create": {
+            "title":"Create account",
+            "switchFormsText":"Already have an account?",
+            "switchFormsBtn": "Sign in"
+        },
+        "login":{
+            "title":"Login",
+            "switchFormsText":"Don't have an account?",
+            "switchFormsBtn": "Sign up"
+        },
+        "validation": {
+            "name": {
+                "pattern": "Please enter valid SESAME id. Ex.:a001122",
+                "unicity": "Account with this id already exists"
+            },
+            "pwd":{
+                "pattern": "Password must be at least 5 caracters long, contain upper and lower cases and at least one digit"
+            },
+            "confirmPwd":{
+                "noMatch":"Passwords are not matching"
+            }
+        }
+    }
+}

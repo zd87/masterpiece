@@ -5,11 +5,9 @@
             width="400px"
             persistent
         >
-            <v-card
-                id="modal"
-            >
+            <v-card id="modal">
                 <v-card-title class="d-flex justify-center">
-                    Create Account
+                    {{ variable.title }}
                 </v-card-title>
                 <v-card-text>
                     <v-form
@@ -18,28 +16,35 @@
                     >
                         <v-text-field
                             v-model="nameInput"
-                            :rules="nameRules"
+                            :rules="validation.name"
                             prepend-inner-icon="mdi-account"
-                            label="SESAME id" 
+                            :label="labels.name"
+                            :placeholder="placeholders.name"
                             outlined
                             dense
                             required
+                            @blur="checkUnicity"
                         />
                         <v-text-field
                             v-model="pwdInput"
-                            type="password" 
-                            :rules="pwdRules"
+                            :type="showPwd? 'type':'password'" 
+                            :rules="validation.pwd"
                             prepend-inner-icon="mdi-lock"
-                            label="Password" 
+                            :append-icon="showPwd ? 'mdi-eye' : 'mdi-eye-off'"
+                            :label="labels.pwd"
+                            :placeholder="placeholders.pwd"
                             outlined
                             dense
                             required
+                            @click:append="showPwd = !showPwd"
                         />
                         <v-text-field
+                            v-if="create"
                             v-model="pwdConfirmInput"
                             type="password"
-                            :rules="pwdConfirmRules"
-                            label="Confirm password" 
+                            :rules="validation.pwdConfirmation"
+                            :label="labels.confirmPwd" 
+                            :placeholder="placeholders.confirmPwd"
                             outlined
                             dense
                             required
@@ -49,18 +54,19 @@
                 <v-card-actions class="d-flex flex-column justify-center">
                     <v-btn
                         class="redBtn"
+                        :disabled="!valid"
                         rounded
                         @click="submit"
                     > 
-                        Create account 
+                        {{ variable.title }} 
                     </v-btn>
-                    <v-btn icon class="closeBtn" @click="isActive = false">
+                    <v-btn icon class="closeBtn" @click="close">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                     <div>
                         <span class="smallText">
-                            Already have an account?
-                            <a>Sign in</a>
+                            {{ variable.switchFormsText }}
+                            <a @click="create=!create">{{ variable.switchFormsBtn }}</a>
                         </span>
                     </div>
                 </v-card-actions>
@@ -79,38 +85,60 @@ export default {
     },
     data(){
         return {
-            isActive: this.createAccountModal,
+            isActive: false,
+            create: false,
             valid:false,
             userExists: false,
+            showPwd:false,
             nameInput:"",
             pwdInput:"",
             pwdConfirmInput:"",
-            nameRules: [
-                !this.userExists || "Account with this id already exists",
-                v=> v.length === 7 || "Please enter valid SESAME id. Ex.:a001122"
-            ],
-            pwdRules: [
-                v=> v.length >= 5 || "Password must be at least 5 caracters"
-            ],
-            pwdConfirmRules: [
-                v=> v === this.pwdInput || "Passwords are not matching"
-            ]
+            validation: {
+                name: [
+                    v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
+                    ()=> !this.userExists || this.$t("account.validation.name.unicity"),
+                ],
+                pwd: [
+                    v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
+                ],
+                pwdConfirmation: [
+                    v=> v === this.pwdInput || this.$t("account.validation.confirmPwd.noMatch")
+                ]
+
+            },
+            labels: {
+                name: this.$t("account.labels.name"),
+                pwd: this.$t("account.labels.pwd"),
+                confirmPwd: this.$t("account.labels.confirmPwd")
+            },
+            placeholders: {
+                name: this.$t("account.placeholders.name"),
+                pwd: this.$t("account.placeholders.pwd"),
+                confirmPwd: this.$t("account.placeholders.confirmPwd")
+            }
+        }
+    },
+    computed: {
+        variable() {
+            return this.create? 
+            {
+                title:this.$t("account.create.title"),
+                switchFormsText:this.$t("account.create.switchFormsText"),
+                switchFormsBtn: this.$t("account.create.switchFormsBtn")
+            }:{
+                title:this.$t("account.login.title"),
+                switchFormsText:this.$t("account.login.switchFormsText"),
+                switchFormsBtn: this.$t("account.login.switchFormsBtn")
+            }
         }
     },
     watch: {
-        isActive(){
-            this.$emit("closeModal", this.isActive);
-        },
-        createAccountModal(){
-            this.isActive = this.createAccountModal;
-        },
-        nameInput(){
-            console.log("from inout watch", this.userExists);
-            
-            this.userExists = false;
-        }
     },
     methods: {
+        close(){
+            this.isActive=false;
+            this.$emit("closeModal", this.isActive);
+        },
         submit(){
             const formData = {
                 sesameId: this.nameInput,
@@ -118,7 +146,7 @@ export default {
             }
             this.checkUnicity; //TODO
             if(this.valid){
-                console.log("form object",formData);
+                console.log("post form object",formData);
                 axios.post(`http://localhost:8085/create_account`, formData)
                     .then(response => { 
                         this.userExists = response.data;
@@ -132,15 +160,16 @@ export default {
             
         },
         checkUnicity(){
-            console.log("hello from blur");
-            
+            let boolean;
             axios.get(`http://localhost:8085/create_account/check_unicity/${this.nameInput}`)
                 .then(response => { 
-                    this.userExists = response.data;
+                    boolean = response.data;
+                    this.userExists= response.data;                    
                 })
                 .catch(error => {
                     console.log("ERROR", error);
                 })
+            return boolean;
         }
     }
 }
