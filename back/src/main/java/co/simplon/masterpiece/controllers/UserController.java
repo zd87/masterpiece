@@ -10,25 +10,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.masterpiece.entities.User;
+import co.simplon.masterpiece.dtos.UserDto;
 import co.simplon.masterpiece.services.UserService;
 
 @RestController
 @RequestMapping("/create_account")
 @CrossOrigin("*")
 public class UserController {
+
 	private final UserService service;
 
-    protected UserController(UserService service) {
-    	this.service = service;
-    }
+	protected UserController(UserService service) {
+		this.service = service;
+	}
 
-    @GetMapping("/check_unicity/{sesame_id}")
-    protected boolean checkUnicity(@PathVariable("sesame_id") String sesameId) {
-    	return service.checkUnicity(sesameId);
-    }
-    @PostMapping
-    protected void create(@Valid @RequestBody User newUser) {
-    	service.create(newUser);
-    }
+	@GetMapping("/check_unicity/{sesame_id}")
+	protected boolean checkUnicity(@PathVariable("sesame_id") String sesameId) {
+		return service.checkUnicity(sesameId);
+	}
+
+	@PostMapping
+	protected void create(@Valid @RequestBody UserDto newUserDto) {
+		service.create(newUserDto);
+	}
 }
