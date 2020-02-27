@@ -9,6 +9,8 @@ import { languages } from './lang/index'
 import { defaultLocale } from './lang/index'
 const messages = Object.assign(languages)
 
+import "./scss/global.scss"
+
 Vue.config.productionTip = false
 
 Vue.use(VueI18n);
