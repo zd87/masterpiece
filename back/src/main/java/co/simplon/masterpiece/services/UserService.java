@@ -37,7 +37,6 @@ public class UserService implements IUserService {
 		set.add(defaultRole);
 		User newUser = new User(newUserDto.getSesameId(), newUserDto.getPwd(), set);
 		userRepo.save(newUser);
-
 	}
 
 }
