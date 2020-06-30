@@ -12,8 +12,18 @@
             :items="servers"
             :expanded.sync="expanded"
             item-key="id" :search="search"
-            show-expand 
+            show-expand :group-by="group? 'perimeter': []"
         >
+            <template v-slot:group.header="{ group, toggle, isOpen  }">
+                <td :colspan="headers.length">
+                    <v-btn @click="toggle" small icon>
+                        <v-icon v-if="isOpen">mdi-minus</v-icon>
+                        <v-icon v-else>mdi-plus</v-icon>
+                    </v-btn>
+                    {{ group }}
+                </td>
+            </template>
+            
             <template v-slot:item.actions="{ item }">
                 <div class="d-flex flex-column">
                     <v-btn 

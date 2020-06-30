@@ -3,7 +3,7 @@
         <div class="mb-5 d-flex justify-pace-between align-center">
             <div class="heading-1 ">Assets</div>
             <v-spacer></v-spacer>
-            <v-switch v-model="group" inset label="Group by perimeter"></v-switch>
+            <v-switch v-model="group" class="mr-5" inset label="Group by perimeter"></v-switch>
             <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
