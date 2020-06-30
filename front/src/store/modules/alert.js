@@ -1,10 +1,10 @@
+import { make } from "vuex-pathify";
+
 const state = {
     alert:""
 };
 const mutations = {
-    setAlert(state, data){
-        state.alert = data;
-    }
+    ...make.mutations(["alert"])
 };
 
 const actions = {

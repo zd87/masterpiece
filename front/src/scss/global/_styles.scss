@@ -1,0 +1,67 @@
+/********************
+        global
+********************/
+.theme--light.v-application {
+    background-color: #f9f9f9 !important;
+}
+.theme--light.v-data-table tbody tr.v-data-table__selected {
+    background-color:white !important;
+}
+.v-card__subtitle, .v-card__text {
+    font-size: 1rem;
+}
+/********************
+        titles
+********************/
+.heading-1 {
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: 700;
+    color: rgb(59, 67, 87);
+}
+
+/********************
+        forms
+********************/
+.v-input__slot {
+    border-radius: 10px !important;
+}
+
+/********************
+        buttons
+********************/
+.tableActionIcon {
+    // ::v-deep .v-btn__content {
+        justify-content: start !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
+        opacity: 0.87;
+    // }
+}
+
+.outlinedButton {
+    color:#f05b6f !important;
+    &:hover {
+        color: white !important;
+        background-color: #f05b6f;
+    }
+}
+
+.closeIcon {
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+/********************
+    miscellaneous
+********************/
+.noHover {
+    &::before {
+        background:none;
+    }
+    &::after {
+        opacity:0;
+    }
+}
+

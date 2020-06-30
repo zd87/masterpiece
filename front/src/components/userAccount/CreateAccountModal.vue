@@ -60,7 +60,14 @@
                     > 
                         {{ variable.title }} 
                     </v-btn>
-                    <v-btn icon class="closeBtn" @click="close">
+                    <v-btn
+                        class="redBtn"
+                        rounded
+                        @click="submit3"
+                    > 
+                        authentication
+                    </v-btn>
+                    <v-btn icon class="closeIconBtn" @click="close">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                     <div>
@@ -68,6 +75,14 @@
                             {{ variable.switchFormsText }}
                             <a @click="create=!create">{{ variable.switchFormsBtn }}</a>
                         </span>
+                    </div>
+                    <!--authorisation exercise-->
+                    <div class="d-flex flex-column">
+                        <a @click="submit2('http://localhost:9090/api/public/hello')">/api/public/hello</a>
+                        <a @click="submit2('http://localhost:9090/api/userInfo')">/api/userInfo</a>
+                        <a @click="submit2('http://localhost:9090/api/private/user')">/api/private/user</a>
+                        <a @click="submit2('http://localhost:9090/api/private/admin')">/api/private/admin</a>
+                        <a @click="submit2('http://localhost:9090/api/private/authenticated')">/api/private/authenticated</a>
                     </div>
                 </v-card-actions>
             </v-card>
@@ -121,15 +136,15 @@ export default {
     computed: {
         variable() {
             return this.create? 
-            {
-                title:this.$t("account.create.title"),
-                switchFormsText:this.$t("account.create.switchFormsText"),
-                switchFormsBtn: this.$t("account.create.switchFormsBtn")
-            }:{
-                title:this.$t("account.login.title"),
-                switchFormsText:this.$t("account.login.switchFormsText"),
-                switchFormsBtn: this.$t("account.login.switchFormsBtn")
-            }
+                {
+                    title:this.$t("account.create.title"),
+                    switchFormsText:this.$t("account.create.switchFormsText"),
+                    switchFormsBtn: this.$t("account.create.switchFormsBtn")
+                }:{
+                    title:this.$t("account.login.title"),
+                    switchFormsText:this.$t("account.login.switchFormsText"),
+                    switchFormsBtn: this.$t("account.login.switchFormsBtn")
+                }
         }
     },
     watch: {
@@ -140,14 +155,16 @@ export default {
             this.$emit("closeModal", this.isActive);
         },
         submit(){
-            const formData = {
+            
+            const payload = {
                 sesameId: this.nameInput,
                 pwd: this.pwdInput
             }
+            
             this.checkUnicity; //TODO
             if(this.valid){
-                console.log("post form object",formData);
-                axios.post(`http://localhost:8085/create_account`, formData)
+                console.log("post form object",payload);
+                axios.post(`http://localhost:8085/create_account`, payload) 
                     .then(response => { 
                         this.userExists = response.data;
                     })
@@ -170,6 +187,46 @@ export default {
                     console.log("ERROR", error);
                 })
             return boolean;
+        },
+        //autorisation exercise 
+        submit2(url){
+            let options= {
+                headers: {
+                    "Authorization" : "Bearer "+localStorage.token
+                }
+            };
+            
+            axios.get(url, options) 
+                .then(response => { 
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log("ERROR", error);
+                })
+            
+        },
+        submit3(){
+            let formData = new FormData();
+            formData.set("username","darwin");
+            formData.set("password","password");
+            formData.set("client_id","my-client-app");
+            formData.set("grant_type","password");
+            
+            let options= {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };
+
+            axios.post(`http://localhost:9090/oauth/token`, formData, options) //autorisation exercise 
+                .then(response => { 
+                    console.log(response);
+                    localStorage.token=response.data.access_token;
+                })
+                .catch(error => {
+                    console.log("ERROR", error);
+                })
+
         }
     }
 }
@@ -196,13 +253,14 @@ export default {
 		padding: 0 20px !important;
 	}
 	&.redBtn{
-		background-color: #e3345a !important;
+        background-color: #e3345a !important;
+        // background-color: $dark-pink !important;
         color: white;
         width: 100%;
         margin-bottom: 24px; 
 	}
 }
-.closeBtn {
+.closeIconBtn {
 	position: absolute;
 	top:0;
 	right:0;

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../pages/Home.vue'
-import RouterView from "../pages/RouterView.vue";
+import pages from "../pages";
 import { i18n } from "../main.js";
 
 Vue.use(VueRouter)
@@ -9,7 +8,7 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: "/:lang",
-        component: RouterView,
+        component: pages.RouterView,
         beforeEnter(to, from, next) {
             const lang = to.params.lang;
             if (!["en", "fr"].includes(lang)) return next("en");
@@ -22,7 +21,7 @@ const routes = [
             {
                 path: '/',
                 name: 'home',
-                component: Home
+                component: pages.Home
             },
         //   {
         //     path: '/about',
