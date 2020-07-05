@@ -1,10 +1,18 @@
 <template>
     <div>
-       
+       <!--update server modal-->
+        <v-dialog v-model="updateServer" width="70%">
+            <CreateUpdateServer v-model="updateServer" :isUpdate="updateServer" :serverData="chosenItem" @closeUpdate="updateServer=false" />
+        </v-dialog>
+
+        <!--tooltips-->
         <!-- <v-tooltip v-model="tooltipHover" top>  
             <span>Click to copy</span>
         </v-tooltip> -->
-        <v-tooltip v-model="tooltipClick" top :close-delay="2" open-on-hover >  
+        <v-tooltip 
+            :value="tooltipClick" top 
+            :position-x="tooltipX" :position-y="tooltipY"
+        >  
             <span>Copied: {{ copied }}</span>
         </v-tooltip>
         <v-data-table 
@@ -23,7 +31,15 @@
                     {{ group }}
                 </td>
             </template>
-            
+            <template v-slot:item.name="{ item }">
+                <span :style="{cursor:'pointer'}" v-clipboard:copy="item.name" @click="onCopy($event, item.name)">{{ item.name }}</span>
+            </template>
+            <template v-slot:item.fullName="{ item }">
+                <span :style="{cursor:'pointer'}" v-clipboard:copy="item.fullName" @click="onCopy($event, item.fullName)">{{ item.fullName }}</span>
+            </template>
+            <template v-slot:item.ip="{ item }">
+                <span :style="{cursor:'pointer'}" v-clipboard:copy="item.ip" @click="onCopy($event, item.ip)">{{ item.ip }}</span>
+            </template>
             <template v-slot:item.actions="{ item }">
                 <div class="d-flex flex-column">
                     <v-btn 
@@ -37,16 +53,17 @@
             <!--server attributes-->
             <template v-slot:expanded-item="{ item }">
                 <td :colspan="headers.length">
+                    <!-- <div v-if="item.attributes" class="d-flex justify-center">No attributes {{item.attributes.length}}</div> -->
                     <div class="d-flex flex-wrap">
-                        <v-col v-for="(attribute, index) of item.attributes" :key="index" cols="2">       
+                        <div v-for="(attribute, index) of item.attributes" :key="index" :style="{width:'19%'}">       
                             <span 
-                                :style="{cursor:'pointer'}" v-clipboard:copy="attribute.attrValue" @click="onCopy(attribute.attrValue)"
+                                :style="{cursor:'pointer'}" v-clipboard:copy="attribute.attrValue" @click="onCopy($event, attribute.attrValue)"
                                 @mouseover="tooltipHover = true" @mouseleave="tooltipHover=false" 
                             >
                                 <span class="font-weight-bold">{{ attribute.attrName }}: </span>
                                 <span>{{ attribute.attrValue }}</span>
                             </span>
-                        </v-col>
+                        </div>
                     </div>
                 </td>
             </template>
@@ -55,7 +72,11 @@
 </template>
 <script>
 import { get } from "vuex-pathify"
+import CreateUpdateServer from "@/components/serverTable/CreateUpdateServer.vue"
 export default {
+    components: {
+        CreateUpdateServer
+    },
     props: {
         search: {
             type:String,
@@ -68,37 +89,54 @@ export default {
     },
     data (){
         return {
-            headers: [
-                {text:"Name",       value:"name",       /*width:"23%",*/    sortable: true},
-                {text:"Full name",  value:"fullName",   /*width:"23%",*/    sortable: true},
-                {text:"IP",         value:"ip",         /*width:"23%",*/    sortable: true},
-                {text:"Perimeter",  value:"perimeter",    /*width:"23%",*/    sortable: true},
-                {text:"Country",    value:"country",    /*width:"23%",*/    sortable: true},
-                {text:"",           value:"actions"},
-                {text: "",          value: "data-table-expand", width: "5%" },
-            ],
-            buttons: [
-                {text:"Edit",   icon:"mdi-square-edit-outline", action:(item)=>this.openMetaPopup(item)},
-                {text:"Delete", icon:"mdi-trash-can-outline",   action:()=>({})}
-            ],
             expanded: [],
             chosenItem:{},
+            updateServer:false,
             tooltipHover:false,
             tooltipClick:false,
             tooltipX:null,
             tooltipY:null,
-            copied:""
+            copied:"",
         }
     },
     computed: {
         servers: get("servers/servers"),
+        headers() {
+            return [
+                {text:"Name",       value:"name",       width:"19%",    sortable: true},
+                {text:"Full name",  value:"fullName",   width:"19%",    sortable: true},
+                {text:"IP",         value:"ip",         width:"19%",    sortable: true},
+                {text:"Perimeter",  value:"perimeter",  width:"19%",    sortable: true},
+                {text:"Country",    value:"country",    width:"19%",    sortable: true},
+                {text:"",           value:"actions"},
+                {text: "",          value: "data-table-expand"},
+            ];
+        },
+        buttons() {
+            return [
+                {text:"Edit",   icon:"mdi-square-edit-outline", action:(item)=>this.openUpdatePopup(item)},
+                {text:"Delete", icon:"mdi-trash-can-outline",   action:()=>({})}
+            ];
+        },
+    },
+    watch: {
+        tooltipClick(){
+            if (this.tooltipClick) setTimeout(()=>{this.tooltipClick=false},1000);
+        }
     },
     methods: {
-        openMetaPopup(item){
-            this.metaPopup=true;
+        openUpdatePopup(item){
+            this.updateServer=true;
             this.chosenItem=item;
         },
-        onCopy(text){
+        onCopy(event,text){
+            //coordinates for the tooltip
+            let bb = event.target.getBoundingClientRect();
+            let x = bb.x + bb.width;
+            if(x>window.innerWidth*0.8) x-=(bb.width+400);
+            this.tooltipX=x;
+            this.tooltipY=bb.y;
+
             this.copied=text;
             this.tooltipHover=false;
             this.tooltipClick=true;

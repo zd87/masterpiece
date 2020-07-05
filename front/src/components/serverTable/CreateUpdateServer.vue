@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card class="mb-5" flat>
+        <v-card flat>
             <v-card-title>{{ updateVSCreate.title }}
             </v-card-title>
             <v-card-text>
@@ -38,10 +38,17 @@
                         hide-default-footer no-data-text="No additional attributes"
                     >
                         <template v-slot:item.attrName="{ item }">
-                            <v-combobox v-model="item.attrName" :items="attributeNames" outlined dense />
+                            <v-combobox 
+                                v-model="item.attrName" :items="attributeNames" outlined dense 
+                            /> 
                         </template>
+                        <!--@input.native="item.attrValue=$event.srcElement.value" makes input seactive, 
+                            by default combobox validates on blur-->
                         <template v-slot:item.attrValue="{ item }">
-                            <v-combobox v-model="item.attrValue" outlined dense />
+                            <v-combobox 
+                                v-model="item.attrValue" outlined dense 
+                                @input.native="item.attrValue=$event.srcElement.value"
+                            />
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-btn text class="noHover px-0 py-1 tableActionIcon" @click="deleteAttribute(item)">
@@ -102,11 +109,6 @@ export default {
         return {
             addedAttributes: [],
             isValidAttributes:false,
-            headers: [
-                {text:"Attribute name",     value:"attrName"},
-                {text:"Attribute value",    value:"attrValue"},
-                {text:"",                   value:"actions",    width:"5%"}
-            ],
             server: {
                 id:null,
                 name:"",
@@ -128,20 +130,31 @@ export default {
                 title: "Create asset",
                 close: ()=> this.$emit("closeCreate")
             };
-        }
+        },
+        headers() {
+            return [
+                {text:"Attribute name",     value:"attrName"},
+                {text:"Attribute value",    value:"attrValue"},
+                {text:"",                   value:"actions",    width:"5%"}
+            ];
+        },
     },
     watch: {
-        serverData(){
-            this.updateContent(this.serverData);
-        },
         value(){
             if(this.value){
-                this.fetchAtrributeNames();
+                this.updateContent();
             }
         }
     },
+    mounted(){
+        this.updateContent();
+    },
     methods: {
-        ...call("servers", ["fetchAtrributeNames"]),
+        ...call("servers", ["fetchAtrributeNames", "fetchServers"]),
+        updateContent(){
+            this.fetchAtrributeNames();
+            if (this.isUpdate) this.server = JSON.parse(JSON.stringify(this.serverData));
+        },
         addAttribute(){
             this.server.attributes.push({
                 attrName:"",
@@ -152,19 +165,18 @@ export default {
             let index=this.server.attributes.indexOf(item);
             this.server.attributes.splice(index,1);
         },
-        updateContent(newContent){
-            this.server.attributes=newContent.metas; //TODO give correct object names
-        },
         submit(){
-            console.log("post form object",this.server);
-            axios.post(`http://localhost:8085/servers`, this.server)
-                .then(response => { 
-                    console.log("response", response);
-                    
+            
+            let url = this.isUpdate ? `http://localhost:8085/servers/${this.server.id}` :"http://localhost:8085/servers"
+            axios.post(url, this.server)
+                .then(() => { 
+                    console.log("post form object",this.server);
+                    this.fetchServers();
                 })
                 .catch(error => {
                     console.log("ERROR", error);
                 })
+            this.updateVSCreate.close();
         }
 
     }

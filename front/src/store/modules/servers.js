@@ -28,7 +28,6 @@ const actions = {
     fetchAtrributeNames(){
         axios.get(`http://localhost:8085/serverAttributeNames`)
             .then(response => { 
-                console.log("response", response);
                 store.set("servers/attributeNames", response.data)
             })
             .catch(error => {

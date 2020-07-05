@@ -21,7 +21,7 @@
                 </v-btn>
             </v-card-text>
         </v-card>
-        <CreateUpdateServer v-if="createServer" v-model="createServer" @closeCreate="createServer=false" />
+        <CreateUpdateServer v-if="createServer" v-model="createServer" class="mb-5"  @closeCreate="createServer=false" />
         <ServerTable :search="search" :group="group" />
     </div>
 </template>
