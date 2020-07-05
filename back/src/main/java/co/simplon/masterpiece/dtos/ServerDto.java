@@ -79,4 +79,9 @@ public class ServerDto {
 		this.attributes = attributes;
 	}
 
+	public String toString() {
+		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '"
+				+ this.ip + "', Country: '" + this.country + "', perimeter: '"
+				+ this.perimeter + "', attributes: " + attributes;
+	}
 }

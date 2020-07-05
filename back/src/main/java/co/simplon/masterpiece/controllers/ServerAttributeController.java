@@ -10,11 +10,11 @@ import co.simplon.masterpiece.services.ServerAttributeService;
 
 @RestController
 @CrossOrigin("*")
-public class AttributeController {
+public class ServerAttributeController {
 
 	private ServerAttributeService service;
 
-	public AttributeController(ServerAttributeService service) {
+	public ServerAttributeController(ServerAttributeService service) {
 		this.service = service;
 	}
 

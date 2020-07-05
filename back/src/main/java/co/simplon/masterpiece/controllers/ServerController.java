@@ -38,8 +38,15 @@ public class ServerController {
 	}
 
 	@PostMapping
-	protected Server create(@Valid @RequestBody ServerDto serverDto) {
-		return service.create(serverDto);
+	protected void post(@Valid @RequestBody ServerDto serverDto) {
+		service.create(serverDto);
+	}
+
+	@PostMapping("/{id}")
+	protected void update(@PathVariable("id") Long id,
+			@Valid @RequestBody ServerDto serverDto) {
+		System.out.println("from controller" + serverDto);
+		service.update(id, serverDto);
 	}
 
 	/*

@@ -45,6 +45,16 @@ public class Server extends AbstractId {
 		this.attributes = attributes;
 	}
 
+	public void setServer(String name, String fullName, String ip, String country,
+			String perimeter, Set<ServerAttribute> attributes) {
+		this.name = name;
+		this.fullName = fullName;
+		this.ip = ip;
+		this.country = country;
+		this.perimeter = perimeter;
+		this.attributes = attributes;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -91,6 +101,12 @@ public class Server extends AbstractId {
 
 	public void setAttributes(Set<ServerAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public String toString() {
+		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '"
+				+ this.ip + "', Country: '" + this.country + "', perimeter: '"
+				+ this.perimeter + "', attributes: " + attributes;
 	}
 
 }
