@@ -1,17 +1,12 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import pathify from "vuex-pathify";
-import account from "./modules/account";
+/*MODULES*/
+import user from "./modules/user";
 import alert from "./modules/alert";
 import servers from "./modules/servers";
+import header from "./modules/header";
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-    plugins: [pathify.plugin],
-    modules: {
-        account,
-        alert,
-        servers
-    }
-})
+export default {
+    user,
+    alert,
+    servers,
+    header
+}

@@ -167,7 +167,7 @@ export default {
         },
         submit(){
             
-            let url = this.isUpdate ? `http://localhost:8085/servers/${this.server.id}` :"http://localhost:8085/servers"
+            let url = this.isUpdate ? `http://localhost:8085/api/servers/${this.server.id}` :"http://localhost:8085/api/servers"
             axios.post(url, this.server)
                 .then(() => { 
                     console.log("post form object",this.server);

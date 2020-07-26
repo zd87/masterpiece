@@ -40,7 +40,7 @@
             <template v-slot:item.ip="{ item }">
                 <span :style="{cursor:'pointer'}" v-clipboard:copy="item.ip" @click="onCopy($event, item.ip)">{{ item.ip }}</span>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template v-if="user.isAdmin" v-slot:item.actions="{ item }">
                 <div class="d-flex flex-column">
                     <v-btn 
                         v-for="button of buttons" :key="button.text" 
@@ -101,6 +101,7 @@ export default {
     },
     computed: {
         servers: get("servers/servers"),
+        user: get("user/user"),
         headers() {
             return [
                 {text:"Name",       value:"name",       width:"19%",    sortable: true},

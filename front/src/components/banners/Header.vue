@@ -1,25 +1,43 @@
 <template>
 	<div id="header">
-        <v-toolbar>
+        <v-app-bar app color="white">
+            <v-list class="d-flex pa-0">
+                <v-list-item v-for="(item, index) in filteredNavItems" :key="index">
+                    <v-btn
+                        :to="item.to"
+                        :ripple="false"
+                        depressed text
+                    >{{ item.label }}</v-btn>
+                </v-list-item>
+            </v-list>
             <v-spacer></v-spacer>
-            <v-btn text @click="createAccountModal=true"><v-icon>mdi-account</v-icon>{{$t("header.loginBtn")}}</v-btn>
-        </v-toolbar>
-		<CreateAccountModal :create-account-modal="createAccountModal" @closeModal="closeModal"/>
+            <LoginLogoutButton />
+        </v-app-bar>
 	</div>
 </template>
 
 <script>
-
-import CreateAccountModal from "@/components/userAccount/CreateAccountModal.vue"
-
+import { get } from "vuex-pathify"
+import LoginLogoutButton from "@/components/userAccount/LoginLogoutButton.vue"
 export default {
     components: {
-        CreateAccountModal
+        LoginLogoutButton,
     },
     data (){
         return {
-            createAccountModal:false,
+           
         }
+    },
+    computed: {
+        navItems: get("header/navItems"),
+        token: get("user/token"),
+        filteredNavItems(){
+            //if authenticated show all, else hide restricted
+            return this.token? this.navItems : this.navItems.filter(item=> !item.meta?.requiresAuth);
+        }
+    },
+    mounted(){
+    
     },
     methods: {
         closeModal(boolean) {
