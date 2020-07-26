@@ -59,6 +59,12 @@
     right:0;
 }
 
+ .navItem.v-btn--active {
+    &::before {
+        opacity:0 !important;
+    }
+    border-bottom: 2px solid #EE2424;
+}
 /********************
     miscellaneous
 ********************/

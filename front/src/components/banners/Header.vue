@@ -1,12 +1,19 @@
 <template>
 	<div id="header">
-        <v-app-bar app color="white">
+        <v-app-bar app color="white" height="60px">
+            
+            <router-link to="/">
+                <img :src="imageSrc" :style="{height:'50px'}" />
+            </router-link>
+            
             <v-list class="d-flex pa-0">
+                <!-- <v-list-item><v-img :src="imageSrc" style='height: 100%; width: 100%; object-fit: contain' /></v-list-item> -->
                 <v-list-item v-for="(item, index) in filteredNavItems" :key="index">
                     <v-btn
+                        class="navItem"
                         :to="item.to"
                         :ripple="false"
-                        depressed text
+                        depressed text tile
                     >{{ item.label }}</v-btn>
                 </v-list-item>
             </v-list>
@@ -25,7 +32,7 @@ export default {
     },
     data (){
         return {
-           
+           imageSrc:require("@/assets/logo4.jpg")
         }
     },
     computed: {
@@ -48,3 +55,6 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+
+</style>
