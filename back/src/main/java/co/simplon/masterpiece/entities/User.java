@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -15,43 +16,43 @@ public class User extends AbstractId {
 
 	@Column(length = 7, nullable = false, unique = true)
 
-	private String sesameId;
+	private String login;
 
 	@Column(length = 255, nullable = false)
-	private String pwd;
+	private String password;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	Set<Role> roles;
 
 	public User() {
 	}
 
-	public User(String sesameId, String pwd) {
-		this.sesameId = sesameId;
-		this.pwd = pwd;
+	public User(String login, String password) {
+		this.login = login;
+		this.password = password;
 	}
 
-	public User(String sesameId, String pwd, Set<Role> roles) {
-		this.sesameId = sesameId;
-		this.pwd = pwd;
+	public User(String login, String password, Set<Role> roles) {
+		this.login = login;
+		this.password = password;
 		this.roles = roles;
 	}
 
-	public String getSesameId() {
-		return sesameId;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setSesameId(String sesameId) {
-		this.sesameId = sesameId;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setPwd(String password) {
+		this.password = password;
 	}
 
 	public Set<Role> getRoles() {
