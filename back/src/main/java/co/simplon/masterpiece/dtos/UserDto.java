@@ -4,31 +4,32 @@ import javax.validation.constraints.Pattern;
 
 public class UserDto {
 
-	@Pattern(regexp = "[a-zA-Z][0-9]{6}", message = "Please enter valid SESAME id. Ex.:a001122")
-	private String sesameId;
+// disabled in dev
+//	@Pattern(regexp = "[a-zA-Z][0-9]{6}")
+	private String login;
 
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{5,}$", message = "Password must be at least 5 caracters long, contain upper and lower cases and at least one digit.")
-	private String pwd;
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{5,}$")
+	private String password;
 
-	public UserDto(String sesameId, String pwd) {
-		this.sesameId = sesameId;
-		this.pwd = pwd;
+	public UserDto(String login, String password) {
+		this.login = login;
+		this.password = password;
 	}
 
-	public String getSesameId() {
-		return sesameId;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setSesameId(String sesameId) {
-		this.sesameId = sesameId;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setPwd(String password) {
+		this.password = password;
 	}
 
 }

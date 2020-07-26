@@ -2,34 +2,48 @@ package co.simplon.masterpiece.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.masterpiece.config.SecurityHelper;
 import co.simplon.masterpiece.dtos.UserDto;
+import co.simplon.masterpiece.dtos.UserViewDto;
+import co.simplon.masterpiece.services.CustomUserDetailsService;
 import co.simplon.masterpiece.services.UserService;
 
 @RestController
-@RequestMapping("/create_account")
-@CrossOrigin("*")
+//@RequestMapping("/")
+//@CrossOrigin("*") //DELETE IF TESTS WELL
 public class UserController {
 
 	private final UserService service;
 
-	protected UserController(UserService service) {
+	private final CustomUserDetailsService customUserDetailsService;
+
+	public UserController(UserService service,
+			CustomUserDetailsService customUserDetailsService) {
 		this.service = service;
+		this.customUserDetailsService = customUserDetailsService;
 	}
 
-	@GetMapping("/check_unicity/{sesame_id}")
-	protected boolean checkUnicity(@PathVariable("sesame_id") String sesameId) {
-		return service.checkUnicity(sesameId);
+//	@GetMapping("/check_unicity/{sesame_id}")
+//	protected boolean checkUnicity(@PathVariable("sesame_id") String sesameId) {
+//		return service.checkUnicity(sesameId);
+//	}
+
+	/*
+	 * already authenticated user SecurityHelper contains information about the
+	 * authenticated user then authenticated user is retrieved from the database by id
+	 */
+	@GetMapping("/me")
+	public UserViewDto userInfo() {
+		Long userId = SecurityHelper.getUserId();
+		return service.getCurrentUserInfo(userId);
 	}
 
-	@PostMapping
+	@PostMapping("/create_account")
 	protected void create(@Valid @RequestBody UserDto newUserDto) {
 		service.create(newUserDto);
 	}
