@@ -1,15 +1,15 @@
 <template>
 	<div>
-        <!-- <Assets v-if="authenticated" /> -->
+        <LoginForm />
     </div>
 </template>
 
 <script>
-// import Assets from "@/pages/Assets.vue"
-
+import LoginForm from "@/components/userAccount/LoginForm.vue"
+import { get } from "vuex-pathify"
 export default {
     components: {
-        // Assets,
+        LoginForm
     },
     data (){
         return {
@@ -17,9 +17,7 @@ export default {
         }
     },
     computed: {
-        // authenticated(){
-        //     return localStorage.token;
-        // }
+        user: get("user/user")
     },
     mounted(){
         

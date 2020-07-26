@@ -1,14 +1,15 @@
 {
     "greeting": "Hello",
     "header": {
-        "loginBtn":"Login"
+        "loginBtn":"Login",
+        "logoutBtn":"Logout"
     },
     "user": {
         
     },
     "account": {
         "labels":{
-            "name":"SESAME id",
+            "name":"Login",
             "pwd":"Password",
             "confirmPwd":"Confirm password"
         },
@@ -29,7 +30,7 @@
         },
         "validation": {
             "name": {
-                "pattern": "Please enter valid SESAME id. Ex.:a001122",
+                "pattern": "Please enter valid login. Ex.:a001122",
                 "unicity": "Account with this id already exists"
             },
             "pwd":{
