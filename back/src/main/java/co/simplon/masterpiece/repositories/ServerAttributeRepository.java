@@ -35,4 +35,7 @@ public interface ServerAttributeRepository extends JpaRepository<ServerAttribute
 
 	@Query(value = "select distinct attr_name from server_attributes", nativeQuery = true)
 	public List<String> getNames();
+
+	@Query(value = "select distinct attr_value from server_attributes", nativeQuery = true)
+	public List<String> getValues();
 }

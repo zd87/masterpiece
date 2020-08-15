@@ -1,8 +1,8 @@
 package co.simplon.masterpiece.services;
 
-import java.util.List;
+import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
 
 public interface IServerAttributeService {
 
-	List<String> getNames();
+	ServerAttributesViewDto getValues();
 }

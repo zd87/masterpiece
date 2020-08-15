@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
 import co.simplon.masterpiece.dtos.ServerDto;
 import co.simplon.masterpiece.entities.Server;
+import co.simplon.masterpiece.services.ServerAttributeService;
 import co.simplon.masterpiece.services.ServerService;
 
 @RestController
@@ -21,36 +23,39 @@ import co.simplon.masterpiece.services.ServerService;
 @CrossOrigin("*")
 public class ServerController {
 
-	private final ServerService service;
+	private final ServerService serverService;
 
-	protected ServerController(ServerService service) {
-		this.service = service;
+	private final ServerAttributeService attrService;
+
+	public ServerController(ServerService serverService,
+			ServerAttributeService attrService) {
+		this.serverService = serverService;
+		this.attrService = attrService;
 	}
 
 	@GetMapping("/{id}")
 	protected ServerDto server(@PathVariable("id") Long id) {
-		return service.getOne(id);
+		return serverService.getOne(id);
 	}
 
 	@GetMapping
 	protected List<Server> getAll() {
-		return service.getAll();
+		return serverService.getAll();
 	}
 
 	@PostMapping
 	protected void post(@Valid @RequestBody ServerDto serverDto) {
-		service.create(serverDto);
+		serverService.create(serverDto);
 	}
 
 	@PostMapping("/{id}")
 	protected void update(@PathVariable("id") Long id,
 			@Valid @RequestBody ServerDto serverDto) {
-		System.out.println("from controller" + serverDto);
-		service.update(id, serverDto);
+		serverService.update(id, serverDto);
 	}
 
-	/*
-	 * @PostMapping protected void create(@Valid @RequestBody UserDto newUserDto) {
-	 * service.create(newUserDto); }
-	 */
+	@GetMapping("/attributes")
+	protected ServerAttributesViewDto attributes() {
+		return attrService.getValues();
+	}
 }

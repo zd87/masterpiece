@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
 import co.simplon.masterpiece.repositories.ServerAttributeRepository;
 
 @Service
@@ -15,8 +16,10 @@ public class ServerAttributeService {
 		this.serverAttributes = serverAttributes;
 	}
 
-	public List<String> getNames() {
-		return serverAttributes.getNames();
+	public ServerAttributesViewDto getValues() {
+		List<String> names = serverAttributes.getNames();
+		List<String> values = serverAttributes.getValues();
+		return new ServerAttributesViewDto(names, values);
 	};
 
 }
