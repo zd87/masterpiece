@@ -7,12 +7,12 @@
             </router-link>
             
             <v-list class="d-flex pa-0">
-                <!-- <v-list-item><v-img :src="imageSrc" style='height: 100%; width: 100%; object-fit: contain' /></v-list-item> -->
-                <v-list-item v-for="(item, index) in filteredNavItems" :key="index">
+                <v-list-item v-for="(item, index) in navItems" :key="index">
                     <v-btn
                         class="navItem"
                         :to="item.to"
                         :ripple="false"
+                        :disabled="!authorized(item)"
                         depressed text tile
                     >{{ item.label }}</v-btn>
                 </v-list-item>
@@ -32,25 +32,30 @@ export default {
     },
     data (){
         return {
-           imageSrc:require("@/assets/logo4.jpg")
+           imageSrc:require("@/assets/logo11.jpg")
         }
     },
     computed: {
         navItems: get("header/navItems"),
         token: get("user/token"),
-        filteredNavItems(){
-            //if authenticated show all, else hide restricted
-            return this.token? this.navItems : this.navItems.filter(item=> !item.meta?.requiresAuth);
-        }
+        user: get("user/user")
+        // TO HIDE UNAUTHORIZED NAV ITEMS, DELETE IF NOT REQUIRED
+        // filteredNavItems(){
+        //     //if authenticated show all, else hide restricted
+        //     return this.token? this.navItems : this.navItems.filter(item=> !item.meta?.requiresAuth);
+        // },
+        
     },
     mounted(){
     
     },
     methods: {
-        closeModal(boolean) {
-            this.createAccountModal = boolean;
-            console.log(window.console);
-            
+        authorized(item){
+            //if restrictions in meta, then compare required roles and roles the user has
+            return item.meta?.roles ? 
+            this.token && this.user.roles.some(role=> item.meta?.roles?.indexOf(role) !== -1) 
+            //if no restrictions, then authorized
+            : true;
         }
     }
 }

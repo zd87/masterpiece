@@ -7,7 +7,7 @@ const routes = [
         name: 'assets',
         component: pages.Assets,
         // meta: {authorize: ["ROLE_USER","ROLE_ADMIN"] }
-        meta: { requiersAuth:true }
+        meta: { requiersAuth:true, roles: ["ROLE_USER","ROLE_ADMIN"] }
     },
     {
         path: '/about',
@@ -19,6 +19,7 @@ const routes = [
         name: 'login',
         component: pages.Login
     },
+    
     
 ]    
 export default routes;

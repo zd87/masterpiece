@@ -10,8 +10,9 @@ const state = {
         {
             label: "Assets",
             to:"/",
-            meta: {requiresAuth:true}
-        }
+            meta: {requiresAuth:true, roles: ["ROLE_USER","ROLE_ADMIN"]}
+        },
+        
     ],
 };
 
