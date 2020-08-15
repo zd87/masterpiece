@@ -3,7 +3,7 @@ import axios from "axios";
 import { $store } from '@/main'
 const state = {
     servers:[],
-    attributeNames:[]
+    attributeOptions:[]
 };
 
 // const getters = {
@@ -11,16 +11,13 @@ const state = {
 // };
 
 const mutations = {
-    ...make.mutations(["servers", "attributeNames"])
+    ...make.mutations(["servers", "attributeOptions"])
 };
 
 const actions = {
     fetchServers(){
-        console.log("get servers dispatch");
-        
         axios.get(`http://localhost:8085/api/servers`)
             .then(response => { 
-                console.log("response", response);
                 $store.set("servers/servers", response.data)
             })
             .catch(error => {
@@ -28,9 +25,9 @@ const actions = {
             })
     },
     fetchAtrributeNames(){
-        axios.get(`http://localhost:8085/api/serverAttributeNames`)
+        axios.get(`http://localhost:8085/api/servers/attributes`)
             .then(response => { 
-                $store.set("servers/attributeNames", response.data)
+                $store.set("servers/attributeOptions", response.data)
             })
             .catch(error => {
                 console.log("ERROR", error);

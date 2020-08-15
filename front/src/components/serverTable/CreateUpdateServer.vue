@@ -4,28 +4,28 @@
             <v-card-title>{{ updateVSCreate.title }}
             </v-card-title>
             <v-card-text>
-                <v-form v-model="isValidAttributes">
+                <v-form v-model="isValid" ref="form">
                     <!--essential fields-->
                     <v-row>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Name*</p>
-                            <v-text-field v-model="server.name" outlined dense />
+                            <v-text-field v-model="server.name" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Full name*</p>
-                            <v-text-field v-model="server.fullName" outlined dense />
+                            <v-text-field v-model="server.fullName" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>IP*</p>
-                            <v-text-field v-model="server.ip" outlined dense />
+                            <v-text-field v-model="server.ip" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Perimeter*</p>
-                            <v-text-field v-model="server.perimeter" outlined dense />
+                            <v-text-field v-model="server.perimeter" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Country*</p>
-                            <v-text-field v-model="server.country" outlined dense />
+                            <v-text-field v-model="server.country" outlined dense :rules="required" />
                         </v-col>
                     </v-row>
                     <v-divider class="my-5" />
@@ -39,15 +39,12 @@
                     >
                         <template v-slot:item.attrName="{ item }">
                             <v-combobox 
-                                v-model="item.attrName" :items="attributeNames" outlined dense 
+                                v-model="item.attrName" :items="attributeOptions.names" outlined dense :rules="required"
                             /> 
                         </template>
-                        <!--@input.native="item.attrValue=$event.srcElement.value" makes input seactive, 
-                            by default combobox validates on blur-->
                         <template v-slot:item.attrValue="{ item }">
                             <v-combobox 
-                                v-model="item.attrValue" outlined dense 
-                                @input.native="item.attrValue=$event.srcElement.value"
+                                v-model="item.attrValue" :items="attributeOptions.values" outlined dense :rules="required"
                             />
                         </template>
                         <template v-slot:item.actions="{ item }">
@@ -74,7 +71,7 @@
                 <!--submit button-->
                 <v-btn 
                     class="mx-5" color="darkPink white--text" rounded depressed
-                    @click="submit"
+                    :disabled="!isValid" @click="submit"
                 >
                     {{ updateVSCreate.title }}
                 </v-btn>
@@ -108,7 +105,7 @@ export default {
     data(){
         return {
             addedAttributes: [],
-            isValidAttributes:false,
+            isValid:false,
             server: {
                 id:null,
                 name:"",
@@ -116,11 +113,12 @@ export default {
                 ip:"",
                 perimeter:"",
                 attributes:[]
-            }
+            },
+            required: [v=> !!v || this.$t("validation.required")]
         }
     },
     computed: {
-        attributeNames: get("servers/attributeNames"),
+        attributeOptions: get("servers/attributeOptions"),
         updateVSCreate(){
             return this.isUpdate ?
             {
@@ -166,7 +164,6 @@ export default {
             this.server.attributes.splice(index,1);
         },
         submit(){
-            
             let url = this.isUpdate ? `http://localhost:8085/api/servers/${this.server.id}` :"http://localhost:8085/api/servers"
             axios.post(url, this.server)
                 .then(() => { 

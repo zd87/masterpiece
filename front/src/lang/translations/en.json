@@ -7,6 +7,9 @@
     "user": {
         
     },
+    "validation": {
+        "required":"This field id required"
+    },
     "account": {
         "labels":{
             "name":"Login",
