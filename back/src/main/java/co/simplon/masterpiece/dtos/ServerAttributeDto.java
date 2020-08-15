@@ -1,9 +1,13 @@
 package co.simplon.masterpiece.dtos;
 
+import javax.validation.constraints.NotBlank;
+
 public class ServerAttributeDto {
 
+	@NotBlank
 	private String attrName;
 
+	@NotBlank
 	private String attrValue;
 
 	public ServerAttributeDto() {

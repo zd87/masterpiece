@@ -2,21 +2,29 @@ package co.simplon.masterpiece.dtos;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import co.simplon.masterpiece.entities.Server;
 
 public class ServerDto {
 
+	@NotBlank
 	private String name;
 
+	@NotBlank
 	private String fullName;
 
+	@NotBlank
 	private String ip;
 
+	@NotBlank
 	private String country;
 
+	@NotBlank
 	private String perimeter;
 
-	private List<ServerAttributeDto> attributes;
+	private List<@Valid ServerAttributeDto> attributes;
 
 	public ServerDto() {
 
