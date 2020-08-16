@@ -13,8 +13,6 @@ const mutations = {
 const actions = {
 
     fetchUser(){
-        console.log(localStorage.token);
-        
         authAxios.get(`/me`)
             .then(response => { 
                 let user = response.data;

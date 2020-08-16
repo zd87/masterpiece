@@ -3,7 +3,7 @@ import authAxios from '@/axios';
 import { $store } from '@/main'
 const state = {
     servers:[],
-    attributeOptions:[]
+    attributeOptions:{}
 };
 
 // const getters = {
