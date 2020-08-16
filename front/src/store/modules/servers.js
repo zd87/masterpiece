@@ -1,5 +1,5 @@
 import { make } from "vuex-pathify";
-import axios from "axios";
+import authAxios from '@/axios';
 import { $store } from '@/main'
 const state = {
     servers:[],
@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
     fetchServers(){
-        axios.get(`http://localhost:8085/api/servers`)
+        authAxios.get(`/servers`)
             .then(response => { 
                 $store.set("servers/servers", response.data)
             })
@@ -25,7 +25,7 @@ const actions = {
             })
     },
     fetchAtrributeNames(){
-        axios.get(`http://localhost:8085/api/servers/attributes`)
+        authAxios.get(`/servers/attributes`)
             .then(response => { 
                 $store.set("servers/attributeOptions", response.data)
             })
