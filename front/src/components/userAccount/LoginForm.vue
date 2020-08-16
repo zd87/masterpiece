@@ -146,7 +146,9 @@ export default {
                 confirmPwd: this.$t("account.labels.confirmPwd")
             },
             placeholders: {
-                name: this.$t("account.placeholders.name"),
+                firstname: this.$t("account.placeholders.firstname"),
+                lastname: this.$t("account.placeholders.lastname"),
+                login: this.$t("account.placeholders.login"),
                 pwd: this.$t("account.placeholders.pwd"),
                 confirmPwd: this.$t("account.placeholders.confirmPwd")
             }
