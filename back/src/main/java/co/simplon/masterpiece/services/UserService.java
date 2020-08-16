@@ -55,7 +55,6 @@ public class UserService implements IUserService {
 	}
 
 	public List<RoleMgmtUserViewDto> getAllRoleMgmtUser() {
-		// TODO Auto-generated method stub
-		return userRepo.getAll();
+		return userRepo.findAllProjectedBy();
 	}
 }
