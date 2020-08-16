@@ -1,13 +1,15 @@
 package co.simplon.masterpiece.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import co.simplon.masterpiece.config.ResourceNotFoundException;
-import co.simplon.masterpiece.dtos.UserDto;
+import co.simplon.masterpiece.dtos.RoleMgmtUserViewDto;
+import co.simplon.masterpiece.dtos.UserCreateDto;
 import co.simplon.masterpiece.dtos.UserViewDto;
 import co.simplon.masterpiece.entities.Role;
 import co.simplon.masterpiece.entities.User;
@@ -29,23 +31,16 @@ public class UserService implements IUserService {
 		this.roleRepo = roleRepo;
 		this.encoder = encoder;
 	}
-//DELETE IF TESTS WELL
-//	public boolean checkUnicity(String login) {
-//		User user = userRepo.getByLogin(login);
-//		if (user != null) {
-//			return true;
-//		}
-//		return false;
-//	}
 
-	public void create(UserDto newUserDto) {
+	public void create(UserCreateDto newUserDto) {
 		// Giving a default role
 		Set<Role> set = new HashSet<Role>();
 		Role defaultRole = roleRepo.findByDefaultRoleTrue();
 		set.add(defaultRole);
 		// encoding the password
 		String encodedPassword = encoder.encode(newUserDto.getPassword());
-		User newUser = new User(newUserDto.getLogin(), encodedPassword, set);
+		User newUser = new User(newUserDto.getFirstname(), newUserDto.getLastname(),
+				newUserDto.getLogin(), encodedPassword, set);
 		userRepo.save(newUser);
 	}
 
@@ -57,5 +52,10 @@ public class UserService implements IUserService {
 	public UserViewDto getCurrentUserInfo(Long id) {
 		return userRepo.getById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("with id:" + id));
+	}
+
+	public List<RoleMgmtUserViewDto> getAllRoleMgmtUser() {
+		// TODO Auto-generated method stub
+		return userRepo.getAll();
 	}
 }

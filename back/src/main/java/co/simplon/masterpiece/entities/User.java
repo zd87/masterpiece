@@ -14,8 +14,13 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User extends AbstractId {
 
-	@Column(length = 7, nullable = false, unique = true)
+	@Column(length = 255, nullable = false)
+	private String firstname;
 
+	@Column(length = 255, nullable = false)
+	private String lastname;
+
+	@Column(length = 7, nullable = false, unique = true)
 	private String login;
 
 	@Column(length = 255, nullable = false)
@@ -33,10 +38,29 @@ public class User extends AbstractId {
 		this.password = password;
 	}
 
-	public User(String login, String password, Set<Role> roles) {
+	public User(String firstname, String lastname, String login, String password,
+			Set<Role> roles) {
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.login = login;
 		this.password = password;
 		this.roles = roles;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getLogin() {
@@ -51,7 +75,7 @@ public class User extends AbstractId {
 		return password;
 	}
 
-	public void setPwd(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 

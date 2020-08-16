@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.masterpiece.config.SecurityHelper;
-import co.simplon.masterpiece.dtos.UserDto;
+import co.simplon.masterpiece.dtos.UserCreateDto;
 import co.simplon.masterpiece.dtos.UserViewDto;
 import co.simplon.masterpiece.services.CustomUserDetailsService;
 import co.simplon.masterpiece.services.UserService;
@@ -28,11 +28,6 @@ public class UserController {
 		this.customUserDetailsService = customUserDetailsService;
 	}
 
-//	@GetMapping("/check_unicity/{sesame_id}")
-//	protected boolean checkUnicity(@PathVariable("sesame_id") String sesameId) {
-//		return service.checkUnicity(sesameId);
-//	}
-
 	/*
 	 * already authenticated user SecurityHelper contains information about the
 	 * authenticated user then authenticated user is retrieved from the database by id
@@ -44,7 +39,7 @@ public class UserController {
 	}
 
 	@PostMapping("/create_account")
-	protected void create(@Valid @RequestBody UserDto newUserDto) {
+	protected void create(@Valid @RequestBody UserCreateDto newUserDto) {
 		service.create(newUserDto);
 	}
 }
