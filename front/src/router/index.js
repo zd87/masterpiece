@@ -19,7 +19,12 @@ const routes = [
         name: 'login',
         component: pages.Login
     },
-    
+    {
+        path: '/users',
+        name: 'userMangament',
+        component: pages.UserManagement,
+        meta: { requiersAuth:true, roles: ["ROLE_ADMIN"] }
+    },
     
 ]    
 export default routes;

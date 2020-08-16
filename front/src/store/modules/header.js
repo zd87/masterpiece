@@ -12,7 +12,11 @@ const state = {
             to:"/",
             meta: {requiresAuth:true, roles: ["ROLE_USER","ROLE_ADMIN"]}
         },
-        
+        {
+            label: "User Management",
+            to:"/users",
+            meta: {requiresAuth:true, roles: ["ROLE_ADMIN"]}
+        }
     ],
 };
 
