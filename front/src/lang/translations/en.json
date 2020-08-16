@@ -12,12 +12,16 @@
     },
     "account": {
         "labels":{
-            "name":"Login",
+            "firstname":"First name",
+            "lastname":"Last name",
+            "login":"Login",
             "pwd":"Password",
             "confirmPwd":"Confirm password"
         },
         "placeholders":{
-            "name":"A123456",
+            "firstname":"First name",
+            "lastname":"Last name",
+            "login":"A123456",
             "pwd":"myPassword1",
             "confirmPwd":"myPassword1"
         },

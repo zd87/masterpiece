@@ -10,23 +10,35 @@
                     v-model="valid"
                 >
                     <v-text-field
-                        v-model="nameInput"
-                        
-                        prepend-inner-icon="mdi-account"
-                        :label="labels.name"
-                        :placeholder="placeholders.name"
+                        v-if="create"
+                        v-model="firstnameInput"
+                        :label="labels.firstname"
+                        :placeholder="placeholders.firstname"
                         outlined dense required
                     />
+                    <v-text-field
+                        v-if="create"
+                        v-model="lastnameInput"
+                        :label="labels.lastname"
+                        :placeholder="placeholders.lastname"
+                        outlined dense required
+                    />
+                    <!--delete after dev-->
+                    <v-text-field
+                        v-model="loginInput"
+                        prepend-inner-icon="mdi-account"
+                        :label="labels.login"
+                        :placeholder="placeholders.login"
+                        outlined dense required
+                    />
+                    <!--prod version with validation-->
                     <!-- <v-text-field
-                        v-model="nameInput"
+                        v-model="loginInput"
                         :rules="validation.name"
                         prepend-inner-icon="mdi-account"
-                        :label="labels.name"
-                        :placeholder="placeholders.name"
-                        outlined
-                        dense
-                        required
-                        @blur="checkUnicity"
+                        :label="labels.login"
+                        :placeholder="placeholders.login"
+                        outlined dense required
                     /> -->
                     <v-text-field
                         v-model="pwdInput"
@@ -42,11 +54,14 @@
                     <v-text-field
                         v-if="create"
                         v-model="pwdConfirmInput"
-                        type="password"
+                        :type="showConfirmPwd? 'type':'password'"
                         :rules="validation.pwdConfirmation"
+                        prepend-inner-icon="mdi-lock"
+                        :append-icon="showConfirmPwd ? 'mdi-eye' : 'mdi-eye-off'"
                         :label="labels.confirmPwd" 
                         :placeholder="placeholders.confirmPwd"
                         outlined dense required
+                        @click:append="showConfirmPwd = !showConfirmPwd"
                     />
                 </v-form>
             </v-card-text>
@@ -102,15 +117,18 @@ export default {
             isActive: false,
             create: false,
             valid:false,
-            userExists: false,
+            // userExists: false,
             showPwd:false,
-            nameInput:"",
+            showConfirmPwd:false,
+            firstnameInput:"",
+            lastnameInput:"",
+            loginInput:"",
             pwdInput:"",
             pwdConfirmInput:"",
             validation: {
                 name: [
                     v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
-                    ()=> !this.userExists || this.$t("account.validation.name.unicity"),
+                    // ()=> !this.userExists || this.$t("account.validation.name.unicity"),
                 ],
                 pwd: [
                     v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
@@ -121,7 +139,9 @@ export default {
 
             },
             labels: {
-                name: this.$t("account.labels.name"),
+                firstname: this.$t("account.labels.firstname"),
+                lastname: this.$t("account.labels.lastname"),
+                login: this.$t("account.labels.login"),
                 pwd: this.$t("account.labels.pwd"),
                 confirmPwd: this.$t("account.labels.confirmPwd")
             },
@@ -159,7 +179,7 @@ export default {
         },
         async loginAccount(){
             let formData = new FormData();
-            formData.set("username",`${this.nameInput}`);
+            formData.set("username",`${this.loginInput}`);
             formData.set("password",`${this.pwdInput}`);
             formData.set("client_id","my-client-app");
             formData.set("grant_type","password");
@@ -181,13 +201,17 @@ export default {
         },
         createAccount(){
             const payload = {
-                login: this.nameInput,
+                firstname:this.firstnameInput,
+                lastname:this.lastnameInput,
+                login: this.loginInput,
                 password: this.pwdInput
             }
             axios.post(`http://localhost:8085/api/create_account`, payload) 
-                .then(response => { 
-                    this.userExists = response.data;
-                })
+                .then(() => { 
+                    //TODO authenticate
+                    this.redirectToMain()
+                    }
+                )
                 .catch(error => {
                     console.log("ERROR", error);
                 })
