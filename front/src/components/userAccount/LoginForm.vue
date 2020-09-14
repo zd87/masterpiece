@@ -15,6 +15,7 @@
                         :label="labels.firstname"
                         :placeholder="placeholders.firstname"
                         outlined dense required
+                        prepend-inner-icon="mdi-account"
                     />
                     <v-text-field
                         v-if="create"
@@ -22,6 +23,7 @@
                         :label="labels.lastname"
                         :placeholder="placeholders.lastname"
                         outlined dense required
+                        prepend-inner-icon="mdi-account"
                     />
                     <!--delete after dev-->
                     <v-text-field
@@ -185,7 +187,6 @@ export default {
             formData.set("password",`${this.pwdInput}`);
             formData.set("client_id","my-client-app");
             formData.set("grant_type","password");
-
             let options= {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -209,59 +210,13 @@ export default {
                 password: this.pwdInput
             }
             axios.post(`http://localhost:8085/api/create_account`, payload) 
-                .then(() => { 
-                    //TODO authenticate
-                    this.redirectToMain()
-                    }
-                )
+                .then(() => { this.loginAccount() })
                 .catch(error => {
                     console.log("ERROR", error);
                 })
         },
         redirectToMain(){
             this.$router.push({name:"assets"});
-        },
-        //autorisation exercise 
-        submit2(url){
-            let options= {
-                headers: {
-                    "Authorization" : "Bearer "+localStorage.token
-                }
-            };
-            
-            axios.get(url, options) 
-                .then(response => { 
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
-            
-        },
-        //autorisation exercise 
-        submit3(){
-            let formData = new FormData();
-            formData.set("username","SHAKESPEARE");
-            formData.set("password","password");
-            formData.set("client_id","my-client-app");
-            formData.set("grant_type","password");
-            
-            let options= {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            };
-
-            axios.post(`http://localhost:9090/oauth/token`, formData, options) //autorisation exercise 
-                .then(response => { 
-                    console.log(response);
-                    localStorage.token=response.data.access_token;
-                    this.fetchUser2();
-                })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
-
         }
     }
 }
