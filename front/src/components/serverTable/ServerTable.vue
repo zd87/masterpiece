@@ -4,11 +4,6 @@
         <v-dialog v-model="updateServer" width="70%">
             <CreateUpdateServer v-model="updateServer" :isUpdate="updateServer" :serverData="chosenItem" @closeUpdate="updateServer=false" />
         </v-dialog>
-
-        <!--tooltips-->
-        <!-- <v-tooltip v-model="tooltipHover" top>  
-            <span>Click to copy</span>
-        </v-tooltip> -->
         <v-tooltip 
             :value="tooltipClick" top 
             :position-x="tooltipX" :position-y="tooltipY"
@@ -84,7 +79,7 @@ export default {
         },
         group: {
             type:Boolean,
-            default:true
+            default:false
         }
     },
     data (){

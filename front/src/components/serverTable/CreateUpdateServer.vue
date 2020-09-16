@@ -30,7 +30,7 @@
                     </v-row>
                     <v-divider class="my-5" />
                     <!--additional parameters-->
-                    <p class="font-weight-bold mb-7">Additional parameters</p>
+                    <p class="font-weight-bold mb-7">Additional attributes</p>
                     <v-data-table
                         v-if="server.attributes.length>0"
                         v-model="server.attributes"
@@ -60,7 +60,7 @@
                 <!--add parameter button-->
                 <v-btn outlined :style="{borderStyle: 'dashed', backgroundColor:'white'}" @click="addAttribute"> 
                     <v-icon left :style="{border: '1px solid', borderRadius:'50%'}">mdi-plus</v-icon>
-                    Add parameter
+                    Add attribute
                 </v-btn>
             </v-card-text>
             <v-card-actions class="d-flex justify-end pa-4">
