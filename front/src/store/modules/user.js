@@ -2,12 +2,11 @@ import authAxios from '@/axios';
 import { make } from "vuex-pathify";
 import { $store } from '@/main'
 const state = {
-    user:{},
-    token:null
+    user:{}
 };
 
 const mutations = {
-    ...make.mutations(["user", "token"])
+    ...make.mutations(["user"])
 };
 
 const actions = {
@@ -19,8 +18,6 @@ const actions = {
                 user.roles = user.roles.map(role => role.code);
                 user.isAdmin = user.roles.includes("ROLE_ADMIN");
                 $store.set("user/user", user);
-                //token saved in store for reactivity
-                $store.set("user/token", localStorage.token);
             })
             .catch(error => {
                 console.log("ERROR", error);

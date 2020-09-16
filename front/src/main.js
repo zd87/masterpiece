@@ -15,9 +15,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next)=>{
     //if role constraint   
     if(to.meta?.requiersAuth){
-        if(localStorage.token){
+        if(store.getters["auth/tokenIsValid"]){
+            console.log("redirect permitted");
             return next();
         }else{
+            console.log("redirect  rejected");
             return next({ path: '/login'});
         }
     }else {
@@ -35,8 +37,9 @@ const store = new Vuex.Store({
     modules: modules
 })
 /**INITIALIZING**/
-//user is fetched every time the app is mounted
-if (localStorage.token) store.dispatch("user/fetchUser");
+
+//check authenication at every mount
+store.dispatch("auth/init");
 
 /**i18n**/
 import VueI18n from "vue-i18n"

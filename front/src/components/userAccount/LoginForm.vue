@@ -2,7 +2,7 @@
     <div class="customContainer d-flex justify-center align-center">  
         <v-card id="modal" flat>
             <v-card-title class="d-flex justify-center">
-                {{ variable.title }}
+                {{ updateVsCreate.title }}
             </v-card-title>
             <v-card-text>
                 <v-form
@@ -74,7 +74,7 @@
                     rounded
                     @click="submit"
                 > 
-                    {{ variable.title }} 
+                    {{ updateVsCreate.title }} 
                 </v-btn>
                 <!-- <v-btn
                     class="redBtn"
@@ -88,8 +88,8 @@
                 </v-btn>
                 <div>
                     <span class="smallText">
-                        {{ variable.switchFormsText }}
-                        <a @click="create=!create">{{ variable.switchFormsBtn }}</a>
+                        {{ updateVsCreate.switchFormsText }}
+                        <a @click="create=!create">{{ updateVsCreate.switchFormsBtn }}</a>
                     </span>
                 </div>
                 <!--authorisation exercise-->
@@ -106,7 +106,7 @@
 </template>
 <script>
 import axios from 'axios';
-import { call } from "vuex-pathify"
+import { get, call } from "vuex-pathify"
 export default {
     props: {
         isModal: {
@@ -157,7 +157,7 @@ export default {
         }
     },
     computed: {
-        variable() {
+        updateVsCreate() {
             return this.create? 
                 {
                     title:this.$t("account.create.title"),
@@ -168,12 +168,17 @@ export default {
                     switchFormsText:this.$t("account.login.switchFormsText"),
                     switchFormsBtn: this.$t("account.login.switchFormsBtn")
                 }
-        }
+        },
+        authenticated: get("auth/token")
     },
     watch: {
+        authenticated(){
+            if (this.authenticated) this.redirectToMain();
+        }
     },
     methods: {
-        ...call("user", ["fetchUser","fetchUser2"]),
+        ...call("user", ["fetchUser"]),
+        ...call("auth", ["authenticate"]),
         close(){
             this.isActive=false;
             this.$emit("closeModal", this.isActive);
@@ -181,26 +186,14 @@ export default {
         submit(){    
             this.create ? this.createAccount() : this.loginAccount();
         },
-        async loginAccount(){
+        loginAccount(){
             let formData = new FormData();
             formData.set("username",`${this.loginInput}`);
             formData.set("password",`${this.pwdInput}`);
             formData.set("client_id","my-client-app");
             formData.set("grant_type","password");
-            let options= {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            };
 
-            await axios.post(`http://localhost:8085/oauth/token`, formData, options) //autorisation exercise 
-                .then(response => { 
-                    localStorage.token=response.data.access_token;
-                    this.fetchUser().then(this.redirectToMain());
-                })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
+            this.authenticate(formData);
         },
         createAccount(){
             const payload = {
@@ -216,7 +209,7 @@ export default {
                 })
         },
         redirectToMain(){
-            this.$router.push({name:"assets"});
+            this.$router.push({name:"assets"})
         }
     }
 }

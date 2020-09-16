@@ -7,7 +7,7 @@
     </div>
 </template>
 <script>
-import { get } from "vuex-pathify"
+import { get, call } from "vuex-pathify"
 export default {
     components: {
        
@@ -18,13 +18,12 @@ export default {
         }
     },
     computed: {
-        token: get("user/token")
+        token: get("auth/token")
     },
     methods: {
+        ...call("auth", ["updateToken"]),
         logout(){
-            localStorage.removeItem("token");
-            //token set in store for reativity
-            this.$store.set("user/token", null);
+            this.updateToken(null);
             this.$router.push({name:"login"});
         }
     }

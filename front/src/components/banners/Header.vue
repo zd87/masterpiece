@@ -37,7 +37,7 @@ export default {
     },
     computed: {
         navItems: get("header/navItems"),
-        token: get("user/token"),
+        token: get("auth/token"),
         user: get("user/user")
         // TO HIDE UNAUTHORIZED NAV ITEMS, DELETE IF NOT REQUIRED
         // filteredNavItems(){
@@ -53,7 +53,7 @@ export default {
         authorized(item){
             //if restrictions in meta, then compare required roles and roles the user has
             return item.meta?.roles ? 
-            this.token && this.user.roles.some(role=> item.meta?.roles?.indexOf(role) !== -1) 
+            this.token && this.user?.roles?.some(role=> item.meta?.roles?.indexOf(role) !== -1) 
             //if no restrictions, then authorized
             : true;
         }
