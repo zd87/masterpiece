@@ -83,4 +83,8 @@ public class ServerService implements IServerService {
 		return returnAttributes;
 	}
 
+	public void deleteById(Long id) {
+		servers.deleteById(id);
+	}
+
 }

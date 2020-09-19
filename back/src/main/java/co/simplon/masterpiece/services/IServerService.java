@@ -9,4 +9,6 @@ public interface IServerService {
 	void create(ServerDto serverDto);
 
 	void update(Long id, ServerDto serverDto);
+
+	void deleteById(Long id);
 }
