@@ -39,7 +39,7 @@ export default {
         return {
             createServer: false,
             search:"",
-            group:true
+            group:false
         }
     },
     computed: {
