@@ -17,15 +17,15 @@
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>IP*</p>
-                            <v-text-field v-model="server.ip" outlined dense :rules="required" />
+                            <v-text-field v-model="server.ip.ip" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Perimeter*</p>
-                            <v-text-field v-model="server.perimeter" outlined dense :rules="required" />
+                            <v-text-field v-model="server.perimeter.name" outlined dense :rules="required" />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Country*</p>
-                            <v-text-field v-model="server.country" outlined dense :rules="required" />
+                            <v-text-field v-model="server.country.name" outlined dense :rules="required" />
                         </v-col>
                     </v-row>
                     <v-divider class="my-5" />
@@ -110,8 +110,15 @@ export default {
                 id:null,
                 name:"",
                 fullName:"",
-                ip:"",
-                perimeter:"",
+                ip:{
+                    ip:""
+                },
+                perimeter:{
+                    name:""
+                },
+                country:{
+                    name:""
+                },
                 attributes:[]
             },
             required: [v=> !!v || this.$t("validation.required")]

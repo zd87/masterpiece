@@ -29,7 +29,13 @@
                 <span :style="{cursor:'pointer'}" v-clipboard:copy="item.fullName" @click="onCopy($event, item.fullName)">{{ item.fullName }}</span>
             </template>
             <template v-slot:item.ip="{ item }">
-                <span :style="{cursor:'pointer'}" v-clipboard:copy="item.ip" @click="onCopy($event, item.ip)">{{ item.ip }}</span>
+                <span :style="{cursor:'pointer'}" v-clipboard:copy="item.ip" @click="onCopy($event, item.ip)">{{ item.ip.ip }}</span>
+            </template>
+            <template v-slot:item.perimeter="{ item }">
+                <span>{{ item.perimeter.name }}</span>
+            </template>
+            <template v-slot:item.country="{ item }">
+                <span>{{ item.country.name }}</span>
             </template>
             <template v-if="user.isAdmin" v-slot:item.actions="{ item }">
                 <div class="d-flex flex-column">
