@@ -165,7 +165,7 @@ export default {
         },
         submit(){
             let url = this.isUpdate ? `/servers/${this.server.id}` :"/servers"
-            authAxios.post(url, this.server)
+            authAxios.put(url, this.server)
                 .then(() => { 
                     this.fetchServers();
                 })
