@@ -5,8 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import co.simplon.masterpiece.entities.Server;
-
 public class ServerDto {
 
 	@NotBlank
@@ -29,15 +27,15 @@ public class ServerDto {
 	public ServerDto() {
 
 	}
-
-	public ServerDto(Server server, List<ServerAttributeDto> attributes) {
-		this.name = server.getName();
-		this.fullName = server.getFullName();
-		this.ip = server.getIp();
-		this.country = server.getCountry();
-		this.perimeter = server.getPerimeter();
-		this.attributes = attributes;
-	}
+//DELETE FI TESTS WELL
+//	public ServerDto(Server server, List<ServerAttributeDto> attributes) {
+//		this.name = server.getName();
+//		this.fullName = server.getFullName();
+//		this.ip = server.getIp();
+//		this.country = server.getCountry();
+//		this.perimeter = server.getPerimeter();
+//		this.attributes = attributes;
+//	}
 
 	public String getName() {
 		return name;

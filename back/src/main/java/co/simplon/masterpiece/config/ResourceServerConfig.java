@@ -29,7 +29,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/login", "/api/create_account")
 				.permitAll()
 				.antMatchers(HttpMethod.GET, "/api/servers", "/api/serverAttributeNames")
-				.permitAll().antMatchers(HttpMethod.DELETE).authenticated()
+				.permitAll().antMatchers(HttpMethod.DELETE, "/api/servers")
+				.authenticated()
 				// endpoints inside user and admin need corresponding roles
 				.antMatchers("/api/me", "/api/user/**", "/api/admin/**").authenticated();
 	}

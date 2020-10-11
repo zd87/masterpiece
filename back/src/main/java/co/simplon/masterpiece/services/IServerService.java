@@ -3,8 +3,8 @@ package co.simplon.masterpiece.services;
 import co.simplon.masterpiece.dtos.ServerDto;
 
 public interface IServerService {
-
-	ServerDto getOne(Long id);
+//DELETE IF TESTS WELL
+//	ServerDto getOne(Long id);
 
 	void create(ServerDto serverDto);
 

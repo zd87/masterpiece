@@ -4,9 +4,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,14 +21,17 @@ public class Server extends AbstractId {
 	@Column(length = 45)
 	private String fullName;
 
-	@Column(length = 45)
-	private String ip;
+	@ManyToOne
+	@JoinColumn(name = "id_ip", nullable = false, foreignKey = @ForeignKey(name = "fk_servers_ips"))
+	private Ip ip;
 
-	@Column(length = 45)
-	private String country;
+	@ManyToOne
+	@JoinColumn(name = "id_country", nullable = false, foreignKey = @ForeignKey(name = "fk_servers_countries"))
+	private Country country;
 
-	@Column(length = 45, name = "perimeter")
-	private String perimeter;
+	@ManyToOne
+	@JoinColumn(name = "id_perimeter", nullable = false, foreignKey = @ForeignKey(name = "fk_servers_perimeters"))
+	private Perimeter perimeter;
 
 	@ManyToMany
 	@JoinTable(name = "server_attribute", joinColumns = @JoinColumn(name = "server_id"), inverseJoinColumns = @JoinColumn(name = "attribute_id"))
@@ -35,8 +40,8 @@ public class Server extends AbstractId {
 	public Server() {
 	}
 
-	public Server(String name, String fullName, String ip, String country,
-			String perimeter, Set<ServerAttribute> attributes) {
+	public Server(String name, String fullName, Ip ip, Country country,
+			Perimeter perimeter, Set<ServerAttribute> attributes) {
 		this.name = name;
 		this.fullName = fullName;
 		this.ip = ip;
@@ -45,14 +50,13 @@ public class Server extends AbstractId {
 		this.attributes = attributes;
 	}
 
-	public void setServer(String name, String fullName, String ip, String country,
-			String perimeter, Set<ServerAttribute> attributes) {
-		this.name = name;
-		this.fullName = fullName;
-		this.ip = ip;
-		this.country = country;
-		this.perimeter = perimeter;
-		this.attributes = attributes;
+	public void setServer(Server newServer) {
+		this.name = newServer.getName();
+		this.fullName = newServer.getFullName();
+		this.ip = newServer.getIp();
+		this.country = newServer.getCountry();
+		this.perimeter = newServer.getPerimeter();
+		this.attributes = newServer.getAttributes();
 	}
 
 	public String getName() {
@@ -71,27 +75,27 @@ public class Server extends AbstractId {
 		this.fullName = fullName;
 	}
 
-	public String getIp() {
+	public Ip getIp() {
 		return ip;
 	}
 
-	public void setIp(String ip) {
+	public void setIp(Ip ip) {
 		this.ip = ip;
 	}
 
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 
-	public String getPerimeter() {
+	public Perimeter getPerimeter() {
 		return perimeter;
 	}
 
-	public void setPerimeter(String perimeter) {
+	public void setPerimeter(Perimeter perimeter) {
 		this.perimeter = perimeter;
 	}
 

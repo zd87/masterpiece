@@ -20,6 +20,11 @@ public class ServerAttribute extends AbstractId {
 	public ServerAttribute() {
 	}
 
+	public ServerAttribute(String attrName, String attrValue) {
+		this.attrName = attrName;
+		this.attrValue = attrValue;
+	}
+
 	public String getAttrName() {
 		return attrName;
 	}

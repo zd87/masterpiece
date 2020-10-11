@@ -8,14 +8,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
 import co.simplon.masterpiece.dtos.ServerDto;
-import co.simplon.masterpiece.entities.Server;
+import co.simplon.masterpiece.dtos.ServerViewDto;
 import co.simplon.masterpiece.services.ServerAttributeService;
 import co.simplon.masterpiece.services.ServerService;
 
@@ -33,10 +33,11 @@ public class ServerController {
 		this.attrService = attrService;
 	}
 
-	@GetMapping("/{id}")
-	protected ServerDto server(@PathVariable("id") Long id) {
-		return serverService.getOne(id);
-	}
+// DELETE IF TESTS WELL
+//	@GetMapping("/{id}")
+//	protected ServerDto server(@PathVariable("id") Long id) {
+//		return serverService.getOne(id);
+//	}
 
 	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/{id}")
@@ -45,16 +46,16 @@ public class ServerController {
 	}
 
 	@GetMapping
-	protected List<Server> getAll() {
+	protected List<ServerViewDto> getAll() {
 		return serverService.getAll();
 	}
 
-	@PostMapping
+	@PutMapping
 	protected void post(@Valid @RequestBody ServerDto serverDto) {
 		serverService.create(serverDto);
 	}
 
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	protected void update(@PathVariable("id") Long id,
 			@Valid @RequestBody ServerDto serverDto) {
 		serverService.update(id, serverDto);
