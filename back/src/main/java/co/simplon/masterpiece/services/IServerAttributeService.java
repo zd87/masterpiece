@@ -1,8 +1,8 @@
 package co.simplon.masterpiece.services;
 
-import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
+import co.simplon.masterpiece.dtos.AttributesViewDto;
 
 public interface IServerAttributeService {
 
-	ServerAttributesViewDto getValues();
+	AttributesViewDto getValues();
 }

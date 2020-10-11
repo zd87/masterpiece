@@ -2,13 +2,13 @@ package co.simplon.masterpiece.dtos;
 
 import java.util.List;
 
-public class ServerAttributesViewDto {
+public class AttributesViewDto {
 
 	private List<String> names;
 
 	private List<String> values;
 
-	public ServerAttributesViewDto(List<String> names, List<String> values) {
+	public AttributesViewDto(List<String> names, List<String> values) {
 		this.names = names;
 		this.values = values;
 	}

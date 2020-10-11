@@ -10,16 +10,16 @@ public class ServerViewDto {
 
 	private String fullName;
 
-	private String ip;
+	private IpViewDto ip;
 
-	private String country;
+	private CountryViewDto country;
 
-	private String perimeter;
+	private PerimeterViewDto perimeter;
 
-	private List<ServerAttributeViewDto> attributes;
+	private List<AttributeViewDto> attributes;
 
-	public ServerViewDto(Long id, String name, String fullName, String ip, String country,
-			String perimeter, List<ServerAttributeViewDto> attributes) {
+	public ServerViewDto(Long id, String name, String fullName, IpViewDto ip,
+			CountryViewDto country, PerimeterViewDto perimeter, List<AttributeViewDto> attributes) {
 		this.id = id;
 		this.name = name;
 		this.fullName = fullName;
@@ -56,35 +56,35 @@ public class ServerViewDto {
 		this.fullName = fullName;
 	}
 
-	public String getIp() {
+	public IpViewDto getIp() {
 		return ip;
 	}
 
-	public void setIp(String ip) {
+	public void setIp(IpViewDto ip) {
 		this.ip = ip;
 	}
 
-	public String getCountry() {
+	public CountryViewDto getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(CountryViewDto country) {
 		this.country = country;
 	}
 
-	public String getPerimeter() {
+	public PerimeterViewDto getPerimeter() {
 		return perimeter;
 	}
 
-	public void setPerimeter(String perimeter) {
+	public void setPerimeter(PerimeterViewDto perimeter) {
 		this.perimeter = perimeter;
 	}
 
-	public List<ServerAttributeViewDto> getAttributes() {
+	public List<AttributeViewDto> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<ServerAttributeViewDto> attributes) {
+	public void setAttributes(List<AttributeViewDto> attributes) {
 		this.attributes = attributes;
 	}
 

@@ -1,17 +1,17 @@
 package co.simplon.masterpiece.dtos;
 
-public class ServerAttributeViewDto {
+public class AttributeViewDto {
 
 	private String attrName;
 
 	private String attrValue;
 
-	public ServerAttributeViewDto(String attrName, String attrValue) {
+	public AttributeViewDto(String attrName, String attrValue) {
 		this.attrName = attrName;
 		this.attrValue = attrValue;
 	}
 
-	public ServerAttributeViewDto() {
+	public AttributeViewDto() {
 	}
 
 	public String getAttrName() {

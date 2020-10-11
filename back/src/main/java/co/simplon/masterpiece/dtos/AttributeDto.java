@@ -2,7 +2,7 @@ package co.simplon.masterpiece.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public class ServerAttributeDto {
+public class AttributeDto {
 
 	@NotBlank
 	private String attrName;
@@ -10,7 +10,7 @@ public class ServerAttributeDto {
 	@NotBlank
 	private String attrValue;
 
-	public ServerAttributeDto() {
+	public AttributeDto() {
 	}
 
 	public String getAttrName() {

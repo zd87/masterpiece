@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
+import co.simplon.masterpiece.dtos.AttributesViewDto;
 import co.simplon.masterpiece.dtos.ServerDto;
 import co.simplon.masterpiece.dtos.ServerViewDto;
 import co.simplon.masterpiece.services.ServerAttributeService;
@@ -62,7 +62,7 @@ public class ServerController {
 	}
 
 	@GetMapping("/attributes")
-	protected ServerAttributesViewDto attributes() {
+	protected AttributesViewDto attributes() {
 		return attrService.getValues();
 	}
 }

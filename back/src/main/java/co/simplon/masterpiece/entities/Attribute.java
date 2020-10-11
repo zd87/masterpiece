@@ -6,10 +6,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "server_attributes", uniqueConstraints = {
+@Table(name = "attributes", uniqueConstraints = {
 		@UniqueConstraint(name = "attribute_name_value_UQ", columnNames = { "attrName",
 				"attrValue" }) })
-public class ServerAttribute extends AbstractId {
+public class Attribute extends AbstractId {
 
 	@Column(length = 45, nullable = false)
 	private String attrName;
@@ -17,10 +17,10 @@ public class ServerAttribute extends AbstractId {
 	@Column(length = 255, nullable = false)
 	private String attrValue;
 
-	public ServerAttribute() {
+	public Attribute() {
 	}
 
-	public ServerAttribute(String attrName, String attrValue) {
+	public Attribute(String attrName, String attrValue) {
 		this.attrName = attrName;
 		this.attrValue = attrValue;
 	}

@@ -4,22 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import co.simplon.masterpiece.dtos.ServerAttributesViewDto;
-import co.simplon.masterpiece.repositories.ServerAttributeRepository;
+import co.simplon.masterpiece.dtos.AttributesViewDto;
+import co.simplon.masterpiece.repositories.AttributeRepository;
 
 @Service
 public class ServerAttributeService {
 
-	private ServerAttributeRepository serverAttributes;
+	private AttributeRepository serverAttributes;
 
-	public ServerAttributeService(ServerAttributeRepository serverAttributes) {
+	public ServerAttributeService(AttributeRepository serverAttributes) {
 		this.serverAttributes = serverAttributes;
 	}
 
-	public ServerAttributesViewDto getValues() {
+	public AttributesViewDto getValues() {
 		List<String> names = serverAttributes.getNames();
 		List<String> values = serverAttributes.getValues();
-		return new ServerAttributesViewDto(names, values);
+		return new AttributesViewDto(names, values);
 	};
 
 }

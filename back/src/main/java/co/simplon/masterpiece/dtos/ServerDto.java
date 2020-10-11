@@ -13,29 +13,20 @@ public class ServerDto {
 	@NotBlank
 	private String fullName;
 
-	@NotBlank
-	private String ip;
+	@Valid
+	private IpDto ip;
 
-	@NotBlank
-	private String country;
+	@Valid
+	private CountryDto country;
 
-	@NotBlank
-	private String perimeter;
+	@Valid
+	private PerimeterDto perimeter;
 
-	private List<@Valid ServerAttributeDto> attributes;
+	private List<@Valid AttributeDto> attributes;
 
 	public ServerDto() {
 
 	}
-//DELETE FI TESTS WELL
-//	public ServerDto(Server server, List<ServerAttributeDto> attributes) {
-//		this.name = server.getName();
-//		this.fullName = server.getFullName();
-//		this.ip = server.getIp();
-//		this.country = server.getCountry();
-//		this.perimeter = server.getPerimeter();
-//		this.attributes = attributes;
-//	}
 
 	public String getName() {
 		return name;
@@ -53,41 +44,41 @@ public class ServerDto {
 		this.fullName = fullName;
 	}
 
-	public String getIp() {
+	public IpDto getIp() {
 		return ip;
 	}
 
-	public void setIp(String ip) {
+	public void setIp(IpDto ip) {
 		this.ip = ip;
 	}
 
-	public String getCountry() {
+	public CountryDto getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(CountryDto country) {
 		this.country = country;
 	}
 
-	public String getPerimeter() {
+	public PerimeterDto getPerimeter() {
 		return perimeter;
 	}
 
-	public void setPerimeter(String perimeter) {
+	public void setPerimeter(PerimeterDto perimeter) {
 		this.perimeter = perimeter;
 	}
 
-	public List<ServerAttributeDto> getAttributes() {
+	public List<AttributeDto> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<ServerAttributeDto> attributes) {
+	public void setAttributes(List<AttributeDto> attributes) {
 		this.attributes = attributes;
 	}
 
 	public String toString() {
-		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '"
-				+ this.ip + "', Country: '" + this.country + "', perimeter: '"
-				+ this.perimeter + "', attributes: " + attributes;
+		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '" + this.ip
+				+ "', Country: '" + this.country + "', perimeter: '" + this.perimeter
+				+ "', attributes: " + attributes;
 	}
 }
