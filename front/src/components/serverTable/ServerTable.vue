@@ -11,7 +11,7 @@
             :items="servers"
             :expanded.sync="expanded"
             item-key="id" :search="search"
-            show-expand :group-by="group? 'perimeter': []"
+            show-expand :group-by="group? 'perimeter.name': []"
         >
             <template v-slot:group.header="{ group, toggle, isOpen  }">
                 <td :colspan="headers.length">
@@ -50,8 +50,8 @@
             <!--server attributes-->
             <template v-slot:expanded-item="{ item }">
                 <td :colspan="headers.length">
-                    <!-- <div v-if="item.attributes" class="d-flex justify-center">No attributes {{item.attributes.length}}</div> -->
-                    <div class="d-flex flex-wrap">
+                    <div v-if="item.attributes.length==0" class="d-flex justify-center">No attributes</div>
+                    <div v-else class="d-flex flex-wrap">
                         <div v-for="(attribute, index) of item.attributes" :key="index" :style="{width:'19%'}">       
                             <span 
                                 :style="{cursor:'pointer'}" v-clipboard:copy="attribute.attrValue" @click="onCopy($event, attribute.attrValue)"

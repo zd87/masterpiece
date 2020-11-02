@@ -52,6 +52,7 @@
                         :placeholder="placeholders.pwd"
                         outlined dense required
                         @click:append="showPwd = !showPwd"
+                        @keydown.enter="!create? submit() :''"
                     />
                     <v-text-field
                         v-if="create"
@@ -76,13 +77,6 @@
                 > 
                     {{ updateVsCreate.title }} 
                 </v-btn>
-                <!-- <v-btn
-                    class="redBtn"
-                    rounded
-                    @click="submit3"
-                > 
-                    authentication
-                </v-btn> -->
                 <v-btn v-if="isModal" icon class="closeIconBtn" @click="close">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -92,14 +86,6 @@
                         <a @click="create=!create">{{ updateVsCreate.switchFormsBtn }}</a>
                     </span>
                 </div>
-                <!--authorisation exercise-->
-                <!-- <div class="d-flex flex-column">
-                    <a @click="submit2('http://localhost:9090/api/public/hello')">/api/public/hello</a>
-                    <a @click="submit2('http://localhost:9090/api/userInfo')">/api/userInfo</a>
-                    <a @click="submit2('http://localhost:9090/api/private/user')">/api/private/user</a>
-                    <a @click="submit2('http://localhost:9090/api/private/admin')">/api/private/admin</a>
-                    <a @click="submit2('http://localhost:9090/api/private/authenticated')">/api/private/authenticated</a>
-                </div> -->
             </v-card-actions>
         </v-card>
     </div>
@@ -119,7 +105,6 @@ export default {
             isActive: false,
             create: false,
             valid:false,
-            // userExists: false,
             showPwd:false,
             showConfirmPwd:false,
             firstnameInput:"",
@@ -130,7 +115,6 @@ export default {
             validation: {
                 name: [
                     v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
-                    // ()=> !this.userExists || this.$t("account.validation.name.unicity"),
                 ],
                 pwd: [
                     v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
