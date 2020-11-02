@@ -10,9 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "servers")
+@Table(name = "servers", uniqueConstraints = {
+		@UniqueConstraint(name = "server_full_name_UQ", columnNames = { "fullName" }) })
 public class Server extends AbstractId {
 
 	@Column(length = 45)
@@ -40,8 +42,8 @@ public class Server extends AbstractId {
 	public Server() {
 	}
 
-	public Server(String name, String fullName, Ip ip, Country country,
-			Perimeter perimeter, Set<Attribute> attributes) {
+	public Server(String name, String fullName, Ip ip, Country country, Perimeter perimeter,
+			Set<Attribute> attributes) {
 		this.name = name;
 		this.fullName = fullName;
 		this.ip = ip;
@@ -108,9 +110,9 @@ public class Server extends AbstractId {
 	}
 
 	public String toString() {
-		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '"
-				+ this.ip + "', Country: '" + this.country + "', perimeter: '"
-				+ this.perimeter + "', attributes: " + attributes;
+		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '" + this.ip
+				+ "', Country: '" + this.country + "', perimeter: '" + this.perimeter
+				+ "', attributes: " + attributes;
 	}
 
 }

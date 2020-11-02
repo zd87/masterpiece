@@ -9,9 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+		@UniqueConstraint(name = "user_login_UQ", columnNames = { "login" }) })
 public class User extends AbstractId {
 
 	@Column(length = 255, nullable = false)
@@ -38,8 +40,7 @@ public class User extends AbstractId {
 		this.password = password;
 	}
 
-	public User(String firstname, String lastname, String login, String password,
-			Set<Role> roles) {
+	public User(String firstname, String lastname, String login, String password, Set<Role> roles) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.login = login;
