@@ -17,15 +17,21 @@
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>IP*</p>
-                            <v-text-field v-model="server.ip.ip" outlined dense :rules="required" />
+                            <v-combobox 
+                                v-model="server.ip.ip" :items="attributeOptions.ips" outlined dense :rules="required"
+                            />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Perimeter*</p>
-                            <v-text-field v-model="server.perimeter.name" outlined dense :rules="required" />
+                            <v-combobox 
+                                v-model="server.perimeter.name" :items="attributeOptions.perimeters" outlined dense :rules="required"
+                            />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <p>Country*</p>
-                            <v-text-field v-model="server.country.name" outlined dense :rules="required" />
+                            <v-combobox 
+                                v-model="server.country.name" :items="attributeOptions.countries" outlined dense :rules="required"
+                            />
                         </v-col>
                     </v-row>
                     <v-divider class="my-5" />
@@ -39,12 +45,13 @@
                     >
                         <template v-slot:item.attrName="{ item }">
                             <v-combobox 
-                                v-model="item.attrName" :items="attributeOptions.names" outlined dense :rules="required"
+                                v-model="item.attrName" :items="attributeOptions.attrNames" outlined dense :rules="required"
+                                @change="getAttrValues(item.attrName)"
                             /> 
                         </template>
                         <template v-slot:item.attrValue="{ item }">
                             <v-combobox 
-                                v-model="item.attrValue" :items="attributeOptions.values" outlined dense :rules="required"
+                                v-model="item.attrValue" :items="attributeValues" outlined dense :rules="required"
                             />
                         </template>
                         <template v-slot:item.actions="{ item }">
@@ -126,6 +133,7 @@ export default {
     },
     computed: {
         attributeOptions: get("servers/attributeOptions"),
+        attributeValues: get("servers/attributeValues"),
         updateVSCreate(){
             return this.isUpdate ?
             {
@@ -155,7 +163,7 @@ export default {
         this.updateContent();
     },
     methods: {
-        ...call("servers", ["fetchAtrributeNames", "fetchServers"]),
+        ...call("servers", ["fetchAtrributeNames", "fetchServers", "fetchAttrValues"]),
         updateContent(){
             this.fetchAtrributeNames();
             if (this.isUpdate) this.server = JSON.parse(JSON.stringify(this.serverData));
@@ -180,6 +188,9 @@ export default {
                     console.log("ERROR", error);
                 })
             this.updateVSCreate.close();
+        },
+        getAttrValues(attrName){
+            if(this.attributeOptions.attrNames.includes(attrName)) this.fetchAttrValues(attrName);
         }
 
     }
