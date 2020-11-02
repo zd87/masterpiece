@@ -76,9 +76,9 @@ public class ServerService implements IServerService {
 
 	private Server convertDtoToServer(ServerDto serverDto) {
 		Server newServer = mapper.map(serverDto, Server.class);
-		newServer.setIp(createIpIfNotExist(newServer));
-		newServer.setCountry(createCountryIfNotExist(newServer));
-		newServer.setPerimeter(createPerimeterIfNotExist(newServer));
+		newServer.setIp(getIpFromRepo(newServer));
+		newServer.setCountry(getCountryFromRepo(newServer));
+		newServer.setPerimeter(getPerimeterFromRepo(newServer));
 		newServer.setAttributes(getAttributesFromRepo(newServer.getAttributes()));
 		return newServer;
 	}
@@ -86,54 +86,45 @@ public class ServerService implements IServerService {
 	private Set<Attribute> getAttributesFromRepo(Set<Attribute> attributes) {
 		Set<Attribute> newSet = new HashSet<Attribute>();
 		attributes.forEach(attribute -> {
-			Attribute savedAttribute = createAttributeIfNotExist(attribute.getAttrName(),
-					attribute.getAttrValue());
+			Attribute savedAttribute = createAttributeIfNotExist(attribute);
 			newSet.add(savedAttribute);
 		});
 		return newSet;
 	};
 
-	private Attribute createAttributeIfNotExist(String name, String value) {
-		Attribute attributeFromRepo = serverAttributeRepo.findByAttrNameAndAttrValue(name, value);
-		if (attributeFromRepo == null) {
-			Attribute newAttribute = new Attribute(name, value);
-			return save(serverAttributeRepo, newAttribute);
-		}
-		return attributeFromRepo;
+	private Attribute createAttributeIfNotExist(Attribute attribute) {
+		String name = attribute.getAttrName();
+		String value = attribute.getAttrValue();
+		Attribute responseFromRepo = serverAttributeRepo.findByAttrNameAndAttrValue(name, value);
+		return createIfNotExist(responseFromRepo, attribute, Attribute.class, serverAttributeRepo);
 	}
 
-	private Country createCountryIfNotExist(Server server) {
+	private Country getCountryFromRepo(Server server) {
 		String name = server.getCountry().getName();
-		Country countryFromRepo = countryRepo.findByName(name);
-		if (countryFromRepo == null) {
-			Country newCountry = new Country(name);
-			return save(countryRepo, newCountry);
-		}
-		return countryFromRepo;
+		Country responseFromRepo = countryRepo.findByName(name);
+		return createIfNotExist(responseFromRepo, server.getCountry(), Country.class, countryRepo);
 	}
 
-	private Perimeter createPerimeterIfNotExist(Server server) {
+	private Perimeter getPerimeterFromRepo(Server server) {
 		String name = server.getPerimeter().getName();
-		Perimeter perimeterFromRepo = perimeterRepo.findByName(name);
-		if (perimeterFromRepo == null) {
-			Perimeter newPerimeter = new Perimeter(name);
-			return save(perimeterRepo, newPerimeter);
-		}
-		return perimeterFromRepo;
+		Perimeter responseFromRepo = perimeterRepo.findByName(name);
+		return createIfNotExist(responseFromRepo, server.getPerimeter(), Perimeter.class,
+				perimeterRepo);
 	}
 
-	private Ip createIpIfNotExist(Server server) {
+	private Ip getIpFromRepo(Server server) {
 		String ip = server.getIp().getIp();
-		Ip ipFromRepo = ipRepo.findByIp(ip);
-		if (ipFromRepo == null) {
-			Ip newIp = new Ip(ip);
-			return save(ipRepo, newIp);
-		}
-		return ipFromRepo;
+		Ip responseFromRepo = ipRepo.findByIp(ip);
+		return createIfNotExist(responseFromRepo, server.getIp(), Ip.class, ipRepo);
 	}
 
-	private static <T> T save(JpaRepository<T, Long> repo, T entity) {
-		return repo.save(entity);
+	private <T> T createIfNotExist(T responseFromRepo, T source, Class targetClass,
+			JpaRepository<T, Long> repo) {
+		if (responseFromRepo == null) {
+			T entity = (T) mapper.map(source, targetClass);
+			return repo.save(entity);
+		}
+		return responseFromRepo;
 	}
 
 }
