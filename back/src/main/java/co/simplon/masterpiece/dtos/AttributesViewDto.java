@@ -4,29 +4,55 @@ import java.util.List;
 
 public class AttributesViewDto {
 
-	private List<String> names;
+	private List<String> attrNames;
 
-	private List<String> values;
+	private List<String> perimeters;
 
-	public AttributesViewDto(List<String> names, List<String> values) {
-		this.names = names;
-		this.values = values;
+	private List<String> countries;
+
+	private List<String> ips;
+
+	public AttributesViewDto() {
 	}
 
-	public List<String> getNames() {
-		return names;
+	public AttributesViewDto(List<String> attrNames, List<String> perimeters,
+			List<String> countries, List<String> ips) {
+		this.attrNames = attrNames;
+		this.perimeters = perimeters;
+		this.countries = countries;
+		this.ips = ips;
 	}
 
-	public void setNames(List<String> names) {
-		this.names = names;
+	public List<String> getAttrNames() {
+		return attrNames;
 	}
 
-	public List<String> getValues() {
-		return values;
+	public void setAttrNames(List<String> attrNames) {
+		this.attrNames = attrNames;
 	}
 
-	public void setValues(List<String> values) {
-		this.values = values;
+	public List<String> getPerimeters() {
+		return perimeters;
+	}
+
+	public void setPerimeters(List<String> perimeters) {
+		this.perimeters = perimeters;
+	}
+
+	public List<String> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(List<String> countries) {
+		this.countries = countries;
+	}
+
+	public List<String> getIps() {
+		return ips;
+	}
+
+	public void setIps(List<String> ips) {
+		this.ips = ips;
 	}
 
 }

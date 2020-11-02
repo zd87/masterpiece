@@ -27,17 +27,10 @@ public class ServerController {
 
 	private final ServerAttributeService attrService;
 
-	public ServerController(ServerService serverService,
-			ServerAttributeService attrService) {
+	public ServerController(ServerService serverService, ServerAttributeService attrService) {
 		this.serverService = serverService;
 		this.attrService = attrService;
 	}
-
-// DELETE IF TESTS WELL
-//	@GetMapping("/{id}")
-//	protected ServerDto server(@PathVariable("id") Long id) {
-//		return serverService.getOne(id);
-//	}
 
 	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/{id}")
@@ -56,13 +49,17 @@ public class ServerController {
 	}
 
 	@PutMapping("/{id}")
-	protected void update(@PathVariable("id") Long id,
-			@Valid @RequestBody ServerDto serverDto) {
+	protected void update(@PathVariable("id") Long id, @Valid @RequestBody ServerDto serverDto) {
 		serverService.update(id, serverDto);
 	}
 
 	@GetMapping("/attributes")
 	protected AttributesViewDto attributes() {
-		return attrService.getValues();
+		return attrService.getAllValues();
+	}
+
+	@GetMapping("/attributes/attrValues/{attrName}")
+	protected List<String> attributeValues(@PathVariable("attrName") String attrName) {
+		return attrService.getAttrValues(attrName);
 	}
 }
