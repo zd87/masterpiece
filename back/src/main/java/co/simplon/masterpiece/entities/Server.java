@@ -36,7 +36,7 @@ public class Server extends AbstractId {
 	private Perimeter perimeter;
 
 	@ManyToMany
-	@JoinTable(name = "server_attribute", joinColumns = @JoinColumn(name = "server_id"), inverseJoinColumns = @JoinColumn(name = "attribute_id"))
+	@JoinTable(name = "server_attribute", joinColumns = @JoinColumn(name = "server_id", foreignKey = @ForeignKey(name = "fk_server_attribute_server")), inverseJoinColumns = @JoinColumn(name = "attribute_id", foreignKey = @ForeignKey(name = "fk_server_attribute_attribute")))
 	private Set<Attribute> attributes;
 
 	public Server() {
@@ -107,12 +107,6 @@ public class Server extends AbstractId {
 
 	public void setAttributes(Set<Attribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	public String toString() {
-		return "Name: '" + this.name + "', Full name: '" + this.fullName + "', ip: '" + this.ip
-				+ "', Country: '" + this.country + "', perimeter: '" + this.perimeter
-				+ "', attributes: " + attributes;
 	}
 
 }

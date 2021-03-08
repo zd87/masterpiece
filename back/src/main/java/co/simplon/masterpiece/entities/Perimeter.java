@@ -3,9 +3,11 @@ package co.simplon.masterpiece.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "perimeters")
+@Table(name = "perimeters", uniqueConstraints = {
+		@UniqueConstraint(name = "perimeter_name_UQ", columnNames = { "name" }) })
 public class Perimeter extends AbstractId {
 
 	@Column(length = 45)

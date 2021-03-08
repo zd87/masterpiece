@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -29,16 +30,16 @@ public class User extends AbstractId {
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_role_user")), inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user_role_role")))
 	private Set<Role> roles;
 
 	public User() {
 	}
 
-	public User(String login, String password) {
-		this.login = login;
-		this.password = password;
-	}
+//	public User(String login, String password) { //maybe not needed
+//		this.login = login;
+//		this.password = password;
+//	}
 
 	public User(String firstname, String lastname, String login, String password, Set<Role> roles) {
 		this.firstname = firstname;

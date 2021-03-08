@@ -3,9 +3,11 @@ package co.simplon.masterpiece.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ips")
+@Table(name = "ips", uniqueConstraints = {
+		@UniqueConstraint(name = "ip_ip_UQ", columnNames = { "ip" }) })
 public class Ip extends AbstractId {
 
 	@Column(length = 45)

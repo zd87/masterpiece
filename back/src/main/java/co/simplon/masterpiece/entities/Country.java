@@ -3,9 +3,11 @@ package co.simplon.masterpiece.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "countries", uniqueConstraints = {
+		@UniqueConstraint(name = "country_name_UQ", columnNames = { "name" }) })
 public class Country extends AbstractId {
 
 	@Column(length = 45)
