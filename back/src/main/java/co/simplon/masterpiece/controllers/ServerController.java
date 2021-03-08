@@ -32,25 +32,27 @@ public class ServerController {
 		this.attrService = attrService;
 	}
 
-	@Secured("ROLE_ADMIN")
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable("id") Long id) {
-		serverService.deleteById(id);
-	}
-
 	@GetMapping
 	protected List<ServerViewDto> getAll() {
 		return serverService.getAll();
 	}
 
+	@Secured("ROLE_ADMIN")
 	@PutMapping
 	protected void post(@Valid @RequestBody ServerDto serverDto) {
 		serverService.create(serverDto);
 	}
 
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/{id}")
 	protected void update(@PathVariable("id") Long id, @Valid @RequestBody ServerDto serverDto) {
 		serverService.update(id, serverDto);
+	}
+
+	@Secured("ROLE_ADMIN")
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable("id") Long id) {
+		serverService.deleteById(id);
 	}
 
 	@GetMapping("/attributes")

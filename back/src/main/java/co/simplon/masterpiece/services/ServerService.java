@@ -74,6 +74,9 @@ public class ServerService implements IServerService {
 		serverRepo.deleteById(id);
 	}
 
+	/*
+	 * Maps a ServerDto to Server; persists Ip, Country, Perimeter and Attributes if needed
+	 */
 	private Server convertDtoToServer(ServerDto serverDto) {
 		Server newServer = mapper.map(serverDto, Server.class);
 		newServer.setIp(getIpFromRepo(newServer));
@@ -91,13 +94,6 @@ public class ServerService implements IServerService {
 		});
 		return newSet;
 	};
-
-	private Attribute createAttributeIfNotExist(Attribute attribute) {
-		String name = attribute.getAttrName();
-		String value = attribute.getAttrValue();
-		Attribute responseFromRepo = serverAttributeRepo.findByAttrNameAndAttrValue(name, value);
-		return createIfNotExist(responseFromRepo, attribute, Attribute.class, serverAttributeRepo);
-	}
 
 	private Country getCountryFromRepo(Server server) {
 		String name = server.getCountry().getName();
@@ -125,6 +121,13 @@ public class ServerService implements IServerService {
 			return repo.save(entity);
 		}
 		return responseFromRepo;
+	}
+
+	private Attribute createAttributeIfNotExist(Attribute attribute) {
+		String name = attribute.getAttrName();
+		String value = attribute.getAttrValue();
+		Attribute responseFromRepo = serverAttributeRepo.findByAttrNameAndAttrValue(name, value);
+		return createIfNotExist(responseFromRepo, attribute, Attribute.class, serverAttributeRepo);
 	}
 
 }

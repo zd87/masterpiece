@@ -15,22 +15,20 @@ import co.simplon.masterpiece.services.UserService;
 
 @RestController
 //@RequestMapping("/")
-//@CrossOrigin("*") //DELETE IF TESTS WELL
 public class UserController {
 
 	private final UserService service;
 
 	private final CustomUserDetailsService customUserDetailsService;
 
-	public UserController(UserService service,
-			CustomUserDetailsService customUserDetailsService) {
+	public UserController(UserService service, CustomUserDetailsService customUserDetailsService) {
 		this.service = service;
 		this.customUserDetailsService = customUserDetailsService;
 	}
 
 	/*
-	 * already authenticated user SecurityHelper contains information about the
-	 * authenticated user then authenticated user is retrieved from the database by id
+	 * already authenticated user SecurityHelper contains information about the authenticated
+	 * user then authenticated user is retrieved from the database by id
 	 */
 	@GetMapping("/me")
 	public UserViewDto userInfo() {

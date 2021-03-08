@@ -41,8 +41,4 @@ public class Attribute extends AbstractId {
 		this.attrValue = attrValue;
 	}
 
-	@Override
-	public String toString() {
-		return "attrName: " + this.attrName + ", attrValue: " + this.attrValue;
-	}
 }
