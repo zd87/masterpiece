@@ -1,10 +1,13 @@
 package co.simplon.masterpiece.services;
 
+import java.util.List;
+
 import co.simplon.masterpiece.dtos.ServerDto;
+import co.simplon.masterpiece.dtos.ServerViewDto;
 
 public interface IServerService {
-//DELETE IF TESTS WELL
-//	ServerDto getOne(Long id);
+
+	List<ServerViewDto> getAll();
 
 	void create(ServerDto serverDto);
 

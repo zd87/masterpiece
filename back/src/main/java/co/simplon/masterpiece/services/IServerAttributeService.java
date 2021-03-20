@@ -2,11 +2,11 @@ package co.simplon.masterpiece.services;
 
 import java.util.List;
 
-import co.simplon.masterpiece.dtos.AttributesViewDto;
+import co.simplon.masterpiece.dtos.AttributeSelectOptionsViewDto;
 
 public interface IServerAttributeService {
 
-	AttributesViewDto getAllValues();
+	AttributeSelectOptionsViewDto getAllValues();
 
 	List<String> getAttrValues(String attrName);
 }

@@ -1,21 +1,7 @@
 package co.simplon.masterpiece.dtos;
 
-public class PerimeterViewDto {
+public interface PerimeterViewDto {
 
-	private String name;
+	String getName();
 
-	public PerimeterViewDto(String name) {
-		this.name = name;
-	}
-
-	public PerimeterViewDto() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }

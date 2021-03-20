@@ -10,12 +10,11 @@ import co.simplon.masterpiece.entities.Attribute;
 
 public interface AttributeRepository extends JpaRepository<Attribute, Long> {
 
-//	@Query("select distinct(a.name) from Attribute a") //DELETE CANNOT MAKE WORK
-	@Query(value = "select distinct attr_name from attributes", nativeQuery = true)
+	@Query(value = "select distinct name from attributes", nativeQuery = true)
 	public List<String> getNames();
 
-	@Query("select a.attrValue from Attribute a where a.attrName=:attrName ")
+	@Query("select a.value from Attribute a where a.name=:attrName ")
 	public List<String> getValues(@Param("attrName") String attrName);
 
-	public Attribute findByAttrNameAndAttrValue(String name, String value);
+	public Attribute findByNameAndValue(String name, String value);
 }

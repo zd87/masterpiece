@@ -8,17 +8,20 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.simplon.masterpiece.dtos.AttributesViewDto;
+import co.simplon.masterpiece.dtos.AttributeSelectOptionsViewDto;
 import co.simplon.masterpiece.dtos.ServerDto;
 import co.simplon.masterpiece.dtos.ServerViewDto;
 import co.simplon.masterpiece.services.ServerAttributeService;
 import co.simplon.masterpiece.services.ServerService;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/servers")
 public class ServerController {
@@ -27,18 +30,13 @@ public class ServerController {
 
 	private final ServerAttributeService attrService;
 
-	public ServerController(ServerService serverService, ServerAttributeService attrService) {
-		this.serverService = serverService;
-		this.attrService = attrService;
-	}
-
 	@GetMapping
 	protected List<ServerViewDto> getAll() {
 		return serverService.getAll();
 	}
 
 	@Secured("ROLE_ADMIN")
-	@PutMapping
+	@PostMapping
 	protected void post(@Valid @RequestBody ServerDto serverDto) {
 		serverService.create(serverDto);
 	}
@@ -55,13 +53,10 @@ public class ServerController {
 		serverService.deleteById(id);
 	}
 
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/attributes")
-	protected AttributesViewDto attributes() {
+	protected AttributeSelectOptionsViewDto attributes() {
 		return attrService.getAllValues();
 	}
 
-	@GetMapping("/attributes/attrValues/{attrName}")
-	protected List<String> attributeValues(@PathVariable("attrName") String attrName) {
-		return attrService.getAttrValues(attrName);
-	}
 }

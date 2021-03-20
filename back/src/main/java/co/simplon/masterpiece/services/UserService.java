@@ -15,7 +15,9 @@ import co.simplon.masterpiece.entities.Role;
 import co.simplon.masterpiece.entities.User;
 import co.simplon.masterpiece.repositories.RoleRepository;
 import co.simplon.masterpiece.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class UserService implements IUserService {
 
@@ -24,13 +26,6 @@ public class UserService implements IUserService {
 	private final RoleRepository roleRepo;
 
 	private final PasswordEncoder encoder;
-
-	protected UserService(UserRepository userRepo, RoleRepository roleRepo,
-			PasswordEncoder encoder) {
-		this.userRepo = userRepo;
-		this.roleRepo = roleRepo;
-		this.encoder = encoder;
-	}
 
 	public void create(UserCreateDto newUserDto) {
 		// Giving a default role

@@ -5,27 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "perimeters", uniqueConstraints = {
 		@UniqueConstraint(name = "perimeter_name_UQ", columnNames = { "name" }) })
 public class Perimeter extends AbstractId {
 
-	@Column(length = 45)
+	@Column(length = 45, nullable = false)
 	private String name;
-
-	public Perimeter(String name) {
-		this.name = name;
-	}
-
-	public Perimeter() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

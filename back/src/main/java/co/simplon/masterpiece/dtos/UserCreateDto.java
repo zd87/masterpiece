@@ -2,60 +2,33 @@ package co.simplon.masterpiece.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserCreateDto {
 
 	@NotBlank
+	@Size(max = 45)
 	private String firstname;
 
 	@NotBlank
+	@Size(max = 255)
 	private String lastname;
 
-// disabled in dev
-//	@Pattern(regexp = "[a-zA-Z][0-9]{6}")
+	@NotBlank
+	@Pattern(regexp = "[a-zA-Z][0-9]{6}") /* A letter followed by 6 digits */
 	private String login;
 
+	/* At least one Capital letter, at least one digit, minimum 5 letters */
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{5,}$")
 	private String password;
-
-	public UserCreateDto(@NotBlank String firstname, @NotBlank String lastname, String login,
-			@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{5,}$") String password) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.login = login;
-		this.password = password;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 }

@@ -12,6 +12,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "servers", uniqueConstraints = {
 		@UniqueConstraint(name = "server_full_name_UQ", columnNames = { "fullName" }) })
@@ -39,19 +48,6 @@ public class Server extends AbstractId {
 	@JoinTable(name = "server_attribute", joinColumns = @JoinColumn(name = "server_id", foreignKey = @ForeignKey(name = "fk_server_attribute_server")), inverseJoinColumns = @JoinColumn(name = "attribute_id", foreignKey = @ForeignKey(name = "fk_server_attribute_attribute")))
 	private Set<Attribute> attributes;
 
-	public Server() {
-	}
-
-	public Server(String name, String fullName, Ip ip, Country country, Perimeter perimeter,
-			Set<Attribute> attributes) {
-		this.name = name;
-		this.fullName = fullName;
-		this.ip = ip;
-		this.country = country;
-		this.perimeter = perimeter;
-		this.attributes = attributes;
-	}
-
 	public void setServer(Server newServer) {
 		this.name = newServer.getName();
 		this.fullName = newServer.getFullName();
@@ -59,54 +55,6 @@ public class Server extends AbstractId {
 		this.country = newServer.getCountry();
 		this.perimeter = newServer.getPerimeter();
 		this.attributes = newServer.getAttributes();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public Ip getIp() {
-		return ip;
-	}
-
-	public void setIp(Ip ip) {
-		this.ip = ip;
-	}
-
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-
-	public Perimeter getPerimeter() {
-		return perimeter;
-	}
-
-	public void setPerimeter(Perimeter perimeter) {
-		this.perimeter = perimeter;
-	}
-
-	public Set<Attribute> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(Set<Attribute> attributes) {
-		this.attributes = attributes;
 	}
 
 }

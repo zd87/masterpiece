@@ -5,6 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "roles", uniqueConstraints = {
 		@UniqueConstraint(name = "role_code_UQ", columnNames = { "code" }) })
@@ -15,29 +24,5 @@ public class Role extends AbstractId {
 
 	@Column(nullable = false)
 	private boolean defaultRole;
-
-	public Role() {
-	}
-
-	public Role(String code, boolean defaultRole) {
-		this.code = code;
-		this.defaultRole = defaultRole;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public boolean isDefaultRole() {
-		return defaultRole;
-	}
-
-	public void setDefaultRole(boolean defaultRole) {
-		this.defaultRole = defaultRole;
-	}
 
 }

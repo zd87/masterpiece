@@ -12,19 +12,15 @@ import co.simplon.masterpiece.dtos.UserCreateDto;
 import co.simplon.masterpiece.dtos.UserViewDto;
 import co.simplon.masterpiece.services.CustomUserDetailsService;
 import co.simplon.masterpiece.services.UserService;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
-//@RequestMapping("/")
 public class UserController {
 
 	private final UserService service;
 
 	private final CustomUserDetailsService customUserDetailsService;
-
-	public UserController(UserService service, CustomUserDetailsService customUserDetailsService) {
-		this.service = service;
-		this.customUserDetailsService = customUserDetailsService;
-	}
 
 	/*
 	 * already authenticated user SecurityHelper contains information about the authenticated

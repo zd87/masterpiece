@@ -14,11 +14,4 @@ public interface UserAuthDto {
 
 	Set<Role> getRoles();
 
-//	boolean isEnabled();
-
-//	boolean isAccountNonExpired();
-
-//	boolean isAccountNonLocked();
-
-//	boolean isCredentialsNonExpired();
 }

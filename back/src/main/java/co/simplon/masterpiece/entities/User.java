@@ -12,81 +12,34 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {
 		@UniqueConstraint(name = "user_login_UQ", columnNames = { "login" }) })
 public class User extends AbstractId {
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 45, nullable = false)
 	private String firstname;
 
 	@Column(length = 255, nullable = false)
 	private String lastname;
 
-	@Column(length = 7, nullable = false, unique = true)
+	@Column(length = 7, nullable = false)
 	private String login;
 
-	@Column(length = 255, nullable = false)
+	@Column(length = 70, nullable = false)
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_role_user")), inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user_role_role")))
 	private Set<Role> roles;
-
-	public User() {
-	}
-
-//	public User(String login, String password) { //maybe not needed
-//		this.login = login;
-//		this.password = password;
-//	}
-
-	public User(String firstname, String lastname, String login, String password, Set<Role> roles) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.login = login;
-		this.password = password;
-		this.roles = roles;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
 
 }

@@ -1,6 +1,5 @@
 package co.simplon.masterpiece.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +20,9 @@ import co.simplon.masterpiece.repositories.CountryRepository;
 import co.simplon.masterpiece.repositories.IpRepository;
 import co.simplon.masterpiece.repositories.PerimeterRepository;
 import co.simplon.masterpiece.repositories.ServerRepository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class ServerService implements IServerService {
 
@@ -37,32 +38,18 @@ public class ServerService implements IServerService {
 
 	private final ModelMapper mapper;
 
-	public ServerService(ServerRepository serverRepo, AttributeRepository serverAttributeRepo,
-			CountryRepository countryRepo, PerimeterRepository perimeterRepo, IpRepository ipRepo,
-			ModelMapper mapper) {
-		this.serverRepo = serverRepo;
-		this.serverAttributeRepo = serverAttributeRepo;
-		this.countryRepo = countryRepo;
-		this.perimeterRepo = perimeterRepo;
-		this.ipRepo = ipRepo;
-		this.mapper = mapper;
-	}
-
+	@Override
 	public List<ServerViewDto> getAll() {
-		List<Server> serversFromRepo = serverRepo.findAll();
-		List<ServerViewDto> servers = new ArrayList<>();
-		serversFromRepo.forEach(server -> {
-			ServerViewDto convertedDto = mapper.map(server, ServerViewDto.class);
-			servers.add(convertedDto);
-		});
-		return servers;
+		return serverRepo.findAllProjectedBy();
 	}
 
+	@Override
 	public void create(ServerDto serverDto) {
 		Server newServer = convertDtoToServer(serverDto);
 		serverRepo.save(newServer);
 	}
 
+	@Override
 	public void update(Long id, ServerDto serverDto) {
 		Server serverToUpdate = serverRepo.getOne(id);
 		Server server = convertDtoToServer(serverDto);
@@ -70,6 +57,7 @@ public class ServerService implements IServerService {
 		serverRepo.save(serverToUpdate);
 	}
 
+	@Override
 	public void deleteById(Long id) {
 		serverRepo.deleteById(id);
 	}
@@ -124,9 +112,9 @@ public class ServerService implements IServerService {
 	}
 
 	private Attribute createAttributeIfNotExist(Attribute attribute) {
-		String name = attribute.getAttrName();
-		String value = attribute.getAttrValue();
-		Attribute responseFromRepo = serverAttributeRepo.findByAttrNameAndAttrValue(name, value);
+		String name = attribute.getName();
+		String value = attribute.getValue();
+		Attribute responseFromRepo = serverAttributeRepo.findByNameAndValue(name, value);
 		return createIfNotExist(responseFromRepo, attribute, Attribute.class, serverAttributeRepo);
 	}
 

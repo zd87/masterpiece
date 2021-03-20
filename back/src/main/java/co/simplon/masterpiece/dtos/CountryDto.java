@@ -1,25 +1,21 @@
 package co.simplon.masterpiece.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CountryDto {
 
 	@NotBlank
+	@Size(max = 45)
 	private String name;
-
-	public CountryDto(String name) {
-		this.name = name;
-	}
-
-	public CountryDto() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }
