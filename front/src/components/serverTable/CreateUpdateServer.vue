@@ -11,14 +11,14 @@
                             <label for="newServer_name">Name*</label>
                             <v-text-field 
                                 v-model="server.name" id="newServer_name" 
-                                outlined dense :rules="required" 
+                                outlined dense :rules="required.concat(length45)" 
                             />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
                             <label for="newServer_fullName">Full name*</label>
                             <v-text-field 
                                 v-model="server.fullName" id="newServer_fullName" 
-                                outlined dense :rules="required" 
+                                outlined dense :rules="required.concat(length45)" 
                             />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
@@ -26,7 +26,7 @@
                             <v-combobox 
                                 v-model="server.ip.ip" id="newServer_ip" 
                                 :items="attributeOptions.ips" 
-                                outlined dense :rules="required"
+                                outlined dense :rules="required.concat(length45)"
                             />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
@@ -34,7 +34,7 @@
                             <v-combobox 
                                 v-model="server.perimeter.name" id="newServer_perimeter" 
                                 :items="attributeOptions.perimeters" 
-                                outlined dense :rules="required"
+                                outlined dense :rules="required.concat(length45)"
                             />
                         </v-col>
                         <v-col sm="12" md="6" class="py-0 px-3">
@@ -42,7 +42,7 @@
                             <v-combobox 
                                 v-model="server.country.name" id="newServer_country" 
                                 :items="attributeOptions.countries" 
-                                outlined dense :rules="required"
+                                outlined dense :rules="required.concat(length45)"
                             />
                         </v-col>
                     </v-row>
@@ -55,17 +55,16 @@
                         :headers="headers" :items="server.attributes"
                         hide-default-footer no-data-text="No additional attributes"
                     >
-                        <template v-slot:item.attrName="{ item }">
+                        <template v-slot:item.name="{ item }">
                             <v-combobox 
-                                v-model="item.attrName" :items="attributeOptions.attrNames" 
-                                outlined dense :rules="required"
-                                @change="getAttrValues(item.attrName)"
+                                v-model="item.name" :items="attributeNameOptions" 
+                                outlined dense :rules="required.concat(length45)"
                             /> 
                         </template>
-                        <template v-slot:item.attrValue="{ item }">
+                        <template v-slot:item.value="{ item }">
                             <v-combobox 
-                                v-model="item.attrValue" :items="attributeValues" 
-                                outlined dense :rules="required"
+                                v-model="item.value" :items="attributeOptions.attributes[item.name]" 
+                                outlined dense :rules="required.concat(length255)"
                             />
                         </template>
                         <template v-slot:item.actions="{ item }">
@@ -147,12 +146,13 @@ export default {
                 },
                 attributes:[]
             },
-            required: [v=> !!v || this.$t("validation.required")]
+            required: [v=> !!v || this.$t("validation.required")],
+            length45:[v=> v.length <= 45 || this.$t("validation.length45")],
+            length255: [v=> v.length <= 255 || this.$t("validation.length255")]
         }
     },
     computed: {
         attributeOptions: get("servers/attributeOptions"),
-        attributeValues: get("servers/attributeValues"),
         updateVSCreate(){
             return this.isUpdate ?
             {
@@ -165,11 +165,14 @@ export default {
         },
         headers() {
             return [
-                {text:"Attribute name",     value:"attrName"},
-                {text:"Attribute value",    value:"attrValue"},
+                {text:"Attribute name",     value:"name"},
+                {text:"Attribute value",    value:"value"},
                 {text:"",                   value:"actions",    width:"5%"}
             ];
         },
+        attributeNameOptions(){
+            return Object.keys(this.attributeOptions.attributes);
+        }
     },
     watch: {
         value(){
@@ -182,15 +185,15 @@ export default {
         this.updateContent();
     },
     methods: {
-        ...call("servers", ["fetchAtrributeNames", "fetchServers", "fetchAttrValues"]),
+        ...call("servers", ["fetchAtrributeOptions", "fetchServers"]),
         updateContent(){
-            this.fetchAtrributeNames();
+            this.fetchAtrributeOptions();
             if (this.isUpdate) this.server = JSON.parse(JSON.stringify(this.serverData));
         },
         addAttribute(){
             this.server.attributes.push({
-                attrName:"",
-                attrValue:""
+                name:"",
+                value:""
             })
         },
         deleteAttribute(item){
@@ -198,8 +201,9 @@ export default {
             this.server.attributes.splice(index,1);
         },
         submit(){
-            let url = this.isUpdate ? `/servers/${this.server.id}` :"/servers"
-            authAxios.put(url, this.server)
+            let url = this.isUpdate ? `/servers/${this.server.id}` :"/servers";
+            let method = this.isUpdate ? authAxios.put : authAxios.post;
+            method(url, this.server)
                 .then(() => { 
                     this.fetchServers();
                 })
@@ -207,11 +211,7 @@ export default {
                     console.log("ERROR", error);
                 })
             this.updateVSCreate.close();
-        },
-        getAttrValues(attrName){
-            if(this.attributeOptions.attrNames.includes(attrName)) this.fetchAttrValues(attrName);
         }
-
     }
 };
 </script>

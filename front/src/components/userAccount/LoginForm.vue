@@ -25,23 +25,14 @@
                         outlined dense required
                         prepend-inner-icon="mdi-account"
                     />
-                    <!--delete after dev-->
                     <v-text-field
-                        v-model="loginInput"
-                        prepend-inner-icon="mdi-account"
-                        :label="labels.login"
-                        :placeholder="placeholders.login"
-                        outlined dense required
-                    />
-                    <!--prod version with validation-->
-                    <!-- <v-text-field
                         v-model="loginInput"
                         :rules="validation.name"
                         prepend-inner-icon="mdi-account"
                         :label="labels.login"
                         :placeholder="placeholders.login"
                         outlined dense required
-                    /> -->
+                    />
                     <v-text-field
                         v-model="pwdInput"
                         :type="showPwd? 'type':'password'" 
@@ -114,9 +105,11 @@ export default {
             pwdConfirmInput:"",
             validation: {
                 name: [
+                    /**A leter followed by 6 letters */
                     v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
                 ],
                 pwd: [
+                    /**Password must be at least 5 caracters long, contain upper and lower cases and at least one digit */
                     v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
                 ],
                 pwdConfirmation: [

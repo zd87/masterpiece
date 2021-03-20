@@ -54,11 +54,11 @@
                     <div v-else class="d-flex flex-wrap">
                         <div v-for="(attribute, index) of item.attributes" :key="index" :style="{width:'19%'}">       
                             <span 
-                                :style="{cursor:'pointer'}" v-clipboard:copy="attribute.attrValue" @click="onCopy($event, attribute.attrValue)"
+                                :style="{cursor:'pointer'}" v-clipboard:copy="attribute.value" @click="onCopy($event, attribute.value)"
                                 @mouseover="tooltipHover = true" @mouseleave="tooltipHover=false" 
                             >
-                                <span class="font-weight-bold">{{ attribute.attrName }}: </span>
-                                <span>{{ attribute.attrValue }}</span>
+                                <span class="font-weight-bold">{{ attribute.name }}: </span>
+                                <span>{{ attribute.value }}</span>
                             </span>
                         </div>
                     </div>
@@ -118,11 +118,11 @@ export default {
             return [
                 {text:"Name",       value:"name",       width:"19%",    sortable: true},
                 {text:"Full name",  value:"fullName",   width:"19%",    sortable: true},
-                {text:"IP",         value:"ip",         width:"19%",    sortable: true},
-                {text:"Perimeter",  value:"perimeter",  width:"19%",    sortable: true},
-                {text:"Country",    value:"country",    width:"19%",    sortable: true},
+                {text:"IP",         value:"ip.ip",         width:"19%",    sortable: true},
+                {text:"Perimeter",  value:"perimeter.name",  width:"19%",    sortable: true},
+                {text:"Country",    value:"country.name",    width:"19%",    sortable: true},
                 {text:"",           value:"actions"},
-                {text: "",          value: "data-table-expand"},
+                {text: "",          value:"data-table-expand"},
             ];
         },
         buttons() {

@@ -8,7 +8,9 @@
         
     },
     "validation": {
-        "required":"This field id required"
+        "required":"This field is required",
+        "length45":"Maximum length is 45 characters",
+        "length255":"Maximum length is 255 characters"
     },
     "account": {
         "labels":{

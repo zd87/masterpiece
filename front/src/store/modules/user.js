@@ -22,23 +22,7 @@ const actions = {
             .catch(error => {
                 console.log("ERROR", error);
             })
-    },
-    //authentication training, delete after
-    // fetchUser2(){
-    //     let options= {
-    //         headers: {
-    //             "Authorization" : "Bearer "+localStorage.token
-    //         }
-    //     };
-    //     axios.get(`http://localhost:9090/api/userInfo`, options)
-    //         .then(response => { 
-    //             console.log("response", response);
-    //             $store.set("user/user", response.data)
-    //         })
-    //         .catch(error => {
-    //             console.log("ERROR", error);
-    //         })
-    // }
+    }
 };
 
 export default {

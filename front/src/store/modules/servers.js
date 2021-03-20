@@ -3,16 +3,11 @@ import authAxios from '@/axios';
 import { $store } from '@/main'
 const state = {
     servers:[],
-    attributeOptions:{},
-    attributeValues:[]
+    attributeOptions:{}
 };
 
-// const getters = {
-//     // comupted of store
-// };
-
 const mutations = {
-    ...make.mutations(["servers", "attributeOptions", "attributeValues"])
+    ...make.mutations(state)
 };
 
 const actions = {
@@ -25,21 +20,10 @@ const actions = {
                 console.log("ERROR", error);
             })
     },
-    fetchAtrributeNames(){
+    fetchAtrributeOptions(){
         authAxios.get(`/servers/attributes`)
             .then(response => { 
                 $store.set("servers/attributeOptions", response.data)
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
-    },
-    fetchAttrValues({}, attrName){
-        console.log("name: ", attrName);
-        
-        authAxios.get(`/servers/attributes/attrValues/${attrName}`)
-            .then(response => { 
-                $store.set("servers/attributeValues", response.data)
             })
             .catch(error => {
                 console.log("ERROR", error);
