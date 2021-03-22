@@ -12,7 +12,7 @@
             <template v-slot:item.roles="{ item }">
                 <div v-for="role of item.roles" :key="role.code">{{ role.code }}</div>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <!-- <template v-slot:item.actions="{ item }">
                 <div class="d-flex flex-column">
                     <v-btn 
                         v-for="button of buttons" :key="button.text" 
@@ -21,7 +21,7 @@
                         {{ button.text }}
                     </v-btn>
                 </div>
-            </template>
+            </template> -->
         </v-data-table>
         <!--modal update roles-->
     </div>
@@ -45,15 +45,15 @@ export default {
                 {text:"First name", value:"firstname",  width:"30%",    sortable: true},
                 {text:"Last name",  value:"lastname",   width:"30%",    sortable: true},
                 {text:"Roles",      value:"roles",      width:"30%",    sortable: false},
-                {text:"",           value:"actions"}
+                // {text:"",           value:"actions"}
             ];
         },
-        buttons() {
-            return [
-                {text:"Edit",   icon:"mdi-square-edit-outline", action:(item)=>this.openUpdatePopup(item)},
-                {text:"Delete", icon:"mdi-trash-can-outline",   action:()=>({})}
-            ];
-        },
+        // buttons() {
+        //     return [
+        //         {text:"Edit",   icon:"mdi-square-edit-outline", action:(item)=>this.openUpdatePopup(item)},
+        //         {text:"Delete", icon:"mdi-trash-can-outline",   action:()=>({})}
+        //     ];
+        // },
     },
     mounted(){
         this.fetchUsers();
