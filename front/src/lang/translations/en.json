@@ -1,0 +1,53 @@
+{
+    "greeting": "Hello",
+    "header": {
+        "loginBtn":"Login",
+        "logoutBtn":"Logout"
+    },
+    "user": {
+        
+    },
+    "validation": {
+        "required":"This field is required",
+        "length45":"Maximum length is 45 characters",
+        "length255":"Maximum length is 255 characters"
+    },
+    "account": {
+        "labels":{
+            "firstname":"First name",
+            "lastname":"Last name",
+            "login":"Login",
+            "pwd":"Password",
+            "confirmPwd":"Confirm password"
+        },
+        "placeholders":{
+            "firstname":"First name",
+            "lastname":"Last name",
+            "login":"A123456",
+            "pwd":"myPassword1",
+            "confirmPwd":"myPassword1"
+        },
+        "create": {
+            "title":"Create account",
+            "switchFormsText":"Already have an account?",
+            "switchFormsBtn": "Sign in"
+        },
+        "login":{
+            "title":"Login",
+            "switchFormsText":"Don't have an account?",
+            "switchFormsBtn": "Sign up"
+        },
+        "validation": {
+            "name": {
+                "pattern": "Please enter valid login. Ex.:a001122",
+                "unicity": "Account with this id already exists"
+            },
+            "pwd":{
+                "pattern": "Password must be at least 5 caracters long, contain upper and lower cases and at least one digit"
+            },
+            "confirmPwd":{
+                "noMatch":"Passwords are not matching"
+            }
+        }
+    }
+}

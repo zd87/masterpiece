@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+/*MODULES*/
+import user from "./modules/user";
+import alert from "./modules/alert";
+import servers from "./modules/servers";
+import header from "./modules/header";
+import userManagement from "./modules/userManagement";
+import auth from "./modules/auth";
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+export default {
+    user,
+    alert,
+    servers,
+    header,
+    userManagement,
+    auth
+}

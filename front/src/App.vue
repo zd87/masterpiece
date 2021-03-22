@@ -1,20 +1,26 @@
 <template>
-  <v-app>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
-  </v-app>
+    <v-app>
+        <v-content>
+            <Header />
+            <router-view></router-view>
+            <Alert/>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
+import Header from "@/components/banners/Header.vue"
+import Alert from "@/components/banners/Alert.vue"
 export default {
-  name: 'App',
+    name: 'App',
 
-  components: {
-  },
+    components: {
+        Header,
+        Alert
+    },
 
-  data: () => ({
-    //
-  })
+    data: () => ({
+        //
+    })
 }
 </script>
