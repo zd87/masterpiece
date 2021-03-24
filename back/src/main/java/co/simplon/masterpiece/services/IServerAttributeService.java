@@ -9,4 +9,6 @@ public interface IServerAttributeService {
 	AttributeSelectOptionsViewDto getAllValues();
 
 	List<String> getAttrValues(String attrName);
+
+	List<String> getCurrentlyUsedAttrNames();
 }

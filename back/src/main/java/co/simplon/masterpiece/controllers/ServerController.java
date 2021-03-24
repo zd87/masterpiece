@@ -1,7 +1,12 @@
 package co.simplon.masterpiece.controllers;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.security.access.annotation.Secured;
@@ -19,6 +24,7 @@ import co.simplon.masterpiece.dtos.ServerDto;
 import co.simplon.masterpiece.dtos.ServerViewDto;
 import co.simplon.masterpiece.services.ServerAttributeService;
 import co.simplon.masterpiece.services.ServerService;
+import co.simplon.masterpiece.utils.WriteServersToExcel;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -33,6 +39,23 @@ public class ServerController {
 	@GetMapping
 	protected List<ServerViewDto> getAll() {
 		return serverService.getAll();
+	}
+
+	@GetMapping("/excel")
+	public void exportToExcel(HttpServletResponse response) throws IOException {
+		/* Response headers */
+		response.setContentType("application/octet-stream");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm");
+		String currentDateTime = dateFormatter.format(new Date());
+		response.setHeader("Content-Disposition",
+				"attachment; filename=servers_" + currentDateTime + ".xlsx");
+		/* Get data for writing */
+		List<ServerViewDto> servers = serverService.getAll();
+		List<String> attrNames = attrService.getCurrentlyUsedAttrNames();
+
+		/* Write Excel */
+		WriteServersToExcel writeServersToExcel = new WriteServersToExcel(servers, attrNames);
+		writeServersToExcel.export(response);
 	}
 
 	@Secured("ROLE_ADMIN")
