@@ -17,4 +17,8 @@ public interface AttributeRepository extends JpaRepository<Attribute, Long> {
 	public List<String> getValues(@Param("attrName") String attrName);
 
 	public Attribute findByNameAndValue(String name, String value);
+
+	/* Get attribute names that are currently referenced */
+	@Query(value = "select distinct a.name from attributes a inner join server_attribute sa on sa.attribute_id=a.id order by a.name asc", nativeQuery = true)
+	public List<String> getCurrentlyUsedAttrNames();
 }

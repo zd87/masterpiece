@@ -27,7 +27,6 @@ public class ServerAttributeService implements IServerAttributeService {
 	@Override
 	public AttributeSelectOptionsViewDto getAllValues() {
 		HashMap<String, List<String>> attributes = new HashMap();
-
 		List<String> attrNames = attributeRepo.getNames();
 		for (String attrName : attrNames) {
 			attributes.put(attrName, getAttrValues(attrName));
@@ -44,4 +43,8 @@ public class ServerAttributeService implements IServerAttributeService {
 		return attrValues;
 	};
 
+	@Override
+	public List<String> getCurrentlyUsedAttrNames() {
+		return attributeRepo.getCurrentlyUsedAttrNames();
+	}
 }
