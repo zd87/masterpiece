@@ -2,7 +2,10 @@
 	<div class="customContainer">
         <div class="mb-5 d-flex justify-pace-between align-center">
             <div class="heading-1 mr-8">Servers</div>
-            <a href="http://localhost:8085/api/servers/excel">Export XLSX</a>
+            <v-btn :href="downloadExcelUrl" text>
+                <v-icon>mdi-download</v-icon>
+                Export XLSX
+            </v-btn>
         </div>
         <v-card v-if="user.isAdmin && !createServer" class="mb-5" flat>
             <v-card-text class="d-flex justify-space-between align-baseline">
@@ -43,7 +46,8 @@ export default {
         return {
             createServer: false,
             search:"",
-            group:false
+            group:false,
+            downloadExcelUrl:"http://localhost:8085/api/servers/excel"
         }
     },
     computed: {
@@ -77,5 +81,8 @@ export default {
     .v-label {
         line-height: 1 !important;
     }
+}
+.v-btn--text{
+    text-transform: none;
 }
 </style>
