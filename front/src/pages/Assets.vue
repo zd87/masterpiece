@@ -1,20 +1,22 @@
 <template>
 	<div class="customContainer">
         <div class="mb-5 d-flex justify-pace-between align-center">
-            <div class="heading-1 ">Assets</div>
-            <v-spacer></v-spacer>
-            <v-switch v-model="group" class="mr-5" inset label="Group by perimeter"></v-switch>
-            <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line outlined dense
-                hide-details
-            />
+            <div class="heading-1 mr-8">Servers</div>
+            <a href="http://localhost:8085/api/servers/excel">Export XLSX</a>
         </div>
-        
         <v-card v-if="user.isAdmin && !createServer" class="mb-5" flat>
-            <v-card-text>
+            <v-card-text class="d-flex justify-space-between align-baseline">
+                <v-col cols="8" class="pa-0 d-flex align-baseline">
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line outlined dense
+                        hide-details
+                    />
+                    <v-switch v-model="group" class="mx-5" inset label="Group by perimeter"></v-switch>
+                </v-col>
+                
                 <v-btn class="outlinedButton mr-3" outlined rounded @click="createServer=true">
                     <v-icon class="mr-3">mdi-plus-circle-outline</v-icon>
                     Add asset
@@ -27,6 +29,8 @@
 </template>
 
 <script>
+import authAxios from '@/axios';
+
 import ServerTable from "@/components/serverTable/ServerTable.vue"
 import CreateUpdateServer from "@/components/serverTable/CreateUpdateServer.vue"
 import { get, call } from "vuex-pathify"
@@ -50,7 +54,7 @@ export default {
         this.fetchServers();
     },
     methods: {
-        ...call("servers", ["fetchServers"]),
+        ...call("servers", ["fetchServers"])
     }
 }
 </script>
