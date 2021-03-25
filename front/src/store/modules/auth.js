@@ -29,7 +29,7 @@ const actions = {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
-        axios.post(`http://localhost:8085/oauth/token`, formData, options) 
+        axios.post("/oauth/token", formData, options) 
             .then(response => { 
                 dispatch("updateToken", response.data.access_token);
                 dispatch("init");
