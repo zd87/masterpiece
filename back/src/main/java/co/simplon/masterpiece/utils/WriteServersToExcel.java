@@ -41,6 +41,17 @@ public class WriteServersToExcel {
 		workbook = new XSSFWorkbook();
 	}
 
+	public void export(HttpServletResponse response) throws IOException {
+		writeHeaderLine();
+		writeDataLines();
+
+		ServletOutputStream outputStream = response.getOutputStream();
+		workbook.write(outputStream);
+		workbook.close();
+
+		outputStream.close();
+	}
+
 	private void writeHeaderLine() {
 		sheet = workbook.createSheet("Servers");
 		Row row = sheet.createRow(0);
@@ -79,17 +90,6 @@ public class WriteServersToExcel {
 			}
 		}
 		return value;
-	}
-
-	public void export(HttpServletResponse response) throws IOException {
-		writeHeaderLine();
-		writeDataLines();
-
-		ServletOutputStream outputStream = response.getOutputStream();
-		workbook.write(outputStream);
-		workbook.close();
-
-		outputStream.close();
 	}
 
 	private void createCell(Row row, int columnCount, Object value, CellStyle style) {
