@@ -14,4 +14,6 @@ public interface IServerService {
 	void update(Long id, ServerDto serverDto);
 
 	void deleteById(Long id);
+
+	void saveAll(List<ServerDto> serverDtos);
 }
