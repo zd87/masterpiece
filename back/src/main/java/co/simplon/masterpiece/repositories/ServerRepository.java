@@ -15,4 +15,5 @@ public interface ServerRepository extends JpaRepository<Server, Long> {
 	List<ServerViewDto> findAllProjectedBy();
 
 	boolean existsByFullName(String fullName);
+	Server findByFullName(String fullName);
 }
