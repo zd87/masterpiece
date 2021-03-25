@@ -13,4 +13,6 @@ public interface ServerRepository extends JpaRepository<Server, Long> {
 	Optional<Server> findById(Long id);
 
 	List<ServerViewDto> findAllProjectedBy();
+
+	Server findByFullName(String fullName);
 }

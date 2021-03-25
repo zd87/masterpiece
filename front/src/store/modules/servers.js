@@ -28,6 +28,20 @@ const actions = {
             .catch(error => {
                 console.log("ERROR", error);
             })
+    },
+    uploadExcelFile({dispatch}, formData){
+        let options = {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
+        authAxios.post(`/servers/excel`,formData, options)
+            .then(response => { 
+                dispatch("fetchServers");
+            })
+            .catch(error => {
+                console.log("ERROR", error);
+            })
     }
 };
 
