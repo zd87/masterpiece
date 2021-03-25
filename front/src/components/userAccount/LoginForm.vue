@@ -181,7 +181,10 @@ export default {
                 password: this.pwdInput
             }
             axios.post("/api/create_account", payload) 
-                .then(() => { this.loginAccount() })
+                .then((response) => { {
+                    this.$store.dispatch("alert/add", {response, text:"Account successfully created!"});
+                    this.loginAccount();
+                } })
                 .catch(error => {
                     console.log("ERROR", error);
                 })

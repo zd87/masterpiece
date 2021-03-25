@@ -33,6 +33,7 @@ const actions = {
             .then(response => { 
                 dispatch("updateToken", response.data.access_token);
                 dispatch("init");
+                dispatch("alert/add", {response, text:"Logged in!"}, {root:true});
             })
             .catch(error => {
                 console.log("ERROR", error);

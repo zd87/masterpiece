@@ -1,28 +1,35 @@
 <template>
-    <v-alert v-model="show" type="error" class="alert">
-        {{message}}
-        <v-btn text color="accent" @click.native="show = false">Close</v-btn>
-    </v-alert>
+    <div>
+        <v-alert 
+            v-for="(alert, index) in alerts"
+            :key="index"
+            :type="alert.type"
+            :icon="alert.icon"
+            :value="alert.active"
+            class="ma-2"
+            transition="slide-x-reverse-transition"
+            dense
+        >
+            <div class="d-flex justify-space-between align-center">
+                <span>{{alert.text}}</span>
+                <v-btn icon rounded @click="remove(index)">
+                    <v-icon dark>mdi-close</v-icon>
+                </v-btn>
+            </div>
+        </v-alert>
+    </div>
 </template>
 
 <script>
+import { get, call } from "vuex-pathify"
 export default {
-    data () {
-        return {
-            show: false,
-            message: ""
-        }
+    computed: {
+        alerts:get("alert/alerts")
     },
-    created() {
-        this.$store.watch(state => state.alert.alert, () => {
-        const msg = this.$store.state.alert.alert
-        if (msg) {
-            this.show = true
-            this.message = this.$store.state.alert.alert
-            this.$store.commit("alert/setAlert", "")
-        }
-        })
+    methods:{
+        ...call("alert", ["remove"])
     }
+   
 }
 </script>
 <style lang="scss" scoped>
