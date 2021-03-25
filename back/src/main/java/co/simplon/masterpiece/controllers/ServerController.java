@@ -44,23 +44,6 @@ public class ServerController {
 		return serverService.getAll();
 	}
 
-	@GetMapping("/excel")
-	public void exportToExcel(HttpServletResponse response) throws IOException {
-		/* Response headers */
-		response.setContentType("application/octet-stream");
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm");
-		String currentDateTime = dateFormatter.format(new Date());
-		response.setHeader("Content-Disposition",
-				"attachment; filename=servers_" + currentDateTime + ".xlsx");
-		/* Get data for writing */
-		List<ServerViewDto> servers = serverService.getAll();
-		List<String> attrNames = attrService.getCurrentlyUsedAttrNames();
-
-		/* Write Excel */
-		WriteServersToExcel writeServersToExcel = new WriteServersToExcel(servers, attrNames);
-		writeServersToExcel.export(response);
-	}
-
 	@Secured("ROLE_ADMIN")
 	@PostMapping
 	protected void post(@Valid @RequestBody ServerDto serverDto) {
