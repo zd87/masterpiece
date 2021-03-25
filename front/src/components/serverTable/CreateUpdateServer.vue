@@ -204,7 +204,8 @@ export default {
             let url = this.isUpdate ? `/servers/${this.server.id}` :"/servers";
             let method = this.isUpdate ? authAxios.put : authAxios.post;
             method(url, this.server)
-                .then(() => { 
+                .then((response) => { 
+                    this.$store.dispatch("alert/add", {response, text:"Changes successfully saved!"});
                     this.fetchServers();
                 })
                 .catch(error => {

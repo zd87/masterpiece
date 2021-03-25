@@ -165,7 +165,10 @@ export default {
         confirmDeletion(confirmed){
             if (confirmed){
                 authAxios.delete(`/servers/${this.serverSelected.id}`)
-                    .then(() => this.fetchServers())
+                    .then((response) => {
+                        this.$store.dispatch("alert/add", {response, text:"Server successfully deleted!"});
+                        this.fetchServers()
+                    })
                     .catch(error => {
                         console.log("ERROR", error);
                     })

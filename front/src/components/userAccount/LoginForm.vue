@@ -56,6 +56,7 @@
                         :placeholder="placeholders.confirmPwd"
                         outlined dense required
                         @click:append="showConfirmPwd = !showConfirmPwd"
+                        @keydown.enter="create? submit() :''"
                     />
                 </v-form>
             </v-card-text>
@@ -179,8 +180,11 @@ export default {
                 login: this.loginInput,
                 password: this.pwdInput
             }
-            axios.post(`http://localhost:8085/api/create_account`, payload) 
-                .then(() => { this.loginAccount() })
+            axios.post("/api/create_account", payload) 
+                .then((response) => { {
+                    this.$store.dispatch("alert/add", {response, text:"Account successfully created!"});
+                    this.loginAccount();
+                } })
                 .catch(error => {
                     console.log("ERROR", error);
                 })

@@ -1,7 +1,11 @@
 import Vue from "vue"
 import App from "./App.vue"
+import axios from 'axios';
 //tells vue that this is dev mode
 Vue.config.productionTip = false
+
+/**AXIOS**/
+axios.defaults.baseURL = "http://localhost:8085";
 
 /**ROUTER**/
 import VueRouter from "vue-router"
