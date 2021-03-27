@@ -6,6 +6,7 @@
                 <ul class="list text-center">
                     <li class="list__item">Create, update, delete</li>
                     <li class="list__item">Quick search</li>
+                    <li class="list__item">Audit trail</li>
                 </ul>
             </v-col>
             <v-col cols="6">
