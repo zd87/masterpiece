@@ -3,7 +3,7 @@
         <div class="mb-5 d-flex justify-pace-between align-center">
             <div class="heading-1 mr-8">Servers</div>
             <!-- download button -->
-            <v-btn :href="downloadExcelUrl" text>
+            <v-btn :href="downloadExcelUrl" text download>
                 <v-icon>mdi-download</v-icon>
                 Export XLSX
             </v-btn>
@@ -71,7 +71,7 @@ export default {
             search:"",
             group:false,
             file:"",
-            downloadExcelUrl:"/servers/excel",
+            downloadExcelUrl:"http://localhost:8085/api/servers/excel",
             confirmationPopup:false,
             rendered:true //used to reload the file uploader
         }
