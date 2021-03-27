@@ -24,6 +24,11 @@ const routes = [
         name: 'userMangament',
         component: pages.UserManagement,
         meta: { requiersAuth:true, roles: ["ROLE_ADMIN"] }
+    },{
+        path: '/audit',
+        name: 'auditTrail',
+        component: pages.AuditTrail,
+        meta: { requiersAuth:true, roles: ["ROLE_ADMIN"] }
     },
     
 ]    

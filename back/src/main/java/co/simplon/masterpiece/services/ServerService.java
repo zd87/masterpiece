@@ -89,10 +89,11 @@ public class ServerService implements IServerService {
 
 	private Set<Attribute> getAttributesFromRepo(Set<Attribute> attributes) {
 		Set<Attribute> newSet = new HashSet<Attribute>();
-		attributes.forEach(attribute -> {
-			Attribute savedAttribute = createAttributeIfNotExist(attribute);
-			newSet.add(savedAttribute);
-		});
+		if (attributes.size() > 0)
+			attributes.forEach(attribute -> {
+				Attribute savedAttribute = createAttributeIfNotExist(attribute);
+				newSet.add(savedAttribute);
+			});
 		return newSet;
 	};
 
