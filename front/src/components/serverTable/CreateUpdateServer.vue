@@ -171,7 +171,7 @@ export default {
             ];
         },
         attributeNameOptions(){
-            return Object.keys(this.attributeOptions.attributes);
+            return Object.keys(this.attributeOptions.attributes) || [];
         }
     },
     watch: {

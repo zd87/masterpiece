@@ -16,6 +16,11 @@ const state = {
             label: "User Management",
             to:"/users",
             meta: {requiresAuth:true, roles: ["ROLE_ADMIN"]}
+        },
+        {
+            label: "Audit Trail",
+            to:"/audit",
+            meta: {requiresAuth:true, roles: ["ROLE_ADMIN"]}
         }
     ],
 };
