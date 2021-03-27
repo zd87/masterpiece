@@ -5,6 +5,7 @@ import servers from "./modules/servers";
 import header from "./modules/header";
 import userManagement from "./modules/userManagement";
 import auth from "./modules/auth";
+import audit from "./modules/audit";
 
 export default {
     user,
@@ -12,5 +13,6 @@ export default {
     servers,
     header,
     userManagement,
-    auth
+    auth,
+    audit
 }
