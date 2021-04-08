@@ -106,12 +106,12 @@ export default {
             pwdConfirmInput:"",
             validation: {
                 name: [
-                    /**A leter followed by 6 letters */
+                    /**A letter followed by 6 letters */
                     v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
                 ],
                 pwd: [
-                    /**Password must be at least 5 caracters long, contain upper and lower cases and at least one digit */
-                    v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
+                    /**Password must be at least 7 caracters long, contain upper and lower cases and at least one digit */
+                    v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{7,}$/.test(v) || this.$t("account.validation.pwd.pattern")
                 ],
                 pwdConfirmation: [
                     v=> v === this.pwdInput || this.$t("account.validation.confirmPwd.noMatch")
