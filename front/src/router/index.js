@@ -6,7 +6,6 @@ const routes = [
         path: '/',
         name: 'assets',
         component: pages.Assets,
-        // meta: {authorize: ["ROLE_USER","ROLE_ADMIN"] }
         meta: { requiersAuth:true, roles: ["ROLE_USER","ROLE_ADMIN"] }
     },
     {

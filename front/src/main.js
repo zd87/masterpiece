@@ -7,30 +7,6 @@ Vue.config.productionTip = false
 /**AXIOS**/
 axios.defaults.baseURL = "http://localhost:8085";
 
-/**ROUTER**/
-import VueRouter from "vue-router"
-import routes from "./router"
-Vue.use(VueRouter)
-const router = new VueRouter({
-    mode: "history",
-    base: "/",
-    routes
-})
-router.beforeEach((to, from, next)=>{
-    //if role constraint   
-    if(to.meta?.requiersAuth){
-        if(store.getters["auth/tokenIsValid"]){
-            console.log("redirect permitted");
-            return next();
-        }else{
-            console.log("redirect  rejected");
-            return next({ path: '/login'});
-        }
-    }else {
-        next();
-    }
-})
-
 /**STORE**/
 import Vuex from "vuex";
 import pathify from "vuex-pathify";
@@ -40,10 +16,38 @@ const store = new Vuex.Store({
     plugins: [pathify.plugin],
     modules: modules
 })
-/**INITIALIZING**/
 
-//check authenication at every mount
-store.dispatch("auth/init");
+/**ROUTER**/
+import VueRouter from "vue-router"
+import routes from "./router"
+Vue.use(VueRouter)
+const router = new VueRouter({
+    mode: "history",
+    base: "/",
+    routes
+})
+router.beforeEach(async (to, from, next)=>{
+    /**INITIALIZING**/
+    if (!store.state.auth.token) await store.dispatch("auth/init"); 
+    //if authorisation constraint   
+    if(to.meta?.requiersAuth){
+        // if user logged in and token is valid
+        if(store.getters["auth/tokenIsValid"] ){
+            // check the roles for the target page
+            let hasRequiredRole = await to.meta.roles.some(role => store.state.user.user.roles?.includes(role));
+            if (!hasRequiredRole){ 
+                return next({path: "/"});}
+                console.log("redirect permitted");
+            return next();
+        // if user is not logged in or token has expired, then redirect to login page
+        }else{
+            console.log("redirect  rejected");
+            return next({ path: "/login"});
+        }
+    }else {
+        next();
+    }
+})
 
 /**i18n**/
 import VueI18n from "vue-i18n"

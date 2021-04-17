@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         ...call("user", ["fetchUser"]),
-        ...call("auth", ["authenticate"]),
+        ...call("auth", ["authenticate","createNewUser"]),
         close(){
             this.isActive=false;
             this.$emit("closeModal", this.isActive);
@@ -173,21 +173,15 @@ export default {
 
             this.authenticate(formData);
         },
-        createAccount(){
+        async createAccount(){
             const payload = {
                 firstname:this.firstnameInput,
                 lastname:this.lastnameInput,
                 login: this.loginInput,
                 password: this.pwdInput
             }
-            axios.post("/api/create_account", payload) 
-                .then((response) => { {
-                    this.$store.dispatch("alert/add", {response, text:"Account successfully created!"});
-                    this.loginAccount();
-                } })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
+            await this.createNewUser(payload);
+            this.loginAccount();
         },
         redirectToMain(){
             this.$router.push({name:"assets"})
@@ -216,7 +210,6 @@ export default {
 	}
 	&.redBtn{
         background-color: #e3345a !important;
-        // background-color: $dark-pink !important;
         color: white;
         width: 100%;
         margin-bottom: 24px; 

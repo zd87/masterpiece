@@ -11,17 +11,16 @@ const mutations = {
 
 const actions = {
 
-    fetchUser(){
-        authAxios.get(`/me`)
-            .then(response => { 
-                let user = response.data;
-                user.roles = user.roles.map(role => role.code);
-                user.isAdmin = user.roles.includes("ROLE_ADMIN");
-                $store.set("user/user", user);
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+    async fetchUser(){
+        try {
+            let { data } = await authAxios.get("/me")
+            let user = data;
+            user.roles = user.roles.map(role => role.code);
+            user.isAdmin = user.roles.includes("ROLE_ADMIN");
+            $store.set("user/user", user);
+        }catch(error){
+            console.log("ERROR", error);
+        }
     }
 };
 

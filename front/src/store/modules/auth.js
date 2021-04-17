@@ -36,8 +36,16 @@ const actions = {
                 dispatch("alert/add", {response, text:"Logged in!"}, {root:true});
             })
             .catch(error => {
-                console.log("ERROR", error);
+                dispatch("alert/add", {response:error.response}, {root:true});
             })
+    },
+    async createNewUser({ dispatch }, payload){
+        try {
+            const response = await axios.post("/api/create_account", payload);
+            dispatch("alert/add", {response, text:"Account successfully created!"}, {root:true});
+        }catch(error){
+            console.log("ERROR", error);
+        }
     },
     parseToken({ commit }){
         let parsed = JSON.parse(atob(localStorage.token.split('.')[1]));
@@ -54,11 +62,11 @@ const actions = {
         }
     },
     async init({ getters, dispatch, commit }){
-        if (localStorage.token) await dispatch("parseToken");
-        if (getters.tokenIsValid) {
-            dispatch("user/fetchUser", {}, {root:true});
-            commit("SET_TOKEN", localStorage.token);
-        }
+            if (localStorage.token) await dispatch("parseToken");
+            if (getters.tokenIsValid) {
+                await dispatch("user/fetchUser", {}, {root:true});
+                commit("SET_TOKEN", localStorage.token);
+            }
     }
 };
 
