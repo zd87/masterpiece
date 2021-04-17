@@ -1,8 +1,7 @@
 <template>
     <div>
         <v-card flat>
-            <v-card-title>{{ updateVSCreate.title }}
-            </v-card-title>
+            <v-card-title>{{ updateVSCreate.title }}</v-card-title>
             <v-card-text>
                 <v-form v-model="isValid">
                     <!--essential fields-->
@@ -186,8 +185,9 @@ export default {
     },
     methods: {
         ...call("servers", ["fetchAtrributeOptions", "fetchServers"]),
-        updateContent(){
-            this.fetchAtrributeOptions();
+        async updateContent(){
+            await this.fetchAtrributeOptions();
+            //deep copy to avoid modifying the server in the parent
             if (this.isUpdate) this.server = JSON.parse(JSON.stringify(this.serverData));
         },
         addAttribute(){

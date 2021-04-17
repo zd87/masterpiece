@@ -6,11 +6,10 @@ const state = {
 };
 
 const mutations = {
-    ...make.mutations(["user"])
+    ...make.mutations(state)
 };
 
 const actions = {
-
     async fetchUser(){
         try {
             let { data } = await authAxios.get("/me")
@@ -29,4 +28,4 @@ export default {
     state,
     mutations,
     actions
-}
+};
