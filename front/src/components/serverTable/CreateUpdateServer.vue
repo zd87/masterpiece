@@ -47,12 +47,13 @@
                     </v-row>
                     <v-divider class="my-5" />
                     <!--additional parameters-->
-                    <p class="font-weight-bold mb-7">Additional attributes</p>
+                    <p class="font-weight-bold mb-4">Additional attributes</p>
                     <v-data-table
                         v-if="server.attributes.length>0"
                         v-model="server.attributes"
                         :headers="headers" :items="server.attributes"
                         hide-default-footer no-data-text="No additional attributes"
+                        :items-per-page="-1"
                     >
                         <template v-slot:item.name="{ item }">
                             <v-combobox 
@@ -219,15 +220,39 @@ export default {
 <style lang="scss" scoped>
 .v-data-table {
     ::v-deep td {
-        padding: 16px 16px 0 0 !important;
+        padding: 0 16px 0 0 !important;
         vertical-align: baseline;
         border-bottom: none !important;
     }
     ::v-deep th {
         height: auto !important;
-        padding: 0 !important;
+        padding: 0 0 10px 0 !important;
         font-size: 1rem !important;
         font-weight: normal !important;
+        border-bottom: none !important;
+    }
+}
+::v-deep .v-input {
+    &__slot{
+        min-height:30px !important;
+        .v-text-field__slot{
+            input {
+                padding: 0px !important;
+            }
+        }
+        .v-select__slot{
+            input {
+                padding: 0px !important;
+            }
+            .v-input__append-inner{
+                margin-top: 4px !important;
+            }
+        }
+    }
+    &__control {
+        .v-text-field__details{
+            margin-bottom: 2px !important;
+        }
     }
 }
 </style>

@@ -55,5 +55,23 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.v-btn {
+    height: 30px !important;
+}
+::v-deep .v-input {
+    &__slot{
+        min-height:30px !important;
+        .v-text-field__slot{
+            input {
+                // padding: 0px !important;
+            }
+        }
+        .v-input__append-inner{
+            margin-top: 4px !important;
+        }
+    }
+    .v-label {
+        line-height: 1 !important;
+    }
+}
 </style>
