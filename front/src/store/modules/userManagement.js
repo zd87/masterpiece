@@ -10,18 +10,17 @@ const state = {
 // };
 
 const mutations = {
-    ...make.mutations(["users"])
+    ...make.mutations(state)
 };
 
 const actions = {
-    fetchUsers(){
-        authAxios.get(`/admin/users`)
-            .then(response => { 
-                $store.set("userManagement/users", response.data)
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+    async fetchUsers(){
+        try {
+            const { data } = await authAxios.get("/admin/users");
+            $store.set("userManagement/users", data);
+        }catch(error){
+            console.log("ERROR", error);
+        }
     },
 };
 
@@ -30,4 +29,4 @@ export default {
     state,
     mutations,
     actions
-}
+};

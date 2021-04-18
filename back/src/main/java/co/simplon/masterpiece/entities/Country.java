@@ -22,4 +22,20 @@ public class Country extends AbstractId {
 	@Column(length = 45, nullable = false)
 	private String name;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof Country) {
+			Country test = (Country) obj;
+			if (test.getName().equals(this.name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

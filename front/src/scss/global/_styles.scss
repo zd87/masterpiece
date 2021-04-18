@@ -1,6 +1,19 @@
 /********************
         global
 ********************/
+html{
+    font-size:14px;
+}
+// $body-font-size: 14px;
+.v-input{
+    font-size: inherit !important;
+}
+.v-label{
+    font-size: inherit !important;
+}
+.v-alert{
+    font-size: 14px !important;
+}
 .theme--light.v-application {
     background-color: #f9f9f9 !important;
 }
@@ -21,7 +34,7 @@
 ********************/
 .heading-1 {
     margin-bottom: 10px;
-    font-size: 40px;
+    font-size: 2rem;
     font-weight: 700;
     color: rgb(59, 67, 87);
 }

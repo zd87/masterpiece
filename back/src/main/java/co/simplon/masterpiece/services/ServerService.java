@@ -53,8 +53,11 @@ public class ServerService implements IServerService {
 	public void update(Long id, ServerDto serverDto) {
 		Server serverToUpdate = serverRepo.getOne(id);
 		Server server = convertDtoToServer(serverDto);
-		serverToUpdate.setServer(server);
-		serverRepo.save(serverToUpdate);
+		/* Comparing old server to the new one. Only update if there are changes */
+		if (!server.equals(serverToUpdate)) {
+			serverToUpdate.setServer(server);
+			serverRepo.save(serverToUpdate);
+		}
 	}
 
 	@Override
