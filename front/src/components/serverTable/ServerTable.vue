@@ -196,7 +196,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .v-data-table{
+::v-deep #serverTable.v-data-table{
     &__expanded__content {
         box-shadow: none !important;
     }
