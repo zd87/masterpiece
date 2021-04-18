@@ -56,10 +56,8 @@ public class AuditListener {
 	@PostUpdate
 	public void postUpdate(Server target) throws JsonProcessingException {
 		String updatedServer = objectMapper.writeValueAsString(target);
-		if (!updatedServer.equals(oldCopyJson)) {/* Save audit only if there was a real change */
-			newEntry = new AuditEntry(updatedServer, oldCopyJson, Action.UPDATED);
-			perform(newEntry);
-		}
+		newEntry = new AuditEntry(updatedServer, oldCopyJson, Action.UPDATED);
+		perform(newEntry);
 	}
 
 	@PreRemove
