@@ -47,8 +47,6 @@
                 </template>
             </v-data-table>
         </div>
-        
-        
     </div>
 </template>
 
@@ -83,7 +81,7 @@ export default {
     methods: {
         ...call("audit", ["fetchAuditEntries"]),
         formatDate(item){
-            return moment(item).format("DD MMM YYYY");
+            return moment(item).format("DD MMM YYYY HH:mm:ss");
         },
         sameValue(item, key){
             return JSON.stringify(item.serverBefore?.[key]) === JSON.stringify(item.serverAfter?.[key]);
@@ -106,6 +104,7 @@ p {
 }
 .redCode{
     color: #f05b6f;
+    // text-decoration: line-through;
 }
 .greenCode{
     color: #4caf50;
