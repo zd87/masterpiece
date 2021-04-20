@@ -10,24 +10,23 @@ const mutations = {
 };
 
 const actions = {
-    fetchAuditEntries(){
-        authAxios.get(`/admin/audit`)
-            .then(response => { 
-                let data = response.data;
-                data.forEach(entry => {
-                    try {
-                        entry.serverBefore = entry.serverBefore?  JSON.parse(entry.serverBefore) : null;           
-                        entry.serverAfter = entry.serverAfter? JSON.parse(entry.serverAfter) : null;              
-                      } catch (e) {
-                        console.error("Parsing error:", e);
-                      }
-                    return entry;
-                })
-                $store.set("audit/auditEntries", data)
+    async fetchAuditEntries(){
+        try {
+            const { data } = await authAxios.get("/admin/audit");
+            data.forEach(entry => {
+                try {
+                    entry.serverBefore = entry.serverBefore?  JSON.parse(entry.serverBefore) : null;           
+                    entry.serverAfter = entry.serverAfter? JSON.parse(entry.serverAfter) : null;              
+                  } catch (e) {
+                    console.error("Parsing error:", e);
+                  }
+                return entry;
             })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+            $store.set("audit/auditEntries", data)
+
+        }catch(error){
+            console.log(error);
+        }
     }
 };
 

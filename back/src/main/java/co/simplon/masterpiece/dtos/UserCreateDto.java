@@ -27,8 +27,8 @@ public class UserCreateDto {
 	@Pattern(regexp = "[a-zA-Z][0-9]{6}") /* A letter followed by 6 digits */
 	private String login;
 
-	/* At least one Capital letter, at least one digit, minimum 5 letters */
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{5,}$")
+	/* minimum 7 characters, at least one capital letter, at least one digit */
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{7,}$")
 	private String password;
 
 }

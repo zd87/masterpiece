@@ -16,7 +16,7 @@ public class AuditEntryService implements IAuditEntryService {
 
 	@Override
 	public List<AuditEntry> getAll() {
-		return auditRepo.findAll();
+		return auditRepo.findAllByOrderByActionDateDesc();
 	}
 
 }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from "moment";
+import { make } from "vuex-pathify";
 
 const state = {
     token:null,
@@ -13,31 +14,32 @@ const getters = {
 };
 
 const mutations = {
-    SET_TOKEN(state, data){
-        state.token = data;
-    },
-
-    SET_TOKEN_DATA(state, data){
-        state.tokenData = data;
-    }
+    ...make.mutations(state)
 };
 
 const actions = {
-    authenticate({ dispatch }, formData){
+    async authenticate({ dispatch }, formData){
         let options= {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         };
-        axios.post("/oauth/token", formData, options) 
-            .then(response => { 
-                dispatch("updateToken", response.data.access_token);
-                dispatch("init");
-                dispatch("alert/add", {response, text:"Logged in!"}, {root:true});
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+        try {
+            const response = await axios.post("/oauth/token", formData, options);
+            dispatch("updateToken", response.data.access_token);
+            dispatch("init");
+            dispatch("alert/add", {response, text:"Logged in!"}, {root:true});
+        }catch(error){
+            dispatch("alert/add", {response:error.response}, {root:true});
+        }
+    },
+    async createNewUser({ dispatch }, payload){
+        try {
+            const response = await axios.post("/api/create_account", payload);
+            dispatch("alert/add", {response, text:"Account successfully created!"}, {root:true});
+        }catch(error){
+            console.log("ERROR", error);
+        }
     },
     parseToken({ commit }){
         let parsed = JSON.parse(atob(localStorage.token.split('.')[1]));
@@ -56,7 +58,7 @@ const actions = {
     async init({ getters, dispatch, commit }){
         if (localStorage.token) await dispatch("parseToken");
         if (getters.tokenIsValid) {
-            dispatch("user/fetchUser", {}, {root:true});
+            await dispatch("user/fetchUser", {}, {root:true});
             commit("SET_TOKEN", localStorage.token);
         }
     }
@@ -68,4 +70,4 @@ export default {
     mutations,
     actions,
     getters
-}
+};

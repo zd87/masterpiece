@@ -10,15 +10,43 @@
                     {{ formatDate(item.actionDate) }}
                 </template>
                 <template v-slot:item.serverBefore="{item}">
-                    {{ item.serverBefore }}
+                    <div v-if="item.serverBefore">
+                        <p v-for="key of Object.keys(item.serverBefore)" :key="key">
+                            <span class="font-weight-bold">{{ key }}</span> : 
+                            <span v-if="key != 'attributes'" :class="{'redCode': !sameValue(item, key)}"> 
+                                {{ showValue(item.serverBefore[key]) }}
+                            </span>
+                            <span v-else>
+                                <span 
+                                    v-for="(attr, index) of item.serverBefore[key]" :key="index" 
+                                    :class="{'redCode': !foundAttr(item.serverAfter, attr)}"
+                                >
+                                    {{ attr.name }} : {{attr.value}} {{ index != item.serverBefore[key].length-1 ? ',':''}}
+                                </span>
+                            </span>
+                        </p>
+                    </div>
                 </template>
                 <template v-slot:item.serverAfter="{item}">
-                    {{ item.serverAfter }}
+                    <div v-if="item.serverAfter">
+                        <p v-for="key of Object.keys(item.serverAfter)" :key="key">
+                            <span class="font-weight-bold">{{ key }}</span> : 
+                            <span v-if="key != 'attributes'" :class="{'greenCode': !sameValue(item, key)}"> 
+                                {{ showValue(item.serverAfter[key]) }} 
+                            </span>
+                            <span v-else>
+                                <span 
+                                    v-for="(attr, index) of item.serverAfter[key]" :key="index" 
+                                    :class="{'greenCode': !foundAttr(item.serverBefore, attr)}"
+                                >
+                                    {{ attr.name }} : {{attr.value}} {{ index != item.serverAfter[key].length-1 ? ',':''}}
+                                </span>
+                            </span>
+                        </p>
+                    </div>
                 </template>
             </v-data-table>
         </div>
-        
-        
     </div>
 </template>
 
@@ -53,7 +81,16 @@ export default {
     methods: {
         ...call("audit", ["fetchAuditEntries"]),
         formatDate(item){
-            return moment(item).format("DD MMM YYYY");
+            return moment(item).format("DD MMM YYYY HH:mm:ss");
+        },
+        sameValue(item, key){
+            return JSON.stringify(item.serverBefore?.[key]) === JSON.stringify(item.serverAfter?.[key]);
+        },
+        foundAttr(server, attr){
+            return server?.attributes.find(el=> el.name === attr.name && el.value === attr.value);
+        },
+        showValue(value){
+            return value ? value?.ip ?? value?.name ?? value : null;
         }
     }
 }
@@ -61,5 +98,15 @@ export default {
 <style lang="scss" scoped>
 .v-btn--text{
     text-transform: none;
+}
+p {
+    margin-bottom: 0;
+}
+.redCode{
+    color: #f05b6f;
+    // text-decoration: line-through;
+}
+.greenCode{
+    color: #4caf50;
 }
 </style>

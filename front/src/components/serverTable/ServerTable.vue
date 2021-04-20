@@ -7,11 +7,13 @@
             <span>Copied: {{ copied }}</span>
         </v-tooltip>
         <v-data-table 
+            id="serverTable"
             :headers="headers"
             :items="servers"
             :expanded.sync="expanded"
             item-key="id" :search="search"
             show-expand :group-by="group? 'perimeter.name': []"
+            :items-per-page="20" :footer-props="footerProps"
         >
             <template v-slot:group.header="{ group, toggle, isOpen  }">
                 <td :colspan="headers.length">
@@ -42,17 +44,23 @@
                     <v-btn 
                         v-for="button of buttons" :key="button.text" 
                         class="noHover px-0 py-1 tableActionIcon" text  @click="button.action(item)">
-                        <v-icon size="20px mr-3">{{ button.icon }}</v-icon>
+                        <v-icon small >{{ button.icon }}</v-icon>
                         {{ button.text }}
                     </v-btn>
                 </div>
             </template>
             <!--server attributes-->
             <template v-slot:expanded-item="{ item }">
-                <td :colspan="headers.length">
-                    <div v-if="item.attributes.length==0" class="d-flex justify-center">No attributes</div>
-                    <div v-else class="d-flex flex-wrap">
-                        <div v-for="(attribute, index) of item.attributes" :key="index" :style="{width:'19%'}">       
+                <td v-if="item.attributes.length==0" :colspan="headers.length" class="pa-0">
+                    <span class="d-flex justify-center">
+                        No attributes
+                    </span>
+                </td>
+                <!-- for style reasons attributes are split into columns;
+                     if no attributes, then no need to split -->
+                <td v-for="(column, index) of item.attributes.length>0 ? nbrColumns : 0" :key="index">
+                    <ul>
+                        <li v-for="(attribute,i) of attrSplitByColumn(item.attributes, index)" :key="i">
                             <span 
                                 :style="{cursor:'pointer'}" v-clipboard:copy="attribute.value" @click="onCopy($event, attribute.value)"
                                 @mouseover="tooltipHover = true" @mouseleave="tooltipHover=false" 
@@ -60,8 +68,8 @@
                                 <span class="font-weight-bold">{{ attribute.name }}: </span>
                                 <span>{{ attribute.value }}</span>
                             </span>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </td>
             </template>
         </v-data-table>
@@ -108,7 +116,10 @@ export default {
             tooltipX:null,
             tooltipY:null,
             copied:"",
-            serverSelected:{}
+            serverSelected:{},
+            footerProps:{
+                "items-per-page-options":[20, 50, 100, -1]
+            }
         }
     },
     computed: {
@@ -131,6 +142,9 @@ export default {
                 {text:"Delete", icon:"mdi-trash-can-outline",   action:(item)=>this.askConfirmation(item)}
             ];
         },
+        nbrColumns(){
+            return this.headers.length-2;
+        }
     },
     watch: {
         tooltipClick(){
@@ -155,9 +169,6 @@ export default {
             this.tooltipHover=false;
             this.tooltipClick=true;
         },
-        toggleAllGroups(){
-            
-        },
         askConfirmation(serverSelected){
             this.serverSelected=serverSelected;
             this.confirmationPopup=true;
@@ -173,12 +184,42 @@ export default {
                         console.log("ERROR", error);
                     })
             }
+        },
+        attrSplitByColumn(list, columnIndex){
+            let result = [];
+            for(let i=columnIndex; i< list.length; i+=this.nbrColumns) {
+                result.push(list[i]);
+            }
+            return result;
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .v-data-table__expanded__content {
-    box-shadow: none !important;
+::v-deep #serverTable.v-data-table{
+    &__expanded__content {
+        box-shadow: none !important;
+    }
+    .v-data-table__wrapper{
+        table{
+            border-collapse: collapse !important;
+            tbody{
+                tr {
+                    border-bottom: thin solid rgba(0, 0, 0, 0.12) !important;
+                    border-top: thin solid rgba(0, 0, 0, 0.12) !important;
+                    td {
+                        border-bottom: none !important;
+                    }
+                }
+            }
+        }
+    }
+}
+.v-btn {
+    height: auto !important;
+}
+ul{
+    list-style: none;
+    padding:0;
 }
 </style>

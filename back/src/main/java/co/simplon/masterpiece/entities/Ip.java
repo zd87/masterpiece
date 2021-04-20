@@ -22,4 +22,20 @@ public class Ip extends AbstractId {
 	@Column(length = 45, nullable = false)
 	private String ip;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof Ip) {
+			Ip test = (Ip) obj;
+			if (test.getIp().equals(this.ip)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

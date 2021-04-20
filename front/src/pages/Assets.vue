@@ -23,7 +23,7 @@
             </v-btn>
         </div>
         <v-card v-if="user.isAdmin && !createServer" class="mb-5" flat>
-            <v-card-text class="d-flex justify-space-between align-baseline">
+            <v-card-text class="d-flex justify-space-between align-baseline py-0">
                 <v-col cols="8" class="pa-0 d-flex align-baseline">
                     <v-text-field
                         v-model="search"
@@ -111,6 +111,25 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.v-btn {
+    height: 30px !important;
+}
+::v-deep .v-input {
+    &__slot{
+        min-height:30px !important;
+        // .v-text-field__slot{
+        //     input {
+        //         padding: 0px !important;
+        //     }
+        // }
+        .v-input__append-inner{
+            margin-top: 4px !important;
+        }
+    }
+    .v-label {
+        line-height: 1 !important;
+    }
+}
 .v-btn--text{
     text-transform: none;
 }

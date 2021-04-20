@@ -5,7 +5,6 @@ import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +41,18 @@ public class AuditListener {
 		oldCopyJson = objectMapper.writeValueAsString(target);
 	}
 
-	@PrePersist
-	public void prePersist(Server target) throws JsonProcessingException {
+	@PostPersist
+	public void postPersist(Server target) throws JsonProcessingException {
 		String createdServer = objectMapper.writeValueAsString(target);
 		newEntry = new AuditEntry(null, createdServer, Action.INSERTED);
-	}
-
-	@PostPersist
-	public void postPersist(Server target) {
 		perform(newEntry);
 	}
 
 	@PostUpdate
 	public void postUpdate(Server target) throws JsonProcessingException {
 		String updatedServer = objectMapper.writeValueAsString(target);
-		if (!updatedServer.equals(oldCopyJson)) {/* Save audit only if there was a real change */
-			newEntry = new AuditEntry(updatedServer, oldCopyJson, Action.UPDATED);
-			perform(newEntry);
-		}
+		newEntry = new AuditEntry(updatedServer, oldCopyJson, Action.UPDATED);
+		perform(newEntry);
 	}
 
 	@PreRemove

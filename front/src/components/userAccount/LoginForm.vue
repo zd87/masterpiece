@@ -106,12 +106,12 @@ export default {
             pwdConfirmInput:"",
             validation: {
                 name: [
-                    /**A leter followed by 6 letters */
+                    /**A letter followed by 6 letters */
                     v=> /[a-zA-Z][0-9]{6}/.test(v) || this.$t("account.validation.name.pattern"),
                 ],
                 pwd: [
-                    /**Password must be at least 5 caracters long, contain upper and lower cases and at least one digit */
-                    v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/.test(v) || this.$t("account.validation.pwd.pattern")
+                    /**Password must be at least 7 caracters long, contain upper and lower cases and at least one digit */
+                    v=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{7,}$/.test(v) || this.$t("account.validation.pwd.pattern")
                 ],
                 pwdConfirmation: [
                     v=> v === this.pwdInput || this.$t("account.validation.confirmPwd.noMatch")
@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         ...call("user", ["fetchUser"]),
-        ...call("auth", ["authenticate"]),
+        ...call("auth", ["authenticate","createNewUser"]),
         close(){
             this.isActive=false;
             this.$emit("closeModal", this.isActive);
@@ -173,21 +173,15 @@ export default {
 
             this.authenticate(formData);
         },
-        createAccount(){
+        async createAccount(){
             const payload = {
                 firstname:this.firstnameInput,
                 lastname:this.lastnameInput,
                 login: this.loginInput,
                 password: this.pwdInput
             }
-            axios.post("/api/create_account", payload) 
-                .then((response) => { {
-                    this.$store.dispatch("alert/add", {response, text:"Account successfully created!"});
-                    this.loginAccount();
-                } })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
+            await this.createNewUser(payload);
+            this.loginAccount();
         },
         redirectToMain(){
             this.$router.push({name:"assets"})
@@ -216,7 +210,6 @@ export default {
 	}
 	&.redBtn{
         background-color: #e3345a !important;
-        // background-color: $dark-pink !important;
         color: white;
         width: 100%;
         margin-bottom: 24px; 

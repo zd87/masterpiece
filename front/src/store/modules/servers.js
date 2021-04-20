@@ -1,6 +1,7 @@
 import { make } from "vuex-pathify";
 import authAxios from '@/axios';
 import { $store } from '@/main'
+
 const state = {
     servers:[],
     attributeOptions:{}
@@ -11,37 +12,37 @@ const mutations = {
 };
 
 const actions = {
-    fetchServers(){
-        authAxios.get(`/servers`)
-            .then(response => { 
-                $store.set("servers/servers", response.data)
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+    async fetchServers(){
+        try {
+            const { data } = await authAxios.get("/servers");
+            $store.set("servers/servers", data);
+
+        }catch(error){
+            console.log("ERROR", error);
+        }
     },
-    fetchAtrributeOptions(){
-        authAxios.get(`/servers/attributes`)
-            .then(response => { 
-                $store.set("servers/attributeOptions", response.data)
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+    async fetchAtrributeOptions(){
+        try {
+            const { data } = await authAxios.get("/servers/attributes");
+            $store.set("servers/attributeOptions", data);
+
+        }catch(error){
+            console.log("ERROR", error);
+        }
     },
-    uploadExcelFile({dispatch}, formData){
+    async uploadExcelFile({dispatch}, formData){
         let options = {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         }
-        authAxios.post(`/servers/excel`,formData, options)
-            .then(response => { 
-                dispatch("fetchServers");
-            })
-            .catch(error => {
-                console.log("ERROR", error);
-            })
+        try {
+            const response = await authAxios.post("/servers/excel",formData, options);
+            dispatch("alert/add", {response, text:"Changes successfully saved!"}, {root:true});
+            dispatch("fetchServers");
+        }catch(error){
+            console.log("ERROR", error);
+        }
     }
 };
 
@@ -50,4 +51,4 @@ export default {
     state,
     mutations,
     actions
-}
+};

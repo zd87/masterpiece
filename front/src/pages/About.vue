@@ -43,7 +43,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .presentation {
-    padding: 74px 0;
+    padding: 30px 0;
     overflow:hidden;
     background-image: radial-gradient(#212121 5%, transparent 5%);
         background-position: 0 0;
@@ -56,7 +56,7 @@ export default {
 
 .list{
     line-height: 1.7;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 300;
     list-style-type: none;
     padding:0;
@@ -69,7 +69,7 @@ export default {
 }
 .firstImage{
     height:auto;
-    width:500px;
+    width:400px;
 
 }
 .secondImage{

@@ -43,4 +43,4 @@ export default {
     getters,
     mutations,
     actions
-}
+};

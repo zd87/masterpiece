@@ -60,4 +60,28 @@ public class Server extends AbstractId {
 		this.attributes = newServer.getAttributes();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof Server) {
+			Server test = (Server) obj;
+			boolean sameName = test.getName().equals(this.name)
+					&& test.getFullName().equals(this.fullName);
+			boolean sameNestedObj = test.getIp().equals(this.ip)
+					&& test.getCountry().equals(this.country)
+					&& test.getPerimeter().equals(this.perimeter);
+			boolean sameAttributes = test.getAttributes().size() == this.attributes.size()
+					&& test.getAttributes().containsAll(this.attributes);
+			if (sameName && sameNestedObj && sameAttributes) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
