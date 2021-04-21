@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <v-alert v-if="loggedIn && !tokenIsValid" type="info" text>
+        <v-alert v-if="token && !tokenIsValid" type="info" text>
             Seems like your session has expired, please login.
         </v-alert>
         <LoginForm />
@@ -21,8 +21,7 @@ export default {
     },
     computed: {
         user: get("user/user"),
-        loggedIn: get("auth/token"),
-        tokenIsValid(){ return this.$store.getters["auth/tokenIsValid"]; }
+        ...get("auth", ["token", "tokenIsValid"])
     },
     mounted(){
         

@@ -39,12 +39,6 @@ export default {
         navItems: get("header/navItems"),
         token: get("auth/token"),
         user: get("user/user")
-        // TO HIDE UNAUTHORIZED NAV ITEMS, DELETE IF NOT REQUIRED
-        // filteredNavItems(){
-        //     //if authenticated show all, else hide restricted
-        //     return this.token? this.navItems : this.navItems.filter(item=> !item.meta?.requiresAuth);
-        // },
-        
     },
     mounted(){
     

@@ -13,14 +13,10 @@ import co.simplon.masterpiece.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-//DELETE IF TESTS WELL
-//	User getByLogin(String login);
 
 	Optional<UserAuthDto> findByLogin(String login);
 
-//	Optional<UserAuthDto> findByUsername(String username);
-
-	boolean existsByLogin(String value);
+	boolean existsByLogin(String login);
 
 	Optional<UserViewDto> getById(Long id);
 
