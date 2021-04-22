@@ -17,7 +17,8 @@
         "Pattern":"pattern not respected",
         "UniqueServerFullName": "a server with the provided full name already exists",
         "UniqueUserLogin":"a user with the provided login already exists",
-        "invalid_grant":"Incorrect login or password"
+        "invalid_grant":"Incorrect login or password",
+        "invalid_token":"The token has expired"
     },
     "account": {
         "labels":{
