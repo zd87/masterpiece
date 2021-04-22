@@ -5,11 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -108,9 +103,9 @@ public class ReadServersFromExcel {
 			}
 			serverDto.setAttributes(attributes);
 		}
-		/* Validate inputs */
-		Validator javaxValidator = Validation.buildDefaultValidatorFactory().getValidator();
-		Set<ConstraintViolation<ServerDto>> errors = javaxValidator.validate(serverDto);
+		/* Validate inputs: WIP */
+//		Validator javaxValidator = Validation.buildDefaultValidatorFactory().getValidator();
+//		Set<ConstraintViolation<ServerDto>> errors = javaxValidator.validate(serverDto);
 
 		return serverDto;
 	}
