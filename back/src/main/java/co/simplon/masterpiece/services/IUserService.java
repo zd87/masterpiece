@@ -8,4 +8,6 @@ public interface IUserService {
 	void create(UserCreateDto newUserDto);
 
 	UserViewDto getCurrentUserInfo(Long id);
+
+	boolean uniqueUserLogin(String login);
 }

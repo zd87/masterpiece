@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import co.simplon.masterpiece.errorHandling.UniqueUserLogin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class UserCreateDto {
 
 	@NotBlank
 	@Pattern(regexp = "[a-zA-Z][0-9]{6}") /* A letter followed by 6 digits */
+	@UniqueUserLogin
 	private String login;
 
 	/* minimum 7 characters, at least one capital letter, at least one digit */

@@ -39,8 +39,9 @@ public class UserService implements IUserService {
 		userRepo.save(newUser);
 	}
 
-	public boolean uniqueUserLogin(String value) {
-		return !userRepo.existsByLogin(value);
+	@Override
+	public boolean uniqueUserLogin(String login) {
+		return login != null && !userRepo.existsByLogin(login);
 	}
 
 	@Override

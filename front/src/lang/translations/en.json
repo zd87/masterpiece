@@ -10,7 +10,15 @@
     "validation": {
         "required":"This field is required",
         "length45":"Maximum length is 45 characters",
-        "length255":"Maximum length is 255 characters"
+        "length255":"Maximum length is 255 characters",
+        "Size":"exceeded maximum length",
+        "NotBlank":"should not be blank",
+        "NotEmpty":"should not be empty",
+        "Pattern":"pattern not respected",
+        "UniqueServerFullName": "a server with the provided full name already exists",
+        "UniqueUserLogin":"a user with the provided login already exists",
+        "invalid_grant":"Incorrect login or password",
+        "invalid_token":"The token has expired"
     },
     "account": {
         "labels":{

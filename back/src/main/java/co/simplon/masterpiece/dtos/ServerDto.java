@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import co.simplon.masterpiece.errorHandling.UniqueServerFullName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class ServerDto {
 
 	@NotBlank
 	@Size(max = 45)
+	@UniqueServerFullName
 	private String fullName;
 
 	@Valid

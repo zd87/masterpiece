@@ -30,7 +30,7 @@ const actions = {
             dispatch("init");
             dispatch("alert/add", {response, text:"Logged in!"}, {root:true});
         }catch(error){
-            dispatch("alert/add", {response:error.response}, {root:true});
+            throw error;
         }
     },
     async createNewUser({ dispatch }, payload){
@@ -38,7 +38,7 @@ const actions = {
             const response = await axios.post("/api/create_account", payload);
             dispatch("alert/add", {response, text:"Account successfully created!"}, {root:true});
         }catch(error){
-            console.log("ERROR", error);
+            throw error;
         }
     },
     parseToken({ commit }){

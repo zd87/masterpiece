@@ -1,9 +1,9 @@
 <template>
     <div class="customContainer d-flex justify-center align-center">  
         <v-card id="modal" flat>
-            <v-card-title class="d-flex justify-center">
-                {{ updateVsCreate.title }}
-            </v-card-title>
+            <v-card-title class="d-flex justify-center">{{ updateVsCreate.title }}</v-card-title>
+            <ErrorsCard v-if="errors" :errors="errors" />
+            <ValidationErrorsCard v-if="validationErrors" :errors="validationErrors" />
             <v-card-text>
                 <v-form
                     ref="form"
@@ -69,9 +69,6 @@
                 > 
                     {{ updateVsCreate.title }} 
                 </v-btn>
-                <v-btn v-if="isModal" icon class="closeIconBtn" @click="close">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
                 <div>
                     <span class="smallText">
                         {{ updateVsCreate.switchFormsText }}
@@ -83,14 +80,14 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
 import { get, call } from "vuex-pathify"
+import ValidationErrorsCard from "@/components/shared/ValidationErrorsCard.vue"
+import ErrorsCard from "@/components/shared/ErrorsCard.vue"
+
 export default {
-    props: {
-        isModal: {
-            type: Boolean,
-            default: false
-        }
+    components: {
+        ValidationErrorsCard,
+        ErrorsCard
     },
     data(){
         return {
@@ -131,7 +128,9 @@ export default {
                 login: this.$t("account.placeholders.login"),
                 pwd: this.$t("account.placeholders.pwd"),
                 confirmPwd: this.$t("account.placeholders.confirmPwd")
-            }
+            },
+            errors:null,
+            validationErrors:null
         }
     },
     computed: {
@@ -152,6 +151,9 @@ export default {
     watch: {
         authenticated(){
             if (this.authenticated) this.redirectToMain();
+        },
+        create(){
+            this.resetAllErrors();
         }
     },
     methods: {
@@ -170,21 +172,28 @@ export default {
             formData.set("password",`${this.pwdInput}`);
             formData.set("client_id","my-client-app");
             formData.set("grant_type","password");
-
-            this.authenticate(formData);
+            this.resetAllErrors(); //reset previous errors
+            this.authenticate(formData).catch(({response})=>{
+                this.errors=[response.data.error];
+            });
         },
-        async createAccount(){
+        createAccount(){
             const payload = {
                 firstname:this.firstnameInput,
                 lastname:this.lastnameInput,
                 login: this.loginInput,
                 password: this.pwdInput
             }
-            await this.createNewUser(payload);
-            this.loginAccount();
+            this.resetAllErrors(); //reset previous errors
+            this.createNewUser(payload)
+            .then(()=>this.loginAccount())
+            .catch(({ response })=>{ this.validationErrors=response.data; });
         },
         redirectToMain(){
             this.$router.push({name:"assets"})
+        },
+        resetAllErrors(){
+            this.errors = this.validationErrors = null;
         }
     }
 }
