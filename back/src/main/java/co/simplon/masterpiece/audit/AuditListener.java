@@ -51,7 +51,7 @@ public class AuditListener {
 	@PostUpdate
 	public void postUpdate(Server target) throws JsonProcessingException {
 		String updatedServer = objectMapper.writeValueAsString(target);
-		newEntry = new AuditEntry(updatedServer, oldCopyJson, Action.UPDATED);
+		newEntry = new AuditEntry(oldCopyJson, updatedServer, Action.UPDATED);
 		perform(newEntry);
 	}
 
