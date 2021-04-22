@@ -17,8 +17,8 @@ authAxios.interceptors.response.use(
         return response;
     },
     error => {
-        $store.dispatch("alert/add", {response:error.response});
-        Promise.reject(error)
+        $store.dispatch("alert/add", {response:error.response, text:error.response?.data?.error});
+        throw error;
     }
 );
 

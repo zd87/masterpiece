@@ -121,4 +121,9 @@ public class ServerService implements IServerService {
 		return createIfNotExist(responseFromRepo, attribute, Attribute.class, serverAttributeRepo);
 	}
 
+	@Override
+	public boolean uniqueServerFullName(String fullName) {
+		return fullName != null && !serverRepo.existsByFullName(fullName);
+	}
+
 }

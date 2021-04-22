@@ -2,6 +2,7 @@
     <div>
         <v-card flat>
             <v-card-title>{{ updateVSCreate.title }}</v-card-title>
+            <ValidationErrorsCard v-if="validationErrors" :errors="validationErrors" />
             <v-card-text>
                 <v-form v-model="isValid">
                     <!--essential fields-->
@@ -111,8 +112,11 @@
 <script>
 import authAxios from '@/axios';
 import { get, call } from "vuex-pathify"
-
+import ValidationErrorsCard from "@/components/shared/ValidationErrorsCard.vue"
 export default {
+    components: {
+        ValidationErrorsCard
+    },
     props: {
         value:{
             type: Boolean,
@@ -148,7 +152,8 @@ export default {
             },
             required: [v=> !!v || this.$t("validation.required")],
             length45:[v=> v.length <= 45 || this.$t("validation.length45")],
-            length255: [v=> v.length <= 255 || this.$t("validation.length255")]
+            length255: [v=> v.length <= 255 || this.$t("validation.length255")],
+            validationErrors:null
         }
     },
     computed: {
@@ -179,6 +184,7 @@ export default {
             if(this.value){
                 this.updateContent();
             }
+            if(this.validationErrors) this.resetAllErrors();
         }
     },
     mounted(){
@@ -201,18 +207,21 @@ export default {
             let index=this.server.attributes.indexOf(item);
             this.server.attributes.splice(index,1);
         },
-        submit(){
+        async submit(){
             let url = this.isUpdate ? `/servers/${this.server.id}` :"/servers";
             let method = this.isUpdate ? authAxios.put : authAxios.post;
-            method(url, this.server)
-                .then((response) => { 
-                    this.$store.dispatch("alert/add", {response, text:"Changes successfully saved!"});
-                    this.fetchServers();
-                })
-                .catch(error => {
-                    console.log("ERROR", error);
-                })
-            this.updateVSCreate.close();
+            try {
+                if(this.validationErrors) this.validationErrors=null; //if previous validation errors, reset them
+                const response = await method(url, this.server);
+                this.$store.dispatch("alert/add", {response, text:"Changes successfully saved!"});
+                this.fetchServers();
+                this.updateVSCreate.close();
+            }catch(error){
+                this.validationErrors=error.response.data;
+            }
+        },
+        resetAllErrors(){
+            this.validationErrors = null;
         }
     }
 };
