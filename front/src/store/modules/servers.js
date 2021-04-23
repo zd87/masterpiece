@@ -29,6 +29,20 @@ const actions = {
         }catch(error){
             console.log("ERROR", error);
         }
+    },
+    async uploadExcelFile({dispatch}, formData){
+        let options = {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
+        try {
+            const response = await authAxios.post("/servers/excel",formData, options);
+            dispatch("alert/add", {response, text:"Changes successfully saved!"}, {root:true});
+            dispatch("fetchServers");
+        }catch(error){
+            console.log("ERROR", error);
+        }
     }
 };
 

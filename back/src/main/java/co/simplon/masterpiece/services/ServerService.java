@@ -65,6 +65,19 @@ public class ServerService implements IServerService {
 		serverRepo.deleteById(id);
 	}
 
+	@Override
+	public void saveAll(List<ServerDto> importedServers) {
+		for (ServerDto serverDto : importedServers) {
+			Server foundInRepo = serverRepo.findByFullName(serverDto.getFullName());
+			if (foundInRepo != null) {
+				update(foundInRepo.getId(), serverDto);
+			} else {
+				create(serverDto);
+			}
+		}
+
+	}
+
 	/*
 	 * Maps a ServerDto to Server; persists Ip, Country, Perimeter and Attributes if needed
 	 */
@@ -79,10 +92,11 @@ public class ServerService implements IServerService {
 
 	private Set<Attribute> getAttributesFromRepo(Set<Attribute> attributes) {
 		Set<Attribute> newSet = new HashSet<Attribute>();
-		attributes.forEach(attribute -> {
-			Attribute savedAttribute = createAttributeIfNotExist(attribute);
-			newSet.add(savedAttribute);
-		});
+		if (attributes.size() > 0)
+			attributes.forEach(attribute -> {
+				Attribute savedAttribute = createAttributeIfNotExist(attribute);
+				newSet.add(savedAttribute);
+			});
 		return newSet;
 	};
 
