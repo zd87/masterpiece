@@ -15,6 +15,8 @@ public interface IServerService {
 
 	void deleteById(Long id);
 
-	boolean uniqueServerFullName(String fullName);
+	boolean uniqueServerFullName(String fullName, Long id);
+
 	void saveAll(List<ServerDto> serverDtos);
+
 }
