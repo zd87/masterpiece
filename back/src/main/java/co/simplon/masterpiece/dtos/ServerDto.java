@@ -14,7 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@UniqueServerFullName
 public class ServerDto {
+
+	private Long id;
 
 	@NotBlank
 	@Size(max = 45)
@@ -22,7 +25,6 @@ public class ServerDto {
 
 	@NotBlank
 	@Size(max = 45)
-	@UniqueServerFullName
 	private String fullName;
 
 	@Valid

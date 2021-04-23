@@ -136,8 +136,15 @@ public class ServerService implements IServerService {
 	}
 
 	@Override
-	public boolean uniqueServerFullName(String fullName) {
-		return fullName != null && !serverRepo.existsByFullName(fullName);
+	public boolean uniqueServerFullName(String fullName, Long id) {
+		boolean isUnique = false;
+		Server existingServer = serverRepo.findByFullName(fullName);
+		/*
+		 * The incoming full name is authorized if either it is the first occurrence or the server
+		 * with this full name is being updated
+		 */
+		isUnique = existingServer == null ? true : existingServer.getId() == id ? true : false;
+		return isUnique;
 	}
 
 }
